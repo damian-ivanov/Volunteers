@@ -1,6 +1,6 @@
 using System;
 
-namespace Volunteers.Projects.Models
+namespace Volunteers.Models.Projects
 {
     public class ProjectListingViewModel
     {

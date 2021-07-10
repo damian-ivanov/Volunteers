@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volunteers.Data;
 
 namespace Volunteers.Data.Migrations
 {
     [DbContext(typeof(VolunteersDbContext))]
-    [Migration("20210710105942_InitialModelsSetup")]
-    partial class InitialModelsSetup
+    partial class VolunteersDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -273,8 +271,10 @@ namespace Volunteers.Data.Migrations
 
             modelBuilder.Entity("Volunteers.Data.Models.Category", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -327,7 +327,10 @@ namespace Volunteers.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("CategoryId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CategoryId1")
+                        .HasColumnType("int");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -358,7 +361,7 @@ namespace Volunteers.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CategoryId1");
 
                     b.ToTable("Projects");
                 });
@@ -468,7 +471,7 @@ namespace Volunteers.Data.Migrations
                 {
                     b.HasOne("Volunteers.Data.Models.Category", "Category")
                         .WithMany("Projects")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId1");
 
                     b.Navigation("Category");
                 });

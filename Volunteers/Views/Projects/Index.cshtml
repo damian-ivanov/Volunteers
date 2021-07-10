@@ -1,77 +1,29 @@
-﻿@model IEnumerable<Volunteers.Projects.Models.ProjectListingViewModel>
+﻿@model IEnumerable<Volunteers.Models.Projects.ProjectListingViewModel>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+<div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
+    <div class="card-columns">
+        @foreach (var project in Model)
+        {
+            <div class="card">
+                <img class="card-img-top" src="https://teampuntagorda.org/wp-content/uploads/2019/12/Volunteer-Hands.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title"><b>Title:</b> @project.Title</h5>
+                    <hr />
+                    <p class="card-text"><b>What:</b> @project.Description</p>
+                    <p class="card-text"><b>Where:</b> @project.City</p>
+                    <p class="card-text"><b>When:</b> @project.StartDate</p>
+                    <p class="card-text"><b>Votes:</b> @project.Votes</p>
+                    <a href="#" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        }
     </div>
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Votes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PublishedOn)
-            </th>
-            
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Votes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PublishedOn)
-            </td>
-            
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
 
+@*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@

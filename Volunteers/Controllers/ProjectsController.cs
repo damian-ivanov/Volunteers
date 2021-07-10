@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Volunteers.Data;
 using Volunteers.Data.Models;
-using Volunteers.Projects.Models;
+using Volunteers.Models.Projects;
 
 namespace Volunteers.Controllers
 {
@@ -42,7 +42,30 @@ namespace Volunteers.Controllers
         }
 
         [HttpPost]
+        public IActionResult Create(AddProjectFormModel project)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(project);
+            }
 
+            var validProject = new Project
+            {
+                Address = project.Address,
+                CategoryId = project.CategoryId,
+                City = project.City,
+                Description = project.Description,
+                IsPublic = false,
+                PublishedOn = DateTime.Now,
+                StartDate = project.StartDate,
+                Title = project.Title,                 
+            };
+
+            data.Projects.Add(validProject);
+            data.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
 
     }
 }
