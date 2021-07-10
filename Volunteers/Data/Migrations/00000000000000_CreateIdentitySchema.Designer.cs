@@ -9,7 +9,7 @@ using Volunteers.Data;
 
 namespace Volunteers.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(VolunteersDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {

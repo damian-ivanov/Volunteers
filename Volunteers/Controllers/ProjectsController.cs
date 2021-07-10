@@ -13,153 +13,37 @@ namespace Volunteers.Controllers
 {
     public class ProjectsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly VolunteersDbContext data;
 
-        public ProjectsController(ApplicationDbContext context)
+        public ProjectsController(VolunteersDbContext data)
         {
-            _context = context;
+            this.data = data;
         }
 
-        // GET: Projects
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Projects.Select(p => new ProjectListingViewModel
+            return View(data.Projects.Select(p => new ProjectListingViewModel
             {
-                 Address = p.Address,
-                 City = p.City,
-                 Description = p.Description,
-                 Id = p.Id,
-                 Participants = p.Users.Count(),
-                 PublishedOn = p.PublishedOn.ToString("d"),
-                 StartDate = p.StartDate.ToString("d"),
-                 Title = p.Title,
-                 Votes = p.Votes 
-            }).ToListAsync());
+                Address = p.Address,
+                City = p.City,
+                Description = p.Description,
+                Id = p.Id,
+                Participants = p.Users.Count(),
+                PublishedOn = p.PublishedOn.ToString("d"),
+                StartDate = p.StartDate.ToString("d"),
+                Title = p.Title,
+                Votes = p.Votes
+            }).ToList());
         }
 
-        // GET: Projects/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var project = await _context.Projects
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (project == null)
-            {
-                return NotFound();
-            }
-
-            return View(project);
-        }
-
-        // GET: Projects/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Projects/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,City,Address,StartDate,Votes,PublishedOn,IsPublic")] Project project)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(project);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(project);
-        }
 
-        // GET: Projects/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var project = await _context.Projects.FindAsync(id);
-            if (project == null)
-            {
-                return NotFound();
-            }
-            return View(project);
-        }
-
-        // POST: Projects/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Title,Description,City,Address,StartDate,Votes,PublishedOn,IsPublic")] Project project)
-        {
-            if (id != project.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(project);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProjectExists(project.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(project);
-        }
-
-        // GET: Projects/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var project = await _context.Projects
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (project == null)
-            {
-                return NotFound();
-            }
-
-            return View(project);
-        }
-
-        // POST: Projects/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var project = await _context.Projects.FindAsync(id);
-            _context.Projects.Remove(project);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProjectExists(string id)
-        {
-            return _context.Projects.Any(e => e.Id == id);
-        }
     }
 }
+

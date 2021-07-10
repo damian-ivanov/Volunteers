@@ -9,7 +9,7 @@ using Volunteers.Data;
 
 namespace Volunteers.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(VolunteersDbContext))]
     [Migration("20210710105942_InitialModelsSetup")]
     partial class InitialModelsSetup
     {

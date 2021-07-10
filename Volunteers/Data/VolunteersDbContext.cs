@@ -7,7 +7,7 @@ using Volunteers.Data.Models;
 
 namespace Volunteers.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class VolunteersDbContext : IdentityDbContext
     {
         public DbSet<User> Users { get; set; }
 
@@ -19,7 +19,7 @@ namespace Volunteers.Data
 
         public DbSet<Category> Categories { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public VolunteersDbContext(DbContextOptions<VolunteersDbContext> options)
             : base(options)
         {
         }
