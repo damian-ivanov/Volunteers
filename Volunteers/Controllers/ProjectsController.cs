@@ -108,6 +108,56 @@ namespace Volunteers.Controllers
             return View(project);
         }
 
+
+        public IActionResult Edit(string id)
+        {
+            var project = this.data.Projects.Where(p => p.Id == id).Select(p => new EditProjectViewModel
+            {
+                Address = p.Address,
+                CurrentCategory = p.Category.Name,
+                CurrentCategoryId = p.CategoryId,
+                City = p.City,
+                Description = p.Description,
+                StartDate = p.StartDate,
+                Title = p.Title
+            }).FirstOrDefault();
+
+            project.Categories = this.GetProjectCategories();
+
+            return View(project);
+        }
+
+
+        [HttpPost]
+        public IActionResult Edit(EditProjectViewModel project)
+        {
+            if (!this.data.Categories.Any(c => c.Id == project.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(project.CategoryId), "Category does not exist.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                project.Categories = this.GetProjectCategories();
+
+                return View(project);
+            }
+
+            var projectToEdit = this.data.Projects.SingleOrDefault(p => p.Id == project.Id);
+
+            projectToEdit.Address = project.Address;
+            projectToEdit.CategoryId = project.CategoryId;
+            projectToEdit.City = project.City;
+            projectToEdit.Description = project.Description;
+            projectToEdit.StartDate = project.StartDate;
+            projectToEdit.Title = project.Title;
+
+            data.SaveChanges();
+
+            return RedirectToAction("Index", "Projects");
+        }
+
+
         public IActionResult Delete(string id)
         {
             var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();

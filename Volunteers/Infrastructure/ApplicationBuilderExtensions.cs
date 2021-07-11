@@ -36,6 +36,8 @@ namespace Volunteers.Infrastructure
             data.Categories.AddRange(new[]
             {
                 new Category { Name = "Cleaning", Description = "Test" },
+                new Category { Name = "Ecology", Description = "Test" },
+                new Category { Name = "Energy", Description = "Test" },
                 new Category { Name = "Improvement" , Description = "Test" },
                 new Category { Name = "Help" , Description = "Test" },
                 new Category { Name = "Old people", Description = "Test" },
