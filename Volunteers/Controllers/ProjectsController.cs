@@ -72,6 +72,28 @@ namespace Volunteers.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult Details(string id)
+        {
+            var project = this.data.Projects.Where(p => p.Id == id).Select(project => new ProjectDetailViewModel
+            {
+                Address = project.Address,
+                Category = project.Category.Name,
+                City = project.City,
+                Description = project.Description,
+                PublishedOn = project.PublishedOn.ToString("d"),
+                StartDate = project.StartDate.ToString("d"),
+                Title = project.Title,
+                Id = project.Id,
+                Participants = project.Users.Count(),
+                Votes = project.Votes
+            }).FirstOrDefault();
+
+            //var project = data.Projects.Where(p => p.Id == id).ToList();
+
+
+            return View(project);
+        }
+
     }
 }
 

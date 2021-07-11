@@ -4,11 +4,11 @@ using Volunteers.Data.Models;
 
 namespace Volunteers.Models.Projects
 {
-    public class ProjectListingViewModel
+    public class ProjectDetailViewModel
     {
         public string Id { get; set; }
 
-        public string  Title { get; set; }
+        public string Title { get; set; }
 
         public string Description { get; set; }
 
@@ -23,5 +23,7 @@ namespace Volunteers.Models.Projects
         public int Votes { get; set; }
 
         public int Participants { get; set; }
+
+        public string Category { get; set; }
     }
 }

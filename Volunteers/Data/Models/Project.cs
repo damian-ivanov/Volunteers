@@ -39,7 +39,7 @@ namespace Volunteers.Data.Models
 
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-        public string CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         public Category Category { get; set; }
 
