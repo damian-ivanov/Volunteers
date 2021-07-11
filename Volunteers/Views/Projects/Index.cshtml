@@ -23,7 +23,28 @@
     </div>
 </div>
 
+<div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
+    <div class="card-deck">
+        @foreach (var project in Model)
+        {
+            <div class="card">
+                <img class="card-img-top" src="https://teampuntagorda.org/wp-content/uploads/2019/12/Volunteer-Hands.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@project.Title</h5>
+                    <p class="card-text">@project.Description</p>
+                    <p class="card-text"><b>Where:</b> @project.City</p>
+                    <p class="card-text"><b>When:</b> @project.StartDate</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">@project.Votes</small>
+                </div>
+            </div>
 
-@*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+        }
+    </div>
+</div>
+
+
+    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@

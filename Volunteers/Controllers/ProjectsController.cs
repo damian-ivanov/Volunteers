@@ -38,6 +38,11 @@ namespace Volunteers.Controllers
 
         public IActionResult Create()
         {
+            //if (!this.User.Identity.IsAuthenticated)
+            //{
+            //    return Redirect("/Identity/Account/Login");
+            //}
+
             return View();
         }
 
