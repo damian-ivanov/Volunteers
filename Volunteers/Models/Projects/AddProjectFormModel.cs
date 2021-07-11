@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using static Volunteers.Data.DataConstants;
 
@@ -26,7 +27,11 @@ namespace Volunteers.Models.Projects
         public DateTime StartDate { get; set; }
 
         [Required]
-        public int CategoryId { get; set; }
+
+        [Display(Name = "Category")]
+        public int CategoryId { get; init; }
+
+        public IEnumerable<ProjectCategoryViewModel> Categories { get; set; }
 
     }
 }

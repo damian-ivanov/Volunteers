@@ -38,21 +38,31 @@ namespace Volunteers.Controllers
             }).ToList());
         }
 
-        public IActionResult Create()
+        public IActionResult Create() => View(new AddProjectFormModel
         {
-            //if (!this.User.Identity.IsAuthenticated)
-            //{
-            //    return Redirect("/Identity/Account/Login");
-            //}
+            Categories = this.GetProjectCategories()
+        });
 
-            return View();
-        }
+
+
+        //public IActionResult Add() => View(new AddCarFormModel
+        //{
+        //    Categories = this.GetCarCategories()
+        //});
+
 
         [HttpPost]
         public IActionResult Create(AddProjectFormModel project)
         {
+            if (!this.data.Categories.Any(c => c.Id == project.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(project.CategoryId), "Category does not exist.");
+            }
+
             if (!ModelState.IsValid)
             {
+                project.Categories = this.GetProjectCategories();
+
                 return View(project);
             }
 
@@ -69,7 +79,7 @@ namespace Volunteers.Controllers
                 OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
 
-           
+
 
             data.Projects.Add(validProject);
             data.SaveChanges();
@@ -92,7 +102,7 @@ namespace Volunteers.Controllers
                 Id = p.Id,
                 Participants = p.Users.Count(),
                 Votes = p.Votes,
-               // Owner = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault()
+                // Owner = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault()
             }).FirstOrDefault();
 
             return View(project);
@@ -112,6 +122,15 @@ namespace Volunteers.Controllers
             return RedirectToAction("Index", "Projects");
         }
 
+
+        private IEnumerable<ProjectCategoryViewModel> GetProjectCategories()
+        {
+            return this.data.Categories.Select(c => new ProjectCategoryViewModel
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList();
+        }
     }
 }
 
