@@ -6,6 +6,7 @@ namespace Volunteers.Infrastructure
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.AspNetCore.Identity;
 
     public static class ApplicationBuilderExtensions
     {
@@ -19,6 +20,8 @@ namespace Volunteers.Infrastructure
             data.Database.Migrate();
 
             SeedCategories(data);
+            CreateAdminUser(data);
+
 
             return app;
         }
@@ -41,6 +44,18 @@ namespace Volunteers.Infrastructure
             });
 
             data.SaveChanges();
+        }
+
+        private static void CreateAdminUser(VolunteersDbContext data)
+        {
+
+            if (data.Users.Any(u => u.UserName == "admin"))
+            {
+                return;
+            }
+
+            data.Users.Add(new User { Email = "damian.i.ivanov@gmail.com", PasswordHash = "123456", UserName = "admin"});
+            
         }
     }
 }

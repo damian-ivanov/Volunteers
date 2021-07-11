@@ -28,6 +28,15 @@
             <img src="https://teampuntagorda.org/wp-content/uploads/2019/12/Volunteer-Hands.jpg" alt="project-image" class="rounded">
             <div class="project-info-box">
                 <p><b>Categories:</b>@Model.Category</p>
+                @if (this.User.Identity.IsAuthenticated)
+                {
+                    <p>
+                        <a type="button" class="btn btn-success" asp-action="Approve" asp-route-id="@Model.Id">Approve</a>
+                        <a type="button" class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                        <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                    </p>
+                }
+
             </div><!-- / project-info-box -->
         </div><!-- / column -->
     </div>

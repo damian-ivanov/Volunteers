@@ -69,7 +69,7 @@ namespace Volunteers.Controllers
             data.Projects.Add(validProject);
             data.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Projects");
         }
 
         public IActionResult Details(string id)
@@ -88,10 +88,21 @@ namespace Volunteers.Controllers
                 Votes = project.Votes
             }).FirstOrDefault();
 
-            //var project = data.Projects.Where(p => p.Id == id).ToList();
-
-
             return View(project);
+        }
+
+        public IActionResult Delete(string id)
+        {
+            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
+
+            if (project == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            this.data.Projects.Remove(project);
+            data.SaveChanges();
+            return RedirectToAction("Index", "Projects");
         }
 
     }

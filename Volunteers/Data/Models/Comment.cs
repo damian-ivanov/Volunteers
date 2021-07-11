@@ -19,7 +19,5 @@ namespace Volunteers.Data.Models
         public string UserId { get; set; }
 
         public User User { get; set; }
-
-
     }
 }
