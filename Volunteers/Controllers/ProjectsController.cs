@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Volunteers.Data;
 using Volunteers.Data.Models;
 using Volunteers.Models.Projects;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Volunteers.Controllers
 {
@@ -63,8 +65,11 @@ namespace Volunteers.Controllers
                 IsPublic = false,
                 PublishedOn = DateTime.Now,
                 StartDate = project.StartDate,
-                Title = project.Title,                 
+                Title = project.Title,
+                OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
+
+           
 
             data.Projects.Add(validProject);
             data.SaveChanges();
@@ -74,18 +79,20 @@ namespace Volunteers.Controllers
 
         public IActionResult Details(string id)
         {
-            var project = this.data.Projects.Where(p => p.Id == id).Select(project => new ProjectDetailViewModel
+
+            var project = this.data.Projects.Where(p => p.Id == id).Select(p => new ProjectDetailViewModel
             {
-                Address = project.Address,
-                Category = project.Category.Name,
-                City = project.City,
-                Description = project.Description,
-                PublishedOn = project.PublishedOn.ToString("d"),
-                StartDate = project.StartDate.ToString("d"),
-                Title = project.Title,
-                Id = project.Id,
-                Participants = project.Users.Count(),
-                Votes = project.Votes
+                Address = p.Address,
+                Category = p.Category.Name,
+                City = p.City,
+                Description = p.Description,
+                PublishedOn = p.PublishedOn.ToString("d"),
+                StartDate = p.StartDate.ToString("d"),
+                Title = p.Title,
+                Id = p.Id,
+                Participants = p.Users.Count(),
+                Votes = p.Votes,
+               // Owner = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault()
             }).FirstOrDefault();
 
             return View(project);

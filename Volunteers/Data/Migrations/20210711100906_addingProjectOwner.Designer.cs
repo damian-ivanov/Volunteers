@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volunteers.Data;
 
 namespace Volunteers.Data.Migrations
 {
     [DbContext(typeof(VolunteersDbContext))]
-    partial class VolunteersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210711100906_addingProjectOwner")]
+    partial class addingProjectOwner
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,21 +242,6 @@ namespace Volunteers.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ProjectUser", b =>
-                {
-                    b.Property<string>("ProjectsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ProjectsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("ProjectUser");
-                });
-
             modelBuilder.Entity("Volunteers.Data.Models.Badge", b =>
                 {
                     b.Property<string>("Id")
@@ -342,9 +329,6 @@ namespace Volunteers.Data.Migrations
                     b.Property<bool>("IsPublic")
                         .HasColumnType("bit");
 
-                    b.Property<string>("OwnerId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("PublishedOn")
                         .HasColumnType("datetime2");
 
@@ -356,12 +340,17 @@ namespace Volunteers.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("Votes")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Projects");
                 });
@@ -439,21 +428,6 @@ namespace Volunteers.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjectUser", b =>
-                {
-                    b.HasOne("Volunteers.Data.Models.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Volunteers.Data.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Volunteers.Data.Models.Comment", b =>
                 {
                     b.HasOne("Volunteers.Data.Models.Project", null)
@@ -475,7 +449,13 @@ namespace Volunteers.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Volunteers.Data.Models.User", "Owner")
+                        .WithMany("Projects")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Category");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("Volunteers.Data.Models.Category", b =>
@@ -486,6 +466,11 @@ namespace Volunteers.Data.Migrations
             modelBuilder.Entity("Volunteers.Data.Models.Project", b =>
                 {
                     b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("Volunteers.Data.Models.User", b =>
+                {
+                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }

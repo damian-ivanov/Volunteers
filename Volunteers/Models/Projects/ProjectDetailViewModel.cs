@@ -25,5 +25,7 @@ namespace Volunteers.Models.Projects
         public int Participants { get; set; }
 
         public string Category { get; set; }
+
+        public string Owner { get; set; }
     }
 }
