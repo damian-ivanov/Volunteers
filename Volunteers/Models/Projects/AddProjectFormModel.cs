@@ -24,7 +24,9 @@ namespace Volunteers.Models.Projects
         public string Address { get; set; }
 
         [Required]
-        public DateTime StartDate { get; set; }
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        public DateTime StartDate { get; set; } = @DateTime.UtcNow;
 
         [Required]
 

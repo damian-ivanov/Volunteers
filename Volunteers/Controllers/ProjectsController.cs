@@ -59,12 +59,16 @@ namespace Volunteers.Controllers
                 this.ModelState.AddModelError(nameof(project.CategoryId), "Category does not exist.");
             }
 
+            if (project.StartDate < @DateTime.UtcNow)
+            {
+                this.ModelState.AddModelError(nameof(project.StartDate), "Please, choose a date in the future.");
+            }
+
             if (!ModelState.IsValid)
             {
                 project.Categories = this.GetProjectCategories();
-
                 return View(project);
-            }
+            } 
 
             var validProject = new Project
             {
