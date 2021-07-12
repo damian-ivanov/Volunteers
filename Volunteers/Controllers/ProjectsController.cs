@@ -147,6 +147,21 @@ namespace Volunteers.Controllers
             return RedirectToAction("Admin", "Projects");
         }
 
+        public IActionResult Complete(string id)
+        {
+            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
+
+            if (project == null)
+            {
+                return RedirectToAction("Admin", "Projects");
+            }
+
+            project.IsCompleted = true;
+            data.SaveChanges();
+            return RedirectToAction("Admin", "Projects");
+        }
+
+
         public IActionResult Hide(string id)
         {
             var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();

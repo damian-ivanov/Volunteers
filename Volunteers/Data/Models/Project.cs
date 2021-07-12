@@ -35,6 +35,8 @@ namespace Volunteers.Data.Models
 
         public bool IsPublic { get; set; }
 
+        public bool IsCompleted { get; set; }
+
         public string OwnerId { get; set; }
 
         public ICollection<User> Users { get; set; } = new List<User>();

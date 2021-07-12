@@ -29,5 +29,8 @@ namespace Volunteers.Models.Projects
         public string Category { get; set; }
 
         public string Owner { get; set; }
+
+        public bool IsCompleted { get; set; }
+
     }
 }
