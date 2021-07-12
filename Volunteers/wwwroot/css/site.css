@@ -76,3 +76,23 @@ body {
     font-weight: 500;
     margin: 15px;
 }
+
+.project-status-active {
+    background-color: #28a745;
+    color: white;
+    text-align: center;
+}
+
+.project-status-completed {
+    background-color: #cccccc;
+    color: white;
+    text-align: center;
+}
+
+.confirmation-gif {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height: 200px;
+}

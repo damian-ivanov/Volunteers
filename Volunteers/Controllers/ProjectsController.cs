@@ -34,7 +34,8 @@ namespace Volunteers.Controllers
                 PublishedOn = p.PublishedOn.ToString("d"),
                 StartDate = p.StartDate.ToString("d"),
                 Title = p.Title,
-                Votes = p.Votes
+                Votes = p.Votes,
+                IsCompleted = p.IsCompleted
             }).ToList());
         }
 
@@ -42,13 +43,6 @@ namespace Volunteers.Controllers
         {
             Categories = this.GetProjectCategories()
         });
-
-
-
-        //public IActionResult Add() => View(new AddCarFormModel
-        //{
-        //    Categories = this.GetCarCategories()
-        //});
 
 
         [HttpPost]
@@ -68,7 +62,7 @@ namespace Volunteers.Controllers
             {
                 project.Categories = this.GetProjectCategories();
                 return View(project);
-            } 
+            }
 
             var validProject = new Project
             {
@@ -88,7 +82,12 @@ namespace Volunteers.Controllers
             data.Projects.Add(validProject);
             data.SaveChanges();
 
-            return RedirectToAction("Index", "Projects");
+            return RedirectToAction("Confirmation", "Projects");
+        }
+
+        public IActionResult Confirmation()
+        {
+            return View();
         }
 
         public IActionResult Details(string id)
@@ -132,7 +131,7 @@ namespace Volunteers.Controllers
             return View(project);
         }
 
-        
+
         public IActionResult Approve(string id)
         {
             var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
@@ -158,7 +157,7 @@ namespace Volunteers.Controllers
 
             project.IsCompleted = true;
             data.SaveChanges();
-            return RedirectToAction("Admin", "Projects");
+            return RedirectToAction("Index", "Projects");
         }
 
 
@@ -203,7 +202,7 @@ namespace Volunteers.Controllers
             projectToEdit.Title = project.Title;
 
             data.SaveChanges();
-            return RedirectToAction("Details" , new { id = project.Id });
+            return RedirectToAction("Details", new { id = project.Id });
         }
 
 
