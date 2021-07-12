@@ -24,7 +24,7 @@ namespace Volunteers.Controllers
 
         public IActionResult Index()
         {
-            return View(data.Projects.Select(p => new ProjectListingViewModel
+            return View(data.Projects.Where(p => p.IsPublic == true).Select(p => new ProjectListingViewModel
             {
                 Address = p.Address,
                 City = p.City,
@@ -106,6 +106,7 @@ namespace Volunteers.Controllers
                 Id = p.Id,
                 Participants = p.Users.Count(),
                 Votes = p.Votes,
+                IsPublic = p.IsPublic
                 // Owner = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault()
             }).FirstOrDefault();
 
@@ -130,6 +131,36 @@ namespace Volunteers.Controllers
 
             return View(project);
         }
+
+        
+        public IActionResult Approve(string id)
+        {
+            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
+
+            if (project == null)
+            {
+                return RedirectToAction("Admin", "Projects");
+            }
+
+            project.IsPublic = true;
+            data.SaveChanges();
+            return RedirectToAction("Admin", "Projects");
+        }
+
+        public IActionResult Hide(string id)
+        {
+            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
+
+            if (project == null)
+            {
+                return RedirectToAction("Admin", "Projects");
+            }
+
+            project.IsPublic = false;
+            data.SaveChanges();
+            return RedirectToAction("Admin", "Projects");
+        }
+
 
 
         [HttpPost]
@@ -157,8 +188,7 @@ namespace Volunteers.Controllers
             projectToEdit.Title = project.Title;
 
             data.SaveChanges();
-
-            return RedirectToAction("Index", "Projects");
+            return RedirectToAction("Details" , new { id = project.Id });
         }
 
 
@@ -168,12 +198,29 @@ namespace Volunteers.Controllers
 
             if (project == null)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Admin", "Projects");
             }
 
             this.data.Projects.Remove(project);
             data.SaveChanges();
-            return RedirectToAction("Index", "Projects");
+            return RedirectToAction("Admin", "Projects");
+        }
+
+
+        public IActionResult Admin()
+        {
+            return View(data.Projects.Where(p => p.IsPublic == false).Select(p => new ProjectListingViewModel
+            {
+                Address = p.Address,
+                City = p.City,
+                Description = p.Description,
+                Id = p.Id,
+                Participants = p.Users.Count(),
+                PublishedOn = p.PublishedOn.ToString("d"),
+                StartDate = p.StartDate.ToString("d"),
+                Title = p.Title,
+                Votes = p.Votes
+            }).ToList());
         }
 
 

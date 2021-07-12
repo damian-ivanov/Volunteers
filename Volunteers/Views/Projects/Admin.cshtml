@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Volunteers.Models.Projects.ProjectListingViewModel>
+
+    @{
+        ViewData["Title"] = "Projects Admin";
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+
+    <div class="text-center">
+        <h1 class="display-4">Projects Admin</h1>
+
+        @if (!Model.Any())
+        {
+        <br />
+        <br />
+        <h5>Good job! No pending projects!</h5>
+        }
+
+        @if (Model.Any())
+        {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Start</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var project in Model)
+                {
+                <tr>
+                    <td>@project.Title</td>
+                    <td>@project.Description</td>
+                    <td>@project.City</td>
+                    <td>@project.Address</td>
+                    <td>@project.StartDate</td>
+                    <td>@project.PublishedOn</td>
+                    <td><a type="button" class="btn btn-primary" asp-action="Details" asp-route-id="@project.Id">Details</a></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        }
+    </div>
+
+

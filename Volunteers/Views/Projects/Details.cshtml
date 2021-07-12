@@ -1,5 +1,9 @@
 ﻿@model Volunteers.Models.Projects.ProjectDetailViewModel
 
+@{
+    ViewData["Title"] = "Project details";
+}
+
 <div class="container">
     <div class="row">
         <div class="col-md-5">
@@ -31,11 +35,18 @@
                 <p><b>Category:</b> @Model.Category</p>
                 @if (this.User.Identity.IsAuthenticated)
                 {
-                    <p>
-                        <a type="button" class="btn btn-success" asp-action="Approve" asp-route-id="@Model.Id">Approve</a>
-                        <a type="button" class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-                        <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
-                    </p>
+            <p>
+                @if (!Model.IsPublic)
+                {
+                    <a type="button" class="btn btn-success" asp-action="Approve" asp-route-id="@Model.Id">Approve</a>
+                }
+                @if (Model.IsPublic)
+                {
+                    <a type="button" class="btn btn-warning" asp-action="Hide" asp-route-id="@Model.Id">Hide</a>
+                }
+                <a type="button" class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+            </p>
                 }
 
             </div><!-- / project-info-box -->
