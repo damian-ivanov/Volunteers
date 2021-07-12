@@ -1,8 +1,30 @@
-﻿@{
+﻿@model Volunteers.Models.Projects.ProjectDashboardModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4" style="background-color: #5133AB">
+            <div class="tiles">
+                <h2 class="title">@Model.ParticipantsCount</h2>
+                <p>Participants</p>
+            </div>
+        </div>
+        <div class="col-sm-4" style="background-color: #00A600">
+            <div class="tiles">
+                <h2 class="title">@Model.ProjectsCount</h2>
+                <p>Projects completed</p>
+            </div>
+        </div>
+        <div class="col-sm-4" style="background-color: #DC572E">
+            <div class="tiles">
+                <h2 class="title">@Model.TownsCount</h2>
+                <p>Towns improved</p>
+            </div>
+        </div>
+    </div>
 </div>
+
+   
