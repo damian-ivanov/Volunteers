@@ -24,7 +24,7 @@ namespace Volunteers.Controllers
 
         public IActionResult Index()
         {
-            return View(data.Projects.Where(p => p.IsPublic == true).Select(p => new ProjectListingViewModel
+            return View(data.Projects.Where(p => p.IsPublic == true).OrderByDescending(p => p.PublishedOn).Select(p => new ProjectListingViewModel
             {
                 Address = p.Address,
                 City = p.City,
@@ -105,7 +105,8 @@ namespace Volunteers.Controllers
                 Id = p.Id,
                 Participants = p.Users.Count(),
                 Votes = p.Votes,
-                IsPublic = p.IsPublic
+                IsPublic = p.IsPublic,
+                IsCompleted = p.IsCompleted
                 // Owner = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault()
             }).FirstOrDefault();
 
@@ -156,6 +157,20 @@ namespace Volunteers.Controllers
             }
 
             project.IsCompleted = true;
+            data.SaveChanges();
+            return RedirectToAction("Index", "Projects");
+        }
+
+        public IActionResult Activate (string id)
+        {
+            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
+
+            if (project == null)
+            {
+                return RedirectToAction("Admin", "Projects");
+            }
+
+            project.IsCompleted = false;
             data.SaveChanges();
             return RedirectToAction("Index", "Projects");
         }

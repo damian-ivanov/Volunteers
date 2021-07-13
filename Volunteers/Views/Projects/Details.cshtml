@@ -44,10 +44,15 @@
                 {
                     <a type="button" class="btn btn-warning" asp-action="Hide" asp-route-id="@Model.Id">Hide</a>
                 }
+                @if (Model.IsCompleted)
+                {
+                    <a type="button" class="btn btn-secondary" asp-action="Activate" asp-route-id="@Model.Id">Mark as Active</a>
+                }
                 @if (!Model.IsCompleted)
                 {
                     <a type="button" class="btn btn-secondary" asp-action="Complete" asp-route-id="@Model.Id">Mark as completed</a>
                 }
+
                 <a type="button" class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
                 <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
             </p>
