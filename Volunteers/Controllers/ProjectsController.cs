@@ -22,9 +22,30 @@ namespace Volunteers.Controllers
             this.data = data;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder)
         {
-            return View(data.Projects.Where(p => p.IsPublic == true).OrderByDescending(p => p.PublishedOn).Select(p => new ProjectListingViewModel
+            var projects = data.Projects.Where(p => p.IsPublic == true);
+
+            //Adding sorting functionality
+            ViewData["DateSortParm"] = sortOrder;
+
+            switch (sortOrder)
+            {
+                case "newest":
+                    projects = projects.OrderByDescending(p => p.PublishedOn);
+                    break;
+                case "oldest":
+                    projects = projects.OrderBy(p => p.PublishedOn);
+                    break;
+                case "startingSoon":
+                    projects = projects.OrderBy(p => p.StartDate);
+                    break;
+                default:
+                    projects = projects.OrderByDescending(p => p.PublishedOn);
+                    break;
+            }            
+
+            return View(projects.Select(p => new ProjectListingViewModel
             {
                 Address = p.Address,
                 City = p.City,
@@ -35,7 +56,7 @@ namespace Volunteers.Controllers
                 StartDate = p.StartDate.ToString("d"),
                 Title = p.Title,
                 Votes = p.Votes,
-                IsCompleted = p.IsCompleted
+                IsCompleted = p.IsCompleted,
             }).ToList());
         }
 
