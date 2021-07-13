@@ -15,6 +15,7 @@
             <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Newest">Newest</a>
             <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Oldest">Oldest</a>
             <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Starting Soon">Starting Soon</a>
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Most votes">Most votes</a>
         </div>
     </div>
     <br />
@@ -37,12 +38,11 @@
 
                 <img class="card-img-top" src="https://teampuntagorda.org/wp-content/uploads/2019/12/Volunteer-Hands.jpg" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">@project.Title</h5>
+                    <h5 class="card-title">@project.Title</h5><h6><span class="badge badge-info">@project.Votes votes</span></h6>
                     <hr />
                     <p class="card-text"><b>What:</b> @project.Description</p>
                     <p class="card-text"><b>Where:</b> @project.City</p>
                     <p class="card-text"><b>When:</b> @project.StartDate</p>
-                    <p class="card-text"><b>Votes:</b> @project.Votes</p>
                     <a class="btn btn-primary" asp-action="Details" asp-route-id="@project.Id">Details</a>
                 </div>
             </div>

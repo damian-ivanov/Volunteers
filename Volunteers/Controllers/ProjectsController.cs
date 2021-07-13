@@ -40,6 +40,9 @@ namespace Volunteers.Controllers
                 case "Starting Soon":
                     projects = projects.OrderBy(p => p.StartDate);
                     break;
+                case "Most votes":
+                    projects = projects.OrderByDescending(p => p.Votes);
+                    break;
                 default:
                     projects = projects.OrderByDescending(p => p.PublishedOn);
                     break;
