@@ -191,6 +191,21 @@ namespace Volunteers.Controllers
         }
 
 
+        public IActionResult Vote(string id)
+        {
+            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
+
+            if (project == null)
+            {
+                return RedirectToAction("Admin", "Projects");
+            }
+
+            project.Votes += 1;
+
+            data.SaveChanges();
+            return RedirectToAction("Details", new { id = project.Id });
+        }
+
 
         [HttpPost]
         public IActionResult Edit(EditProjectViewModel project)
