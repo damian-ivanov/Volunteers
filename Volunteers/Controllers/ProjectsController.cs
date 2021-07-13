@@ -31,19 +31,21 @@ namespace Volunteers.Controllers
 
             switch (sortOrder)
             {
-                case "newest":
+                case "Newest":
                     projects = projects.OrderByDescending(p => p.PublishedOn);
                     break;
-                case "oldest":
+                case "Oldest":
                     projects = projects.OrderBy(p => p.PublishedOn);
                     break;
-                case "startingSoon":
+                case "Starting Soon":
                     projects = projects.OrderBy(p => p.StartDate);
                     break;
                 default:
                     projects = projects.OrderByDescending(p => p.PublishedOn);
                     break;
-            }            
+            }
+
+            ViewBag.ViewType = sortOrder;
 
             return View(projects.Select(p => new ProjectListingViewModel
             {

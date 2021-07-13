@@ -9,12 +9,12 @@
 <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Order by:
+            Order by: @ViewBag.ViewType
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="newest">Newest</a>
-            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="oldest">Oldest</a>
-            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="startingSoon">Starting Soon</a>
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Newest">Newest</a>
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Oldest">Oldest</a>
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Starting Soon">Starting Soon</a>
         </div>
     </div>
     <br />

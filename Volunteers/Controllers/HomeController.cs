@@ -25,7 +25,7 @@ namespace Volunteers.Controllers
             return View(new ProjectDashboardModel
             {
                 ParticipantsCount = data.Users.Local.Count(),
-                ProjectsCount = data.Projects.Count(),
+                ProjectsCount = data.Projects.Where(p => p.IsCompleted == true).Count(),
                 TownsCount = data.Projects.Select(c => c.City).Count()
             });
         }
