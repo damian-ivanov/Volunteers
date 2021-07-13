@@ -22,12 +22,23 @@ namespace Volunteers.Controllers
         }
         public IActionResult Index()
         {
-            return View(new ProjectDashboardModel
+            ViewBag.ProjectsCount = data.Projects.Where(p => p.IsCompleted == true).Count();
+            ViewBag.TownsCount = data.Projects.Select(c => c.City).Count();
+            ViewBag.UsersCount = data.Projects.Select(u => u.OwnerId).ToList().Distinct().Count();
+
+            return View(data.Projects.OrderByDescending(p => p.PublishedOn).Take(3).Select(p => new ProjectListingViewModel
             {
-                ParticipantsCount = data.Users.Local.Count(),
-                ProjectsCount = data.Projects.Where(p => p.IsCompleted == true).Count(),
-                TownsCount = data.Projects.Select(c => c.City).Count()
-            });
+                Address = p.Address,
+                City = p.City,
+                Description = p.Description,
+                Id = p.Id,
+                Participants = p.Users.Count(),
+                PublishedOn = p.PublishedOn.ToString("d"),
+                StartDate = p.StartDate.ToString("d"),
+                Title = p.Title,
+                Votes = p.Votes,
+                IsCompleted = p.IsCompleted,
+            }).ToList());
         }
 
         public IActionResult Privacy()
