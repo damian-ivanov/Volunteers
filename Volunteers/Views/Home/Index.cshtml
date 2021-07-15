@@ -25,6 +25,26 @@
             </div>
         </div>
     </div>
+</div>
+    <br />
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Find projects in your area:</h1>
+            <p class="lead">Volunteer in various projects to help make your community better!</p>
+            <hr class="my-4">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:right">
+                    Order by: @ViewBag.ViewType
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Newest">Newest</a>
+                    <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Oldest">Oldest</a>
+                    <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Starting Soon">Starting Soon</a>
+                    <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Most votes">Most votes</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <br />
     <h1 style="text-align:center">Latest 3 projects:</h1>
     <hr />
@@ -58,6 +78,5 @@
             </div>
         }
     </div>
-</div>
 
 
