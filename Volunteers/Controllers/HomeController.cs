@@ -42,7 +42,7 @@ namespace Volunteers.Controllers
             if (query.ShowCompleted == false)
             {
                 projectsQuery = projectsQuery.Where(p => p.IsCompleted == false);
-                query.ShowCompleted = true;
+                //query.ShowCompleted = true;
             }
 
             var sortOrder = query.SortOrder;
@@ -70,7 +70,10 @@ namespace Volunteers.Controllers
 
             var categories = this.data.Categories.ToList();
 
-            var projects = projectsQuery.Select(p => new ProjectListingViewModel
+            var totalProjects = projectsQuery.Count();
+
+            var projects = projectsQuery.Skip((query.CurrentPage - 1) * AllProjectsQueryModel.ProjectsPerPage)
+                .Take(AllProjectsQueryModel.ProjectsPerPage).Select(p => new ProjectListingViewModel
             {
                 Address = p.Address,
                 City = p.City,
@@ -86,7 +89,7 @@ namespace Volunteers.Controllers
 
             query.Categories = categories;
             query.Projects = projects;
-            query.TotalProjects = projects.Count;
+            query.TotalProjects = totalProjects;
 
             return View(query);
         }

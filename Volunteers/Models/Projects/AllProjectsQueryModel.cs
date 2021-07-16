@@ -7,6 +7,10 @@ namespace Volunteers.Models.Projects
 {
     public class AllProjectsQueryModel
     {
+        public const int ProjectsPerPage = 3;
+
+        public int CurrentPage { get; init; } = 1;
+
         [Display(Name ="Location (optional")]
         public string SearchTerm { get; set; }
 

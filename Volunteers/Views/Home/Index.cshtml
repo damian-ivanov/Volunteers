@@ -62,20 +62,51 @@
                         </select>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="@Model.ShowCompleted" asp-for="ShowCompleted" id="defaultCheck1">
+                        <input class="form-check-input" type="checkbox" value="true" asp-for="ShowCompleted" id="defaultCheck1">
                         <label class="form-check-label" for="defaultCheck1">
                             Show completed projects too
                         </label>
                     </div>
                     <button type="submit" class="btn btn-primary" style="float:right">Submit</button>
                 </div>
-
-               
-</form>
-
+        </form>
     </div>
 </div>
 <br />
+
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalProjects / AllProjectsQueryModel.ProjectsPerPage);
+}
+
+<div class="row mb-5">
+    <div class="col-md-6">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Home"
+           asp-action="Index"
+           asp-route-ShowCompleted="@Model.ShowCompleted"
+           asp-route-currentPage="@previousPage"
+           asp-route-Category="@Model.Category"
+           asp-route-SearchTerm="@Model.SearchTerm"
+           asp-route-SortOrder="@Model.SortOrder"><<</a>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-primary float-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)"
+           asp-controller="Home"
+           asp-action="Index"
+           asp-route-ShowCompleted="@Model.ShowCompleted"
+           asp-route-currentPage="@(Model.CurrentPage + 1)"
+           asp-route-Category="@Model.Category"
+           asp-route-SearchTerm="@Model.SearchTerm"
+           asp-route-SortOrder="@Model.SortOrder">>></a>
+    </div>
+</div>
+
 @if (Model.TotalProjects == 0)
 {
     <h1 style="text-align:center">Sorry, no projects found by selected criteria :(</h1>
