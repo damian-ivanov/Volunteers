@@ -20,13 +20,57 @@ namespace Volunteers.Controllers
         {
             this.data = data;
         }
-        public IActionResult Index()
+        public IActionResult Index([FromQuery] AllProjectsQueryModel query)
         {
             ViewBag.ProjectsCount = data.Projects.Where(p => p.IsCompleted == true).Count();
             ViewBag.TownsCount = data.Projects.Select(c => c.City).Count();
             ViewBag.UsersCount = data.Projects.Select(u => u.OwnerId).ToList().Distinct().Count();
 
-            return View(data.Projects.OrderByDescending(p => p.PublishedOn).Take(3).Select(p => new ProjectListingViewModel
+            //Search criteria start
+            var projectsQuery = this.data.Projects.Where(p => p.IsPublic == true).AsQueryable();
+            
+            if (!string.IsNullOrEmpty(query.SearchTerm))
+            {
+                projectsQuery = projectsQuery.Where(p => p.City.ToLower() == query.SearchTerm.ToLower());
+            }
+
+            if (!string.IsNullOrEmpty(query.Category))
+            {
+                projectsQuery = projectsQuery.Where(c => c.Category.Name == query.Category);
+            }
+
+            if (query.ShowCompleted == false)
+            {
+                projectsQuery = projectsQuery.Where(p => p.IsCompleted == false);
+                query.ShowCompleted = true;
+            }
+
+            var sortOrder = query.SortOrder;
+
+            switch (sortOrder)
+            {
+                case "Newest":
+                    projectsQuery = projectsQuery.OrderByDescending(p => p.PublishedOn);
+                    break;
+                case "Oldest":
+                    projectsQuery = projectsQuery.OrderBy(p => p.PublishedOn);
+                    break;
+                case "Starting Soon":
+                    projectsQuery = projectsQuery.OrderBy(p => p.StartDate);
+                    break;
+                case "Most votes":
+                    projectsQuery = projectsQuery.OrderByDescending(p => p.Votes);
+                    break;
+                default:
+                    sortOrder = "Newest";
+                    projectsQuery = projectsQuery.OrderByDescending(p => p.PublishedOn);
+                    break;
+            }
+            //Search criteria end
+
+            var categories = this.data.Categories.ToList();
+
+            var projects = projectsQuery.Select(p => new ProjectListingViewModel
             {
                 Address = p.Address,
                 City = p.City,
@@ -38,7 +82,13 @@ namespace Volunteers.Controllers
                 Title = p.Title,
                 Votes = p.Votes,
                 IsCompleted = p.IsCompleted,
-            }).ToList());
+            }).ToList();
+
+            query.Categories = categories;
+            query.Projects = projects;
+            query.TotalProjects = projects.Count;
+
+            return View(query);
         }
 
         public IActionResult Privacy()

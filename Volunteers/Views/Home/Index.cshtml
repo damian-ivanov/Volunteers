@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Volunteers.Models.Projects.ProjectListingViewModel>
+﻿@model AllProjectsQueryModel
 
 @{
     ViewData["Title"] = "Home Page";
@@ -26,32 +26,68 @@
         </div>
     </div>
 </div>
-    <br />
-    
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-4">Find projects in your area:</h1>
-            <p class="lead">Volunteer in various projects to help make your community better!</p>
-            <hr class="my-4">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:right">
-                    Order by: @ViewBag.ViewType
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Newest">Newest</a>
-                    <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Oldest">Oldest</a>
-                    <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Starting Soon">Starting Soon</a>
-                    <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Most votes">Most votes</a>
+<br />
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Find projects in your area:</h1>
+        <p class="lead">Volunteer in various projects to help make your community better!</p>
+        <hr class="my-4">
+        <form method="get">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label asp-for="SearchTerm"></label>
+                    <input asp-for="SearchTerm" class="form-control" placeholder="type your location...">
                 </div>
-            </div>
-        </div>
+                <div class="form-group col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Category"></label>
+                        <select asp-for="Category" class="form-control">
+                            <option value="">All</option>
+
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Name">@category.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <div class="form-group">
+                        <label asp-for="SortOrder"></label>
+                        <select asp-for="SortOrder" class="form-control">
+                            <option value="Newest" selected>Newest</option>
+                            <option value="Oldest">Oldest</option>
+                            <option value="Starting Soon">Starting Soon</option>
+                            <option value="Most votes">Most votes</option>
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="@Model.ShowCompleted" asp-for="ShowCompleted" id="defaultCheck1">
+                        <label class="form-check-label" for="defaultCheck1">
+                            Show completed projects too
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="float:right">Submit</button>
+                </div>
+
+               
+</form>
+
     </div>
-    <br />
-    <h1 style="text-align:center">Latest 3 projects:</h1>
+</div>
+<br />
+@if (Model.TotalProjects == 0)
+{
+    <h1 style="text-align:center">Sorry, no projects found by selected criteria :(</h1>
+}
+
+@if (Model.TotalProjects > 0)
+{
+    <h1 style="text-align:center">@Model.TotalProjects projects found:</h1>
     <hr />
     <br />
     <div class="card-deck">
-        @foreach (var project in Model)
+        @foreach (var project in Model.Projects)
         {
             <div class="card">
                 @if (!project.IsCompleted)
@@ -74,10 +110,13 @@
                     <p class="card-text"><b>What:</b> @project.Description</p>
                     <p class="card-text"><b>Where:</b> @project.City</p>
                     <p class="card-text"><b>When:</b> @project.StartDate</p>
+                    <p class="card-text"><b>Published on:</b> @project.PublishedOn</p>
                     <a class="btn btn-primary" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
                 </div>
             </div>
         }
     </div>
+}
+
 
 
