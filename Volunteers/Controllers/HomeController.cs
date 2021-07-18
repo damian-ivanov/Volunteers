@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Volunteers.Data;
 using Volunteers.Models;
@@ -26,6 +27,8 @@ namespace Volunteers.Controllers
             ViewBag.TownsCount = data.Projects.Select(c => c.City).Count();
             ViewBag.UsersCount = data.Projects.Select(u => u.OwnerId).ToList().Distinct().Count();
 
+            
+            var prj = this.data.Projects.Where(p => p.OwnerId == currentUser.Id).ToList();
             //Search criteria start
             var projectsQuery = this.data.Projects.Where(p => p.IsPublic == true).AsQueryable();
             

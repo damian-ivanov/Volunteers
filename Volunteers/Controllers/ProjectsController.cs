@@ -103,7 +103,9 @@ namespace Volunteers.Controllers
                 OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
 
-
+            var currentUser = this.data.Users.Where(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
+            currentUser.Projects.Add(validProject);
+            
 
             data.Projects.Add(validProject);
             data.SaveChanges();
