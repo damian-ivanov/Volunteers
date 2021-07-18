@@ -28,7 +28,7 @@ namespace Volunteers.Controllers
             ViewBag.UsersCount = data.Projects.Select(u => u.OwnerId).ToList().Distinct().Count();
 
             
-            var prj = this.data.Projects.Where(p => p.OwnerId == currentUser.Id).ToList();
+            //var prj = this.data.Projects.Where(p => p.OwnerId == currentUser.Id).ToList();
             //Search criteria start
             var projectsQuery = this.data.Projects.Where(p => p.IsPublic == true).AsQueryable();
             
