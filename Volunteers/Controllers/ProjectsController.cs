@@ -77,16 +77,16 @@ namespace Volunteers.Controllers
         [HttpPost]
         public IActionResult Create(AddProjectFormModel project, IFormFile image)
         {
+            var secureImageName = "";
+            var extension = "";
 
             if (image != null)
             {
-                string webRootPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-                var fileName = Path.GetFileName(image.FileName);
-                var folderPath = Path.Combine(webRootPath, "uploads", fileName);
+                extension = Path.GetExtension(image.FileName.ToLower());
 
-                using (var fileStream = new FileStream(folderPath, FileMode.Create))
+                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
                 {
-                    image.CopyTo(fileStream);
+                    this.ModelState.AddModelError(nameof(project.Image), "Invalid image format. Allowed images are of type .jpg, .jpeg or .png.");
                 }
             }
 
@@ -107,6 +107,20 @@ namespace Volunteers.Controllers
                 return View(project);
             }
 
+            //Adding image
+            string webRootPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+
+            secureImageName = Guid.NewGuid() + extension;
+
+            var folderPath = Path.Combine(webRootPath, "uploads", secureImageName);
+
+            using (var fileStream = new FileStream(folderPath, FileMode.Create))
+            {
+                image.CopyTo(fileStream);
+            }
+
+            //Creating the project
+
             var validProject = new Project
             {
                 Address = project.Address,
@@ -117,7 +131,7 @@ namespace Volunteers.Controllers
                 PublishedOn = DateTime.Now,
                 StartDate = project.StartDate,
                 Title = project.Title,
-                Image = image.FileName,
+                Image = secureImageName,
                 OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
 
