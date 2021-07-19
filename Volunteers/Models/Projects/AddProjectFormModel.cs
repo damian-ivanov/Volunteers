@@ -23,6 +23,9 @@ namespace Volunteers.Models.Projects
         [Required]
         public string Address { get; set; }
 
+        [Display(Name = "Upload a photo")]
+        public string Image { get; set; }
+
         [Required]
         [DataType(DataType.DateTime)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]

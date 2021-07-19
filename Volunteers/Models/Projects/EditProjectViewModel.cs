@@ -27,6 +27,8 @@ namespace Volunteers.Models.Projects
         [Required]
         public string Address { get; set; }
 
+        public string Image { get; set; }
+
         [Required]
         public DateTime StartDate { get; set; }
 

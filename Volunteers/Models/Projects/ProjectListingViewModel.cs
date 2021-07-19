@@ -14,6 +14,8 @@ namespace Volunteers.Models.Projects
 
         public string City { get; set; }
 
+        public string Image { get; set; }
+
         public bool IsCompleted { get; set; }
 
         public string Address { get; set; }

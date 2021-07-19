@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -87,6 +88,7 @@ namespace Volunteers.Controllers
                 StartDate = p.StartDate.ToString("d"),
                 Title = p.Title,
                 Votes = p.Votes,
+                Image = Path.Combine("/uploads/", p.Image),
                 IsCompleted = p.IsCompleted,
             }).ToList();
 

@@ -10,6 +10,8 @@ using Volunteers.Data.Models;
 using Volunteers.Models.Projects;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace Volunteers.Controllers
 {
@@ -62,6 +64,7 @@ namespace Volunteers.Controllers
                 Title = p.Title,
                 Votes = p.Votes,
                 IsCompleted = p.IsCompleted,
+                Image = Path.Combine("/uploads/", p.Image)
             }).ToList());
         }
 
@@ -72,8 +75,22 @@ namespace Volunteers.Controllers
 
 
         [HttpPost]
-        public IActionResult Create(AddProjectFormModel project)
+        public IActionResult Create(AddProjectFormModel project, IFormFile image)
         {
+
+            if (image != null)
+            {
+                string webRootPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                var fileName = Path.GetFileName(image.FileName);
+                var folderPath = Path.Combine(webRootPath, "uploads", fileName);
+
+                using (var fileStream = new FileStream(folderPath, FileMode.Create))
+                {
+                    image.CopyTo(fileStream);
+                }
+            }
+
+
             if (!this.data.Categories.Any(c => c.Id == project.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(project.CategoryId), "Category does not exist.");
@@ -100,13 +117,13 @@ namespace Volunteers.Controllers
                 PublishedOn = DateTime.Now,
                 StartDate = project.StartDate,
                 Title = project.Title,
+                Image = image.FileName,
                 OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
 
-            var currentUser = this.data.Users.Where(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
-            currentUser.Projects.Add(validProject);
+            //var currentUser = this.data.Users.Where(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
+            //currentUser.Projects.Add(validProject);
             
-
             data.Projects.Add(validProject);
             data.SaveChanges();
 
@@ -134,6 +151,7 @@ namespace Volunteers.Controllers
                 Participants = p.Users.Count(),
                 Votes = p.Votes,
                 IsPublic = p.IsPublic,
+                Image = Path.Combine("/uploads/", p.Image),
                 IsCompleted = p.IsCompleted
                 // Owner = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault()
             }).FirstOrDefault();

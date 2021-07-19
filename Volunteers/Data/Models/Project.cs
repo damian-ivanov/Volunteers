@@ -31,6 +31,8 @@ namespace Volunteers.Data.Models
 
         public int Votes { get; set; }
 
+        public string Image { get; set; }
+
         public DateTime PublishedOn { get; set; } = DateTime.Now;
 
         public bool IsPublic { get; set; }
