@@ -7,9 +7,9 @@ using Volunteers.Data.Models;
 
 namespace Volunteers.Data
 {
-    public class VolunteersDbContext : IdentityDbContext
+    public class VolunteersDbContext : IdentityDbContext<User>
     {
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; }
 
         public DbSet<Project> Projects { get; set; }
 

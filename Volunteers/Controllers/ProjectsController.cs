@@ -19,10 +19,12 @@ namespace Volunteers.Controllers
     public class ProjectsController : Controller
     {
         private readonly VolunteersDbContext data;
+        private readonly UserManager<User> userManager;
 
-        public ProjectsController(VolunteersDbContext data)
+        public ProjectsController(VolunteersDbContext data, UserManager<User> userManager)
         {
             this.data = data;
+            this.userManager = userManager;
         }
 
         public IActionResult Index(string sortOrder)
@@ -77,7 +79,7 @@ namespace Volunteers.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Create(AddProjectFormModel project, IFormFile image)
+        public async Task<IActionResult> Create(AddProjectFormModel project, IFormFile image)
         {
             var secureImageName = "";
             var extension = "";
@@ -138,8 +140,9 @@ namespace Volunteers.Controllers
             };
 
             //var currentUser = this.data.Users.Where(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
-            //currentUser.Projects.Add(validProject);
-            
+            var currentUser = await userManager.GetUserAsync(this.User);
+            currentUser.Projects.Add(validProject);
+
             data.Projects.Add(validProject);
             data.SaveChanges();
 
@@ -317,6 +320,7 @@ namespace Volunteers.Controllers
         }
 
         [Authorize]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Admin()
         {
             return View(data.Projects.Where(p => p.IsPublic == false).Select(p => new ProjectListingViewModel
