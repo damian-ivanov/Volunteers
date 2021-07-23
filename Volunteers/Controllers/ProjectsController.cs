@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Volunteers.Controllers
 {
@@ -75,6 +76,7 @@ namespace Volunteers.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public IActionResult Create(AddProjectFormModel project, IFormFile image)
         {
             var secureImageName = "";
@@ -192,82 +194,8 @@ namespace Volunteers.Controllers
             return View(project);
         }
 
-
-        public IActionResult Approve(string id)
-        {
-            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
-
-            if (project == null)
-            {
-                return RedirectToAction("Admin", "Projects");
-            }
-
-            project.IsPublic = true;
-            data.SaveChanges();
-            return RedirectToAction("Admin", "Projects");
-        }
-
-        public IActionResult Complete(string id)
-        {
-            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
-
-            if (project == null)
-            {
-                return RedirectToAction("Admin", "Projects");
-            }
-
-            project.IsCompleted = true;
-            data.SaveChanges();
-            return RedirectToAction("Index", "Projects");
-        }
-
-        public IActionResult Activate (string id)
-        {
-            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
-
-            if (project == null)
-            {
-                return RedirectToAction("Admin", "Projects");
-            }
-
-            project.IsCompleted = false;
-            data.SaveChanges();
-            return RedirectToAction("Index", "Projects");
-        }
-
-
-        public IActionResult Hide(string id)
-        {
-            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
-
-            if (project == null)
-            {
-                return RedirectToAction("Admin", "Projects");
-            }
-
-            project.IsPublic = false;
-            data.SaveChanges();
-            return RedirectToAction("Admin", "Projects");
-        }
-
-
-        public IActionResult Vote(string id)
-        {
-            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
-
-            if (project == null)
-            {
-                return RedirectToAction("Admin", "Projects");
-            }
-
-            project.Votes += 1;
-
-            data.SaveChanges();
-            return RedirectToAction("Details", new { id = project.Id });
-        }
-
-
         [HttpPost]
+        [Authorize]
         public IActionResult Edit(EditProjectViewModel project)
         {
             if (!this.data.Categories.Any(c => c.Id == project.CategoryId))
@@ -296,6 +224,84 @@ namespace Volunteers.Controllers
         }
 
 
+        [Authorize]
+        public IActionResult Approve(string id)
+        {
+            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
+
+            if (project == null)
+            {
+                return RedirectToAction("Admin", "Projects");
+            }
+
+            project.IsPublic = true;
+            data.SaveChanges();
+            return RedirectToAction("Admin", "Projects");
+        }
+
+        [Authorize]
+        public IActionResult Complete(string id)
+        {
+            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
+
+            if (project == null)
+            {
+                return RedirectToAction("Admin", "Projects");
+            }
+
+            project.IsCompleted = true;
+            data.SaveChanges();
+            return RedirectToAction("Index", "Projects");
+        }
+
+        [Authorize]
+        public IActionResult Activate (string id)
+        {
+            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
+
+            if (project == null)
+            {
+                return RedirectToAction("Admin", "Projects");
+            }
+
+            project.IsCompleted = false;
+            data.SaveChanges();
+            return RedirectToAction("Index", "Projects");
+        }
+
+        [Authorize]
+        public IActionResult Hide(string id)
+        {
+            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
+
+            if (project == null)
+            {
+                return RedirectToAction("Admin", "Projects");
+            }
+
+            project.IsPublic = false;
+            data.SaveChanges();
+            return RedirectToAction("Admin", "Projects");
+        }
+
+        [Authorize]
+        public IActionResult Vote(string id)
+        {
+            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
+
+            if (project == null)
+            {
+                return RedirectToAction("Admin", "Projects");
+            }
+
+            project.Votes += 1;
+
+            data.SaveChanges();
+            return RedirectToAction("Details", new { id = project.Id });
+        }
+
+
+        [Authorize]
         public IActionResult Delete(string id)
         {
             var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
@@ -310,7 +316,7 @@ namespace Volunteers.Controllers
             return RedirectToAction("Admin", "Projects");
         }
 
-
+        [Authorize]
         public IActionResult Admin()
         {
             return View(data.Projects.Where(p => p.IsPublic == false).Select(p => new ProjectListingViewModel
