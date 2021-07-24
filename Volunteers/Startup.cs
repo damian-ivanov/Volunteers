@@ -42,7 +42,7 @@ namespace Volunteers
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 })
-                //.AddRoles<IdentityRole>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<VolunteersDbContext>();
             
             services.AddControllersWithViews(options =>

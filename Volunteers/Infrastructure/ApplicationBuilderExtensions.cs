@@ -7,9 +7,11 @@ namespace Volunteers.Infrastructure
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
     public static class ApplicationBuilderExtensions
     {
+
         public static IApplicationBuilder PrepareDatabase(
             this IApplicationBuilder app)
         {
@@ -21,6 +23,7 @@ namespace Volunteers.Infrastructure
 
             SeedCategories(data);
             CreateAdminUser(data);
+            //CreateRole(data, "Administrator");
 
 
             return app;
@@ -48,6 +51,25 @@ namespace Volunteers.Infrastructure
             data.SaveChanges();
         }
 
+
+        //private static void CreateRole(VolunteersDbContext data, string roleName)
+        //{
+        //    var role = new RoleStore<IdentityRole>(data);
+
+        //    if (!data.Roles.Any(r => r.Name == roleName))
+        //    {
+        //        role.CreateAsync(new IdentityRole(roleName));
+        //        data.SaveChanges();
+        //    }
+
+        //    if (!data.Roles.Any(r => r.Name == roleName))
+        //    {
+        //        var newRole = new IdentityRole { Name = roleName, NormalizedName = roleName };
+        //        data.Roles.Add(newRole);
+        //        data.SaveChanges();
+        //    }
+        //}
+
         private static void CreateAdminUser(VolunteersDbContext data)
         {
 
@@ -56,8 +78,9 @@ namespace Volunteers.Infrastructure
                 return;
             }
 
-            data.Users.Add(new User { Email = "damian.i.ivanov@gmail.com", PasswordHash = "123456", UserName = "admin"});
+            var adminUser = new User { Email = "admin@admin.com", PasswordHash = "123456", UserName = "admin" };
             
+
         }
     }
 }

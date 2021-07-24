@@ -20,11 +20,13 @@ namespace Volunteers.Controllers
     {
         private readonly VolunteersDbContext data;
         private readonly UserManager<User> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
-        public ProjectsController(VolunteersDbContext data, UserManager<User> userManager)
+        public ProjectsController(VolunteersDbContext data, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             this.data = data;
             this.userManager = userManager;
+            this.roleManager = roleManager;
         }
 
         public IActionResult Index(string sortOrder)
@@ -139,9 +141,21 @@ namespace Volunteers.Controllers
                 OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
 
-            //var currentUser = this.data.Users.Where(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
-            var currentUser = await userManager.GetUserAsync(this.User);
-            currentUser.Projects.Add(validProject);
+            //var currentUser = await userManager.GetUserAsync(this.User);
+
+            //var roleName = "Administrator";
+
+            //var result = await roleManager.CreateAsync(new IdentityRole { Name = roleName, NormalizedName = roleName });
+
+            //var roleExists = await roleManager.RoleExistsAsync(roleName);
+
+            //if (roleExists)
+            //{
+            //    await userManager.AddToRoleAsync(currentUser, roleName);
+            //    data.SaveChanges();
+            //    var role = roleManager.Roles.Where(r => r.Name == "Administrator");
+            //    var result = await userManager.AddToRoleAsync(user, role);
+            //}
 
             data.Projects.Add(validProject);
             data.SaveChanges();
@@ -320,9 +334,22 @@ namespace Volunteers.Controllers
         }
 
         [Authorize]
-        [Authorize(Roles = "Administrator")]
-        public IActionResult Admin()
+       // [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Admin()
         {
+
+            //var currentUser = await userManager.GetUserAsync(this.User);
+
+            //var roles = await userManager.GetRolesAsync(currentUser);
+
+            //if (!this.User.IsInRole("Administrator"))
+
+            //{
+
+            //    return RedirectToAction("Index", "Projects");
+
+            //}
+
             return View(data.Projects.Where(p => p.IsPublic == false).Select(p => new ProjectListingViewModel
             {
                 Address = p.Address,
