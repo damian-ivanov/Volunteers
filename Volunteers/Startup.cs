@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Volunteers.Data;
 using Volunteers.Data.Models;
 using Volunteers.Infrastructure;
+using Volunteers.Services.Users;
 
 namespace Volunteers
 {
@@ -35,27 +36,30 @@ namespace Volunteers
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<User>(options => {
+            services.AddDefaultIdentity<User>(options =>
+            {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-                })
+            })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<VolunteersDbContext>();
-            
+
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             });
+
+            services.AddTransient<IUserService, UserService>();
         }
 
-      
 
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.PrepareDatabase();
 

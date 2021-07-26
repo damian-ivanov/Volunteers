@@ -14,20 +14,24 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using static Volunteers.Data.DataConstants;
+using Volunteers.Services.Users;
 
 namespace Volunteers.Controllers
 {
     public class ProjectsController : Controller
     {
+        private readonly IUserService userService;
+
         private readonly VolunteersDbContext data;
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
-        public ProjectsController(VolunteersDbContext data, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public ProjectsController(VolunteersDbContext data, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IUserService userService)
         {
             this.data = data;
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.userService = userService;
         }
 
         public IActionResult Index(string sortOrder)
@@ -74,6 +78,7 @@ namespace Volunteers.Controllers
             }).ToList());
         }
 
+        [Authorize]
         public IActionResult Create() => View(new AddProjectFormModel
         {
             Categories = this.GetProjectCategories()
@@ -82,7 +87,7 @@ namespace Volunteers.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(AddProjectFormModel project, IFormFile image)
+        public IActionResult Create(AddProjectFormModel project, IFormFile image)
         {
             var secureImageName = "";
             var extension = "";
@@ -127,7 +132,6 @@ namespace Volunteers.Controllers
             }
 
             //Creating the project
-
             var validProject = new Project
             {
                 Address = project.Address,
@@ -171,8 +175,9 @@ namespace Volunteers.Controllers
                 Votes = p.Votes,
                 IsPublic = p.IsPublic,
                 Image = Path.Combine("/uploads/", p.Image),
-                IsCompleted = p.IsCompleted
-                // Owner = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault()
+                IsCompleted = p.IsCompleted,
+                OwnerName = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault(),
+                IsOwner = userService.IsOwner(p.Id, userManager.GetUserId(User))
             }).FirstOrDefault();
 
             return View(project);
@@ -307,16 +312,21 @@ namespace Volunteers.Controllers
         [Authorize]
         public IActionResult Delete(string id)
         {
+            if (!User.IsInRole(AdministratorRoleName) && !userService.IsOwner(id, userManager.GetUserId(User)))
+            {
+                return RedirectToAction("Index", "Projects");
+            }
+
             var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
 
             if (project == null)
             {
-                return RedirectToAction("Admin", "Projects");
+                return RedirectToAction("Index", "Projects");
             }
 
             this.data.Projects.Remove(project);
             data.SaveChanges();
-            return RedirectToAction("Admin", "Projects");
+            return RedirectToAction("Index", "Projects");
         }
 
         [Authorize]

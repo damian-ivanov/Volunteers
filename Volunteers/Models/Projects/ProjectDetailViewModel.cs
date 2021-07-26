@@ -30,7 +30,9 @@ namespace Volunteers.Models.Projects
 
         public string Category { get; set; }
 
-        public string Owner { get; set; }
+        public string OwnerName { get; set; }
+
+        public bool IsOwner { get; set; }
 
         public bool IsCompleted { get; set; }
 
