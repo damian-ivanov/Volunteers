@@ -10,36 +10,45 @@ using Volunteers.Data.Models;
 using Volunteers.Models.Projects;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Volunteers.Services.Comments;
+using Volunteers.Models.Comments;
 
 namespace Volunteers.Controllers
 {
     public class CommentsController : Controller
     {
-        private readonly VolunteersDbContext data;
+        private readonly ICommentService comments;
 
-        public CommentsController(VolunteersDbContext data)
+        public CommentsController(ICommentService comments)
         {
-            this.data = data;
+            this.comments = comments;
         }
 
-        public IActionResult Add()
+        [Authorize]
+        public IActionResult Add(string Id)
         {
-            return View(data.Projects.Where(p => p.IsPublic == false).Select(p => new ProjectListingViewModel
-            {
-                Address = p.Address,
-                City = p.City,
-                Description = p.Description,
-                Id = p.Id,
-                Participants = p.Users.Count(),
-                PublishedOn = p.PublishedOn.ToString("d"),
-                StartDate = p.StartDate.ToString("d"),
-                Title = p.Title,
-                Votes = p.Votes
-            }).ToList());
+            return View(new AddCommentFormModel { ProjectId = Id });
         }
 
 
+        [Authorize]
+        [HttpPost]
+        public IActionResult Add(AddCommentFormModel comment)
+        {
 
+            comments.Add(comment.Content, comment.ProjectId, User.FindFirstValue(ClaimTypes.NameIdentifier));
+            return RedirectToAction("Details", new { id = comment.ProjectId });
+
+            //var commentToAdd = new Comment
+            //{
+            //    Content = comment.Content,
+            //    ProjectId = comment.ProjectId,
+            //    UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+            //};
+
+
+        }
 
 
     }

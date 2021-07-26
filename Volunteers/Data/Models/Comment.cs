@@ -10,7 +10,7 @@ namespace Volunteers.Data.Models
     {
         [Key]
         [Required]
-        public int Id { get; init; }
+        public string Id { get; init; } = Guid.NewGuid().ToString();
 
         [Required]
         [MaxLength(1000)]

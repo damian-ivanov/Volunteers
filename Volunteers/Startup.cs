@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Volunteers.Data;
 using Volunteers.Data.Models;
 using Volunteers.Infrastructure;
+using Volunteers.Services.Comments;
 using Volunteers.Services.Users;
 
 namespace Volunteers
@@ -53,6 +54,7 @@ namespace Volunteers
             });
 
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICommentService, CommentService>();
         }
 
 

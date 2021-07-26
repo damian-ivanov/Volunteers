@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volunteers.Data;
 
-namespace Volunteers.Data.Migrations
+namespace Volunteers.Migrations
 {
     [DbContext(typeof(VolunteersDbContext))]
-    partial class VolunteersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210726192133_ProjectModelChanges2")]
+    partial class ProjectModelChanges2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -449,13 +451,16 @@ namespace Volunteers.Data.Migrations
 
             modelBuilder.Entity("Volunteers.Data.Models.Comment", b =>
                 {
-                    b.HasOne("Volunteers.Data.Models.Project", null)
+                    b.HasOne("Volunteers.Data.Models.Project", "Project")
                         .WithMany("Comments")
-                        .HasForeignKey("ProjectId");
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Volunteers.Data.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Project");
 
                     b.Navigation("User");
                 });

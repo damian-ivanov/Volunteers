@@ -176,6 +176,7 @@ namespace Volunteers.Controllers
                 IsPublic = p.IsPublic,
                 Image = Path.Combine("/uploads/", p.Image),
                 IsCompleted = p.IsCompleted,
+                Comments = p.Comments.ToList(),
                 OwnerName = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault(),
                 IsOwner = userService.IsOwner(p.Id, userManager.GetUserId(User))
             }).FirstOrDefault();
@@ -323,6 +324,7 @@ namespace Volunteers.Controllers
             {
                 return RedirectToAction("Index", "Projects");
             }
+
 
             this.data.Projects.Remove(project);
             data.SaveChanges();

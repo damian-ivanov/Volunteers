@@ -9,7 +9,7 @@ namespace Volunteers.Data
 {
     public class VolunteersDbContext : IdentityDbContext<User>
     {
-        //public DbSet<User> Users { get; set; }
+
 
         public DbSet<Project> Projects { get; set; }
 
@@ -23,5 +23,26 @@ namespace Volunteers.Data
             : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+
+        {
+
+            builder.Entity<Project>().HasMany<Comment>(c => c.Comments).WithOne(p => p.Project).OnDelete(DeleteBehavior.Cascade);
+            base.OnModelCreating(builder);
+        }
+
+
     }
 }
+
+//modelBuilder.Entity<Parent>()
+//              .HasMany<Child>(c => c.Children)
+//              .WithOptional(x => x.Parent)
+//              .WillCascadeOnDelete(true);
+
+//Builder.Entity<OfficerPrisoner>()
+//.HasOne(x => x.Prisoner)
+//.WithMany(x => x.PrisonerOfficers)
+//.HasForeignKey(x => x.PrisonerId)
+//.OnDelete(DeleteBehavior.Restrict);
