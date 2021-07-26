@@ -9,5 +9,7 @@ namespace Volunteers.Data
 
         public const int CommentMinLength = 3;
         public const int CommentMaxLength = 1000;
+
+        public const string AdministratorRoleName = "Administrator";
     }
 }

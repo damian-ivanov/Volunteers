@@ -13,6 +13,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using static Volunteers.Data.DataConstants;
 
 namespace Volunteers.Controllers
 {
@@ -141,21 +142,6 @@ namespace Volunteers.Controllers
                 OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
 
-            //var currentUser = await userManager.GetUserAsync(this.User);
-
-            //var roleName = "Administrator";
-
-            //var result = await roleManager.CreateAsync(new IdentityRole { Name = roleName, NormalizedName = roleName });
-
-            //var roleExists = await roleManager.RoleExistsAsync(roleName);
-
-            //if (roleExists)
-            //{
-            //    await userManager.AddToRoleAsync(currentUser, roleName);
-            //    data.SaveChanges();
-            //    var role = roleManager.Roles.Where(r => r.Name == "Administrator");
-            //    var result = await userManager.AddToRoleAsync(user, role);
-            //}
 
             data.Projects.Add(validProject);
             data.SaveChanges();
@@ -334,22 +320,9 @@ namespace Volunteers.Controllers
         }
 
         [Authorize]
-       // [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Admin()
+        [Authorize(Roles = AdministratorRoleName)]
+        public IActionResult Admin()
         {
-
-            //var currentUser = await userManager.GetUserAsync(this.User);
-
-            //var roles = await userManager.GetRolesAsync(currentUser);
-
-            //if (!this.User.IsInRole("Administrator"))
-
-            //{
-
-            //    return RedirectToAction("Index", "Projects");
-
-            //}
-
             return View(data.Projects.Where(p => p.IsPublic == false).Select(p => new ProjectListingViewModel
             {
                 Address = p.Address,

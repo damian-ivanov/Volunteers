@@ -8,6 +8,9 @@ namespace Volunteers.Infrastructure
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using System.Threading.Tasks;
+    using static Volunteers.Data.DataConstants;
+    using System;
 
     public static class ApplicationBuilderExtensions
     {
@@ -15,22 +18,27 @@ namespace Volunteers.Infrastructure
         public static IApplicationBuilder PrepareDatabase(
             this IApplicationBuilder app)
         {
-            using var scopedServices = app.ApplicationServices.CreateScope();
+            using var serviceScope = app.ApplicationServices.CreateScope();
+            var services = serviceScope.ServiceProvider;
 
-            var data = scopedServices.ServiceProvider.GetService<VolunteersDbContext>();
+            MigrateDatabase(services);
 
-            data.Database.Migrate();
-
-            SeedCategories(data);
-            CreateAdminUser(data);
-            //CreateRole(data, "Administrator");
-
+            SeedCategories(services);
+            SeedAdministrator(services);
 
             return app;
         }
 
-        private static void SeedCategories(VolunteersDbContext data)
+        private static void MigrateDatabase(IServiceProvider services)
         {
+            var data = services.GetRequiredService<VolunteersDbContext>();
+
+            data.Database.Migrate();
+        }
+
+        private static void SeedCategories(IServiceProvider services)
+        {
+            var data = services.GetRequiredService<VolunteersDbContext>();
             if (data.Categories.Any())
             {
                 return;
@@ -52,35 +60,38 @@ namespace Volunteers.Infrastructure
         }
 
 
-        //private static void CreateRole(VolunteersDbContext data, string roleName)
-        //{
-        //    var role = new RoleStore<IdentityRole>(data);
-
-        //    if (!data.Roles.Any(r => r.Name == roleName))
-        //    {
-        //        role.CreateAsync(new IdentityRole(roleName));
-        //        data.SaveChanges();
-        //    }
-
-        //    if (!data.Roles.Any(r => r.Name == roleName))
-        //    {
-        //        var newRole = new IdentityRole { Name = roleName, NormalizedName = roleName };
-        //        data.Roles.Add(newRole);
-        //        data.SaveChanges();
-        //    }
-        //}
-
-        private static void CreateAdminUser(VolunteersDbContext data)
+        private static void SeedAdministrator(IServiceProvider services)
         {
+            var userManager = services.GetRequiredService<UserManager<User>>();
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-            if (data.Users.Any(u => u.UserName == "admin"))
-            {
-                return;
-            }
+            Task
+                .Run(async () =>
+                {
+                    if (await roleManager.RoleExistsAsync(AdministratorRoleName))
+                    {
+                        return;
+                    }
 
-            var adminUser = new User { Email = "admin@admin.com", PasswordHash = "123456", UserName = "admin" };
-            
+                    var role = new IdentityRole { Name = AdministratorRoleName };
 
+                    await roleManager.CreateAsync(role);
+
+                    const string adminEmail = "admin@admin.com";
+                    const string adminPassword = "111111";
+
+                    var user = new User
+                    {
+                        Email = adminEmail,
+                        UserName = adminEmail,
+                    };
+
+                    await userManager.CreateAsync(user, adminPassword);
+
+                    await userManager.AddToRoleAsync(user, role.Name);
+                })
+                .GetAwaiter()
+                .GetResult();
         }
     }
 }
