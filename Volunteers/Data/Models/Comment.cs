@@ -10,7 +10,7 @@ namespace Volunteers.Data.Models
     {
         [Key]
         [Required]
-        public string Id { get; init; } = Guid.NewGuid().ToString();
+        public int Id { get; init; }
 
         [Required]
         [MaxLength(1000)]
@@ -19,5 +19,9 @@ namespace Volunteers.Data.Models
         public string UserId { get; set; }
 
         public User User { get; set; }
+
+        public string ProjectId { get; set; }
+
+        public Project Project { get; set; }
     }
 }

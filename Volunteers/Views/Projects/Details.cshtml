@@ -36,30 +36,47 @@
                 <p><b>Category:</b> @Model.Category</p>
                 @if (this.User.Identity.IsAuthenticated)
                 {
-            <p>
-                @if (!Model.IsPublic)
-                {
-                    <a type="button" class="btn btn-success" asp-action="Approve" asp-route-id="@Model.Id">Approve</a>
-                }
-                @if (Model.IsPublic)
-                {
-                    <a type="button" class="btn btn-warning" asp-action="Hide" asp-route-id="@Model.Id">Hide</a>
-                }
-                @if (Model.IsCompleted)
-                {
-                    <a type="button" class="btn btn-secondary" asp-action="Activate" asp-route-id="@Model.Id">Mark as Active</a>
-                }
-                @if (!Model.IsCompleted)
-                {
-                    <a type="button" class="btn btn-secondary" asp-action="Complete" asp-route-id="@Model.Id">Mark as completed</a>
-                }
+                    <p>
+                        @if (!Model.IsPublic)
+                        {
+                            <a type="button" class="btn btn-success" asp-action="Approve" asp-route-id="@Model.Id">Approve</a>
+                        }
+                        @if (Model.IsPublic)
+                        {
+                            <a type="button" class="btn btn-warning" asp-action="Hide" asp-route-id="@Model.Id">Hide</a>
+                        }
+                        @if (Model.IsCompleted)
+                        {
+                            <a type="button" class="btn btn-secondary" asp-action="Activate" asp-route-id="@Model.Id">Mark as Active</a>
+                        }
+                        @if (!Model.IsCompleted)
+                        {
+                            <a type="button" class="btn btn-secondary" asp-action="Complete" asp-route-id="@Model.Id">Mark as completed</a>
+                        }
 
-                <a type="button" class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-                <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
-            </p>
+                        <a type="button" class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                        <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                    </p>
                 }
 
             </div><!-- / project-info-box -->
+
+            <div class="col-md-7">
+                @if (Model.Comments.Count  == 0)
+                {
+                    <h4>No comments added yet.</h4>
+                }
+
+                @if (Model.Comments.Count() > 0)
+                {
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <h5>@comment.Content</h5>
+                        <h6>Author: @comment.User.Email</h6>
+                    }
+                }
+                <a type="button" class="btn btn-success" asp-controller="Comment" asp-action="Add" asp-route-id="@Model.Id">Comment</a> 
+            </div>
         </div><!-- / column -->
     </div>
 </div>
