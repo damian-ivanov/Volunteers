@@ -178,7 +178,7 @@ namespace Volunteers.Controllers
                 IsPublic = p.IsPublic,
                 Image = Path.Combine("/uploads/", p.Image),
                 IsCompleted = p.IsCompleted,
-                Comments = p.Comments.ToList(),
+                Comments = p.Comments.OrderByDescending(c => c.PublishedOn).ToList(),
                 OwnerName = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault(),
                 IsOwner = userService.IsOwner(p.Id, userManager.GetUserId(User))
             }).FirstOrDefault();

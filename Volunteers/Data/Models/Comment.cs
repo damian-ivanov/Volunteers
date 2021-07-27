@@ -18,6 +18,10 @@ namespace Volunteers.Data.Models
         [MaxLength(CommentMaxLength)]
         public string Content { get; set; }
 
+        public string UserName { get; set; }
+
+        public DateTime PublishedOn { get; set; } = DateTime.Now;
+
         public string UserId { get; set; }
 
         public User User { get; set; }

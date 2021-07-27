@@ -23,6 +23,7 @@ namespace Volunteers.Services.Users
                 Content = content,
                 ProjectId = ProjectId,
                 UserId = UserId,
+                UserName = data.Users.Where(u => u.Id == UserId).Select(u => u.UserName).FirstOrDefault(),
                 Project = data.Projects.Where(p => p.Id == ProjectId).FirstOrDefault(),
                 User = data.Users.Where(u => u.Id == UserId).FirstOrDefault()
 

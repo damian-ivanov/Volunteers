@@ -61,7 +61,7 @@
                     @if (Model.project.IsOwner || User.IsInRole("Administrator"))
                     {
                         <a type="button" class="btn btn-info" asp-action="Edit" asp-route-id="@Model.project.Id">Edit</a>
-                        
+
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">
                             Delete
@@ -87,7 +87,7 @@
                                 </div>
                             </div>
                         </div>
-                     
+
                     }
 
                 </p>
@@ -121,24 +121,44 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-7">
-                @if (Model.project.Comments.Count == 0)
-                {
-                    <h4>No comments added yet.</h4>
-                }
-
-                @if (Model.project.Comments.Count > 0)
-                {
-                    @foreach (var comment in Model.project.Comments)
-                    {
-                        <div class="col-sm">
-                            <h5>@comment.Content</h5>
-                        </div>
-                    }
-                }
-
-            </div>
         </div><!-- / column -->
+        
+        <div class="col-lg-8 offset-2 mt-5">
+            @if (Model.project.Comments.Count == 0)
+            {
+                <h4>No comments added yet.</h4>
+            }
+
+            @if (Model.project.Comments.Count > 0)
+            {
+                <h4>Comments:</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Author:</th>
+                                <th scope="col">Comment:</th>
+                                <th scope="col">Posted on:</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var comment in Model.project.Comments)
+                            {
+
+
+                                <tr>
+                                    <td scope="row">@comment.UserName</td>
+                                    <td style="word-wrap: break-word; min-width: 160px; max-width: 160px;">@comment.Content</td>
+                                    <td>@comment.PublishedOn</td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
     </div>
 </div>
