@@ -15,6 +15,8 @@ using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using static Volunteers.Data.DataConstants;
 using Volunteers.Services.Users;
+using System.Dynamic;
+using Volunteers.Models.Comments;
 
 namespace Volunteers.Controllers
 {
@@ -181,7 +183,11 @@ namespace Volunteers.Controllers
                 IsOwner = userService.IsOwner(p.Id, userManager.GetUserId(User))
             }).FirstOrDefault();
 
-            return View(project);
+            dynamic mymodel = new ExpandoObject();
+            mymodel.project = project;
+            mymodel.comment = new AddCommentFormModel();
+
+            return View(mymodel);
         }
 
 

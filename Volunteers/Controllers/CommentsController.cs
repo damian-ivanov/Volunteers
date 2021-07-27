@@ -25,32 +25,18 @@ namespace Volunteers.Controllers
             this.comments = comments;
         }
 
-        [Authorize]
-        public IActionResult Add(string Id)
-        {
-            return View(new AddCommentFormModel { ProjectId = Id });
-        }
-
 
         [Authorize]
         [HttpPost]
-        public IActionResult Add(AddCommentFormModel comment)
+        public IActionResult Add(string comment, string Id)
         {
+            ViewData["comment"] = comment;
 
-            comments.Add(comment.Content, comment.ProjectId, User.FindFirstValue(ClaimTypes.NameIdentifier));
-            return RedirectToAction("Details", new { id = comment.ProjectId });
-
-            //var commentToAdd = new Comment
-            //{
-            //    Content = comment.Content,
-            //    ProjectId = comment.ProjectId,
-            //    UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
-            //};
-
-
+            comments.Add(comment, Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
+            return Redirect("/Projects/Details/" + $"{Id}");
         }
 
 
     }
-    }
+}
 
