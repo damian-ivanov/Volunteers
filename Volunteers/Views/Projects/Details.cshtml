@@ -68,13 +68,14 @@
 
 
             </div><!-- / project-info-box -->
+
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#commentModal">
                 Comment
             </button>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -84,10 +85,8 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form asp-controller="Comments" asp-action="Add" asp-route-id="@Model.project.Id">
-
-                                <textarea name="comment" class="form-control" rows="3"></textarea>
-
+                            <form class="needs-validation" required asp-controller="Comments" asp-action="Add" asp-route-id="@Model.project.Id">
+                                <textarea required minlength="3" maxlength="1000" id="text" name="comment" class="form-control" rows="3"></textarea>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                     <input type="submit" value="Post comment" class="btn btn-success" />

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using static Volunteers.Data.DataConstants;
 
 namespace Volunteers.Data.Models
 {
@@ -13,7 +14,8 @@ namespace Volunteers.Data.Models
         public string Id { get; init; } = Guid.NewGuid().ToString();
 
         [Required]
-        [MaxLength(1000)]
+        [MinLength(CommentMinLength)]
+        [MaxLength(CommentMaxLength)]
         public string Content { get; set; }
 
         public string UserId { get; set; }
