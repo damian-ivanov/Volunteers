@@ -1,6 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Volunteers.Data;
 using Volunteers.Data.Models;
+using Volunteers.Models.Comments;
+using Volunteers.Models.Projects;
 using Volunteers.Services.Comments;
 using static Volunteers.Data.DataConstants;
 
@@ -36,5 +40,33 @@ namespace Volunteers.Services.Users
 
             return commentData.Id;
         }
+
+        public void Approve(string Id)
+        {
+            var comment = this.data.Comments.Where(c => c.Id == Id).FirstOrDefault();
+            comment.IsPublic = true;
+            this.data.SaveChanges();
+        }
+
+        public void Delete(string Id)
+        {
+            var comment = this.data.Comments.Where(c => c.Id == Id).FirstOrDefault();
+            this.data.Comments.Remove(comment);
+            this.data.SaveChanges();
+           
+        }
+
+        public ICollection<CommentListingViewModel> GetUnapprovedComments()
+        {
+            return data.Comments.Where(p => p.IsPublic == false).Select(p => new CommentListingViewModel
+            {
+                Id = p.Id,
+                ProjectId = p.ProjectId,
+                Content = p.Content,
+                PublishedOn = p.PublishedOn.ToString("d"),
+                UserName = p.UserName
+            }).ToList();
+        }
     }
+
 }

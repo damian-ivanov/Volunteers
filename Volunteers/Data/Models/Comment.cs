@@ -18,6 +18,7 @@ namespace Volunteers.Data.Models
         [MaxLength(CommentMaxLength)]
         public string Content { get; set; }
 
+        [Required]
         public string UserName { get; set; }
 
         public DateTime PublishedOn { get; set; } = DateTime.Now;
@@ -29,5 +30,7 @@ namespace Volunteers.Data.Models
         public string ProjectId { get; set; }
 
         public Project Project { get; set; }
+
+        public bool IsPublic { get; set; }
     }
 }

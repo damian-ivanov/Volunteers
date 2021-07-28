@@ -178,7 +178,7 @@ namespace Volunteers.Controllers
                 IsPublic = p.IsPublic,
                 Image = Path.Combine("/uploads/", p.Image),
                 IsCompleted = p.IsCompleted,
-                Comments = p.Comments.OrderByDescending(c => c.PublishedOn).ToList(),
+                Comments = p.Comments.Where(c => c.IsPublic).OrderByDescending(c => c.PublishedOn).ToList(),
                 OwnerName = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault(),
                 IsOwner = userService.IsOwner(p.Id, userManager.GetUserId(User))
             }).FirstOrDefault();
@@ -341,6 +341,9 @@ namespace Volunteers.Controllers
         [Authorize(Roles = AdministratorRoleName)]
         public IActionResult Admin()
         {
+            ViewBag.ProjectsCount = data.Projects.Where(p => p.IsPublic == false).Count();
+            ViewBag.CommentsCount = data.Comments.Where(c => c.IsPublic == false).Count();
+
             return View(data.Projects.Where(p => p.IsPublic == false).Select(p => new ProjectListingViewModel
             {
                 Address = p.Address,
@@ -352,7 +355,7 @@ namespace Volunteers.Controllers
                 StartDate = p.StartDate.ToString("d"),
                 Title = p.Title,
                 Votes = p.Votes
-            }).ToList());
+            }).ToList());    
         }
 
 

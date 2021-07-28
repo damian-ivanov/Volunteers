@@ -13,6 +13,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Volunteers.Services.Comments;
 using Volunteers.Models.Comments;
+using static Volunteers.Data.DataConstants;
 
 namespace Volunteers.Controllers
 {
@@ -36,7 +37,28 @@ namespace Volunteers.Controllers
             return Redirect("/Projects/Details/" + $"{Id}");
         }
 
+        [Authorize]
+        [Authorize(Roles = AdministratorRoleName)]
+        public IActionResult Admin()
+        {
+            return View(comments.GetUnapprovedComments());
+        }
 
+        [Authorize]
+        [Authorize(Roles = AdministratorRoleName)]
+        public IActionResult Delete(string Id)
+        {
+            comments.Delete(Id);
+            return RedirectToAction("Admin", "Comments");
+        }
+
+        [Authorize]
+        [Authorize(Roles = AdministratorRoleName)]
+        public IActionResult Approve(string Id)
+        {
+            comments.Approve(Id);
+            return RedirectToAction("Admin", "Comments");
+        }
     }
 }
 
