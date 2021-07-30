@@ -27,8 +27,8 @@ namespace Volunteers.Data
         protected override void OnModelCreating(ModelBuilder builder)
 
         {
-
             builder.Entity<Project>().HasMany<Comment>(c => c.Comments).WithOne(p => p.Project).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Project>().HasMany(x => x.Users).WithMany(x => x.Projects);
             base.OnModelCreating(builder);
         }
 

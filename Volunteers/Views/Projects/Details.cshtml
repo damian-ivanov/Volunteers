@@ -14,6 +14,7 @@
             <div class="project-info-box">
                 <p><b>Where:</b> @Model.project.City, @Model.project.Address</p>
                 <p><b>When:</b> @Model.project.StartDate</p>
+                <p><b>@Model.project.Participants are participating!</b><a type="button" class="badge badge-pill badge-success" asp-action="Join" asp-route-id="@Model.project.Id">Join</a></p>
                 <p><b>Votes:</b> @Model.project.Votes</p>
                 <p><b>Submitted by:</b> @Model.project.OwnerName</p>
             </div><!-- / project-info-box -->

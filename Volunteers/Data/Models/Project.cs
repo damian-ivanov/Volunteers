@@ -6,6 +6,12 @@ namespace Volunteers.Data.Models
 {
     public class Project
     {
+        public Project()
+        {
+            this.Users = new List<User>();
+            this.Comments = new List<Comment>();
+        }
+
         [Key]
         [Required]
         public string Id { get; init; } = Guid.NewGuid().ToString();
@@ -13,7 +19,7 @@ namespace Volunteers.Data.Models
         [Required]
         [MaxLength(50)]
         public string Title { get; set; }
-        
+
         [Required]
         [MaxLength(1000)]
         public string Description { get; set; }
@@ -41,9 +47,9 @@ namespace Volunteers.Data.Models
 
         public string OwnerId { get; set; }
 
-        public ICollection<User> Users { get; set; } = new List<User>();
+        public ICollection<User> Users { get; set; }
 
-        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public ICollection<Comment> Comments { get; set; }
 
         public int CategoryId { get; set; }
 

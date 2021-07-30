@@ -8,10 +8,15 @@ namespace Volunteers.Data.Models
 {
     public class User : IdentityUser
     {
-        public ICollection<Project> Projects { get; set; } = new List<Project>();
+        public User()
+        {
+            this.Projects = new List<Project>();
+            this.Badges = new List<Badge>();
+        }
 
-        public ICollection<Badge> Badges { get; set; } = new List<Badge>();
+        public ICollection<Project> Projects { get; set; }
 
+        public virtual ICollection<Badge> Badges { get; set; } 
 
     }
 }

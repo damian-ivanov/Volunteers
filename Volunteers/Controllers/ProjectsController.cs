@@ -358,6 +358,28 @@ namespace Volunteers.Controllers
             }).ToList());    
         }
 
+        [Authorize]
+        public IActionResult Join(string id)
+        {
+            var project = this.data.Projects.Include(u => u.Users).FirstOrDefault(p => p.Id == id);
+            var user = this.data.Users.Where(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
+            
+            if (project == null || user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (project.Users.Contains(user))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            project.Users.Add(user);
+
+            data.SaveChanges();
+            return RedirectToAction("Details", new { id = project.Id });
+        }
+
 
         private IEnumerable<ProjectCategoryViewModel> GetProjectCategories()
         {
