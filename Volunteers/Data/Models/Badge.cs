@@ -15,6 +15,9 @@ namespace Volunteers.Data.Models
         [MaxLength(50)]
         public string Description { get; set; }
 
+        [Required]
+        public string Image { get; set; }
+
         public ICollection<User> Users { get; set; } = new List<User>();
 
     }

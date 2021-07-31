@@ -176,6 +176,7 @@ namespace Volunteers.Controllers
                 IsPublic = p.IsPublic,
                 Image = Path.Combine("/uploads/", p.Image),
                 IsCompleted = p.IsCompleted,
+                CompletedImage = Path.Combine("/uploads/", p.CompletedImage),
                 Comments = p.Comments.Where(c => c.IsPublic).OrderByDescending(c => c.PublishedOn).ToList(),
                 OwnerName = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault(),
                 IsOwner = userService.IsOwner(p.Id, userManager.GetUserId(User)),
@@ -288,18 +289,53 @@ namespace Volunteers.Controllers
         }
 
         [Authorize]
-        public IActionResult Complete(string id)
+        public IActionResult Complete(string id) => View(new CompleteProjectFormModel { Id = id });
+     
+        [Authorize]
+        [HttpPost]
+        public IActionResult Complete(CompleteProjectFormModel project, IFormFile image)
         {
-            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
+            var secureImageName = "";
+            var extension = "";
+
+            if (image != null)
+            {
+                extension = Path.GetExtension(image.FileName.ToLower());
+
+                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
+                {
+                    this.ModelState.AddModelError(nameof(project.CompletedImage), "Invalid image format. Allowed images are of type .jpg, .jpeg or .png.");
+                }
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(project);
+            }
+
+            //Adding image
+            string webRootPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+
+            secureImageName = Guid.NewGuid() + extension;
+
+            var folderPath = Path.Combine(webRootPath, "uploads", secureImageName);
+
+            using (var fileStream = new FileStream(folderPath, FileMode.Create))
+            {
+                image.CopyTo(fileStream);
+            }
+
+            var completedProject = this.data.Projects.Where(p => p.Id == project.Id).FirstOrDefault();
 
             if (project == null)
             {
                 return RedirectToAction("Admin", "Projects");
             }
 
-            project.IsCompleted = true;
+            completedProject.IsCompleted = true;
+            completedProject.CompletedImage = secureImageName;
             data.SaveChanges();
-            return RedirectToAction("Index", "Projects");
+            return RedirectToAction("Details", new { id = project.Id });
         }
 
 

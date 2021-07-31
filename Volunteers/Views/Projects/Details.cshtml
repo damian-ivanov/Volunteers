@@ -112,6 +112,12 @@
 
                 </p>
 
+                @if (Model.project.IsCompleted)
+                {
+                    <h4>This project is complete! Here is th result:</h4>
+                    <img src="@Model.project.CompletedImage" alt="project-image" class="rounded">
+                }
+
 
             </div><!-- / project-info-box -->
             <!-- Button trigger modal -->

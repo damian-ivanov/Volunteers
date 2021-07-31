@@ -38,5 +38,7 @@ namespace Volunteers.Models.Projects
 
         public bool Joined { get; set; }
 
+        public string CompletedImage { get; set; }
+
     }
 }

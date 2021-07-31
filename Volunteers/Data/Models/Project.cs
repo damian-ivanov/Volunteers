@@ -6,11 +6,6 @@ namespace Volunteers.Data.Models
 {
     public class Project
     {
-        public Project()
-        {
-            this.Users = new List<User>();
-            this.Comments = new List<Comment>();
-        }
 
         [Key]
         [Required]
@@ -35,8 +30,9 @@ namespace Volunteers.Data.Models
         [Required]
         public DateTime StartDate { get; set; }
 
-        public int Votes { get; set; }
+        public string CompletedImage { get; set; }
 
+        [Required]
         public string Image { get; set; }
 
         public DateTime PublishedOn { get; set; } = DateTime.Now;
@@ -47,9 +43,9 @@ namespace Volunteers.Data.Models
 
         public string OwnerId { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        public ICollection<User> Users { get; set; } = new List<User>();
 
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
         public int CategoryId { get; set; }
 
