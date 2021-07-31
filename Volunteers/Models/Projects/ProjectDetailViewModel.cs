@@ -38,5 +38,7 @@ namespace Volunteers.Models.Projects
 
         public ICollection<Comment> Comments { get; set; }
 
+        public bool Joined { get; set; }
+
     }
 }

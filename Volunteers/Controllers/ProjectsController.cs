@@ -183,8 +183,9 @@ namespace Volunteers.Controllers
                 IsCompleted = p.IsCompleted,
                 Comments = p.Comments.Where(c => c.IsPublic).OrderByDescending(c => c.PublishedOn).ToList(),
                 OwnerName = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault(),
-                IsOwner = userService.IsOwner(p.Id, userManager.GetUserId(User))
-            }).FirstOrDefault();
+                IsOwner = userService.IsOwner(p.Id, userManager.GetUserId(User)),
+                Joined = p.Users.Contains(this.data.Users.Where(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault())
+        }).FirstOrDefault();
 
             dynamic mymodel = new ExpandoObject();
             mymodel.project = project;
@@ -378,6 +379,28 @@ namespace Volunteers.Controllers
             }
 
             project.Users.Add(user);
+
+            data.SaveChanges();
+            return RedirectToAction("Details", new { id = project.Id });
+        }
+
+        [Authorize]
+        public IActionResult Leave(string id)
+        {
+            var project = this.data.Projects.Include(u => u.Users).FirstOrDefault(p => p.Id == id);
+            var user = this.data.Users.Where(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
+
+            if (project == null || user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (!project.Users.Contains(user))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            project.Users.Remove(user);
 
             data.SaveChanges();
             return RedirectToAction("Details", new { id = project.Id });

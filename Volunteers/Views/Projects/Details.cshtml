@@ -14,7 +14,29 @@
             <div class="project-info-box">
                 <p><b>Where:</b> @Model.project.City, @Model.project.Address</p>
                 <p><b>When:</b> @Model.project.StartDate</p>
-                <p><b>@Model.project.Participants are participating!</b><a type="button" class="badge badge-pill badge-success" asp-action="Join" asp-route-id="@Model.project.Id">Join</a></p>
+                <p>
+                    @if (Model.project.Participants == 0 || Model.project.Participants > 1)
+                    {
+                        <b>@Model.project.Participants volunteers have joined</b>
+                    }
+
+                    @if (Model.project.Participants == 1)
+                    {
+                        <b>@Model.project.Participants volunteer has joined</b>
+                    }
+
+
+                    @if (!Model.project.Joined)
+                    {
+                        <a type="button" class="badge badge-pill badge-success" asp-action="Join" asp-route-id="@Model.project.Id">Join</a>
+                    }
+
+                    @if (Model.project.Joined)
+                    {
+                        <a type="button" class="badge badge-pill badge-dark" style="color:white;">You are in!</a> <a type="button" class="badge badge-pill align-text-bottom" asp-action="Leave" asp-route-id="@Model.project.Id">Leave</a>
+                    }
+
+                </p>
                 <p><b>Votes:</b> @Model.project.Votes</p>
                 <p><b>Submitted by:</b> @Model.project.OwnerName</p>
             </div><!-- / project-info-box -->
@@ -123,7 +145,7 @@
                 </div>
             </div>
         </div><!-- / column -->
-        
+
         <div class="col-lg-8 offset-2 mt-5">
             @if (Model.project.Comments.Count == 0)
             {
