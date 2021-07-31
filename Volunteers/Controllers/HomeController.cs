@@ -28,8 +28,6 @@ namespace Volunteers.Controllers
             ViewBag.TownsCount = data.Projects.Select(c => c.City).Count();
             ViewBag.UsersCount = data.Projects.Select(u => u.OwnerId).ToList().Distinct().Count();
 
-            
-            //var prj = this.data.Projects.Where(p => p.OwnerId == currentUser.Id).ToList();
             //Search criteria start
             var projectsQuery = this.data.Projects.Where(p => p.IsPublic == true).AsQueryable();
             
@@ -62,9 +60,6 @@ namespace Volunteers.Controllers
                 case "Starting Soon":
                     projectsQuery = projectsQuery.OrderBy(p => p.StartDate);
                     break;
-                case "Most votes":
-                    projectsQuery = projectsQuery.OrderByDescending(p => p.Votes);
-                    break;
                 case "Most participants":
                     projectsQuery = projectsQuery.OrderByDescending(p => p.Users.Count());
                     break;
@@ -90,7 +85,6 @@ namespace Volunteers.Controllers
                 PublishedOn = p.PublishedOn.ToString("d"),
                 StartDate = p.StartDate.ToString("d"),
                 Title = p.Title,
-                Votes = p.Votes,
                 Image = Path.Combine("/uploads/", p.Image),
                 IsCompleted = p.IsCompleted,
             }).ToList();

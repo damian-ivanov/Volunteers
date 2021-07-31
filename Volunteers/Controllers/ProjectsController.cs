@@ -54,9 +54,6 @@ namespace Volunteers.Controllers
                 case "Starting Soon":
                     projects = projects.OrderBy(p => p.StartDate);
                     break;
-                case "Most votes":
-                    projects = projects.OrderByDescending(p => p.Votes);
-                    break;
                 case "Most participants":
                     projects = projects.OrderByDescending(p => p.Users.Count());
                     break;
@@ -77,7 +74,6 @@ namespace Volunteers.Controllers
                 PublishedOn = p.PublishedOn.ToString("d"),
                 StartDate = p.StartDate.ToString("d"),
                 Title = p.Title,
-                Votes = p.Votes,
                 IsCompleted = p.IsCompleted,
                 Image = Path.Combine("/uploads/", p.Image)
             }).ToList());
@@ -177,7 +173,6 @@ namespace Volunteers.Controllers
                 Title = p.Title,
                 Id = p.Id,
                 Participants = p.Users.Count(),
-                Votes = p.Votes,
                 IsPublic = p.IsPublic,
                 Image = Path.Combine("/uploads/", p.Image),
                 IsCompleted = p.IsCompleted,
@@ -303,22 +298,6 @@ namespace Volunteers.Controllers
             return RedirectToAction("Admin", "Projects");
         }
 
-        [Authorize]
-        public IActionResult Vote(string id)
-        {
-            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
-
-            if (project == null)
-            {
-                return RedirectToAction("Admin", "Projects");
-            }
-
-            project.Votes += 1;
-
-            data.SaveChanges();
-            return RedirectToAction("Details", new { id = project.Id });
-        }
-
 
         [Authorize]
         public IActionResult Delete(string id)
@@ -358,7 +337,6 @@ namespace Volunteers.Controllers
                 PublishedOn = p.PublishedOn.ToString("d"),
                 StartDate = p.StartDate.ToString("d"),
                 Title = p.Title,
-                Votes = p.Votes
             }).ToList());    
         }
 

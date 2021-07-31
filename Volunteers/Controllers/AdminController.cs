@@ -33,8 +33,7 @@ namespace Volunteers.Controllers
                 Participants = p.Users.Count(),
                 PublishedOn = p.PublishedOn.ToString("d"),
                 StartDate = p.StartDate.ToString("d"),
-                Title = p.Title,
-                Votes = p.Votes
+                Title = p.Title, 
             }).ToList());
         }
 

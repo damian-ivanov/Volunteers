@@ -24,8 +24,6 @@ namespace Volunteers.Models.Projects
 
         public string PublishedOn { get; set; }
 
-        public int Votes { get; set; }
-
         public int Participants { get; set; }
     }
 }

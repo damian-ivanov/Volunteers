@@ -24,8 +24,6 @@ namespace Volunteers.Models.Projects
 
         public bool IsPublic { get; set; }
 
-        public int Votes { get; set; }
-
         public int Participants { get; set; }
 
         public string Category { get; set; }
