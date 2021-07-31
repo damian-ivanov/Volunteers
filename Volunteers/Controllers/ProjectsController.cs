@@ -103,6 +103,10 @@ namespace Volunteers.Controllers
                 }
             }
 
+            if (image == null)
+            {
+                this.ModelState.AddModelError(nameof(project.Image), "Please, upload an image for the project.");
+            }
 
             if (!this.data.Categories.Any(c => c.Id == project.CategoryId))
             {
@@ -144,6 +148,7 @@ namespace Volunteers.Controllers
                 StartDate = project.StartDate,
                 Title = project.Title,
                 Image = secureImageName,
+                CompletedImage = "",
                 OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
 
