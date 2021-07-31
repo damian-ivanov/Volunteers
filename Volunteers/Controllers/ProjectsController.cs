@@ -200,7 +200,9 @@ namespace Volunteers.Controllers
                 City = p.City,
                 Description = p.Description,
                 StartDate = p.StartDate,
-                Title = p.Title
+                Title = p.Title,
+                OldImage = Path.Combine("/uploads/", p.Image),
+                Image = Path.Combine("/uploads/", p.Image)
             }).FirstOrDefault();
 
             project.Categories = this.GetProjectCategories();
@@ -210,8 +212,21 @@ namespace Volunteers.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Edit(EditProjectViewModel project)
+        public IActionResult Edit(EditProjectViewModel project, IFormFile image)
         {
+            var secureImageName = "";
+            var extension = "";
+
+            if (image != null)
+            {
+                extension = Path.GetExtension(image.FileName.ToLower());
+
+                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
+                {
+                    this.ModelState.AddModelError(nameof(project.Image), "Invalid image format. Allowed images are of type .jpg, .jpeg or .png.");
+                }
+            }
+
             if (!this.data.Categories.Any(c => c.Id == project.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(project.CategoryId), "Category does not exist.");
@@ -224,6 +239,25 @@ namespace Volunteers.Controllers
                 return View(project);
             }
 
+            if (image != null)
+            {
+                //Adding image
+                string webRootPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+
+                secureImageName = Guid.NewGuid() + extension;
+
+                var folderPath = Path.Combine(webRootPath, "uploads", secureImageName);
+
+                using (var fileStream = new FileStream(folderPath, FileMode.Create))
+                {
+                    image.CopyTo(fileStream);
+                }
+            }
+            else
+            {
+                secureImageName = project.OldImage;
+            }
+
             var projectToEdit = this.data.Projects.SingleOrDefault(p => p.Id == project.Id);
 
             projectToEdit.Address = project.Address;
@@ -232,7 +266,7 @@ namespace Volunteers.Controllers
             projectToEdit.Description = project.Description;
             projectToEdit.StartDate = project.StartDate;
             projectToEdit.Title = project.Title;
-
+            projectToEdit.Image = secureImageName;
             data.SaveChanges();
             return RedirectToAction("Details", new { id = project.Id });
         }
@@ -267,6 +301,8 @@ namespace Volunteers.Controllers
             data.SaveChanges();
             return RedirectToAction("Index", "Projects");
         }
+
+
 
         [Authorize]
         public IActionResult Activate (string id)

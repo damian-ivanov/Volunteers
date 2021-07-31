@@ -27,6 +27,9 @@ namespace Volunteers.Models.Projects
         [Required]
         public string Address { get; set; }
 
+        public string  OldImage { get; set; }
+
+        [Display(Name = "Upload a new photo")]
         public string Image { get; set; }
 
         [Required]
