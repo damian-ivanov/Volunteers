@@ -57,6 +57,9 @@ namespace Volunteers.Controllers
                 case "Most votes":
                     projects = projects.OrderByDescending(p => p.Votes);
                     break;
+                case "Most participants":
+                    projects = projects.OrderByDescending(p => p.Users.Count());
+                    break;
                 default:
                     projects = projects.OrderByDescending(p => p.PublishedOn);
                     break;

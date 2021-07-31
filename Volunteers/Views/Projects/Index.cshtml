@@ -16,6 +16,7 @@
             <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Oldest">Oldest</a>
             <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Starting Soon">Starting Soon</a>
             <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Most votes">Most votes</a>
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Most participants">Most participants</a>
         </div>
     </div>
     <br />
@@ -37,8 +38,8 @@
                 }
 
                 <img class="card-img-top" src="@project.Image" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">@project.Title</h5><h6><span class="badge badge-info">@project.Votes votes</span></h6>
+                <div class="card-body">   
+                    <h5 class="card-title">@project.Title</h5><h6><span class="badge badge-info">@project.Participants participants</span><span style="margin-left:5px;" class="badge badge-success">@project.Votes votes</span></h6>
                     <hr />
                     <p class="card-text"><b>What:</b> @project.Description</p>
                     <p class="card-text"><b>Where:</b> @project.City</p>
