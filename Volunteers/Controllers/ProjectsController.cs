@@ -183,7 +183,7 @@ namespace Volunteers.Controllers
                 IsCompleted = p.IsCompleted,
                 CompletedImage = Path.Combine("/uploads/", p.CompletedImage),
                 Comments = p.Comments.Where(c => c.IsPublic).OrderByDescending(c => c.PublishedOn).ToList(),
-                OwnerName = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.Email).FirstOrDefault(),
+                OwnerName = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.UserName).FirstOrDefault(),
                 IsOwner = userService.IsOwner(p.Id, userManager.GetUserId(User)),
                 Joined = p.Users.Contains(this.data.Users.Where(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault())
         }).FirstOrDefault();

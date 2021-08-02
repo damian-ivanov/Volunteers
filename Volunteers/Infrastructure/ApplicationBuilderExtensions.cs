@@ -78,12 +78,14 @@ namespace Volunteers.Infrastructure
                     await roleManager.CreateAsync(role);
 
                     const string adminEmail = "admin@admin.com";
+                    const string adminUsername = "admin";
                     const string adminPassword = "111111";
 
                     var user = new User
                     {
                         Email = adminEmail,
-                        UserName = adminEmail,
+                        UserName = adminUsername,
+                        
                     };
 
                     await userManager.CreateAsync(user, adminPassword);

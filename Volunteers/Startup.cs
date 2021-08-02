@@ -44,6 +44,8 @@ namespace Volunteers
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
+                options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
             })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<VolunteersDbContext>();
