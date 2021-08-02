@@ -25,7 +25,7 @@ namespace Volunteers.Controllers
         public IActionResult Index([FromQuery] AllProjectsQueryModel query)
         {
             ViewBag.ProjectsCount = data.Projects.Where(p => p.IsCompleted == true).Count();
-            ViewBag.TownsCount = data.Projects.Select(c => c.City).Count();
+            ViewBag.TownsCount = data.Projects.Where(p => p.IsCompleted == true).Select(c => c.City).Distinct().Count();
             ViewBag.UsersCount = data.Projects.Select(u => u.OwnerId).ToList().Distinct().Count();
 
             //Search criteria start

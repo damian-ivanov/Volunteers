@@ -17,23 +17,26 @@ using static Volunteers.Data.DataConstants;
 using Volunteers.Services.Users;
 using System.Dynamic;
 using Volunteers.Models.Comments;
+using Volunteers.Services.Badges;
 
 namespace Volunteers.Controllers
 {
     public class ProjectsController : Controller
     {
         private readonly IUserService userService;
+        private readonly IBadgesService badges;
 
         private readonly VolunteersDbContext data;
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
-        public ProjectsController(VolunteersDbContext data, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IUserService userService)
+        public ProjectsController(VolunteersDbContext data, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IUserService userService, IBadgesService badges)
         {
             this.data = data;
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.userService = userService;
+            this.badges = badges;
         }
 
         public IActionResult Index(string sortOrder)
@@ -290,6 +293,8 @@ namespace Volunteers.Controllers
 
             project.IsPublic = true;
             data.SaveChanges();
+
+            badges.Evaluate(project.OwnerId);
             return RedirectToAction("Admin", "Projects");
         }
 

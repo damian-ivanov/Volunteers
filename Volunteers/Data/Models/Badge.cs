@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using static Volunteers.Data.DataConstants;
 
 namespace Volunteers.Data.Models
 {
@@ -10,9 +11,14 @@ namespace Volunteers.Data.Models
     {
         [Key]
         [Required]
-        public string Id { get; init; } = Guid.NewGuid().ToString();
+        public int Id { get; init; }
 
-        [MaxLength(50)]
+        [Required]
+        [MaxLength(BadgesTitleMaxLength)]
+        public string Title { get; set; }
+
+        [Required]
+        [MaxLength(BadgesDescriptionMaxLength)]
         public string Description { get; set; }
 
         [Required]

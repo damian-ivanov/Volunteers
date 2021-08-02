@@ -7,24 +7,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volunteers.Data;
 
-namespace Volunteers.Migrations
+namespace Volunteers.data.migrations
 {
     [DbContext(typeof(VolunteersDbContext))]
-    [Migration("20210727140702_ExpandingCommentDataObject")]
-    partial class ExpandingCommentDataObject
+    [Migration("20210802191557_badgesImprovements")]
+    partial class badgesImprovements
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.7")
+                .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("BadgeUser", b =>
                 {
-                    b.Property<string>("BadgesId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("BadgesId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UsersId")
                         .HasColumnType("nvarchar(450)");
@@ -188,10 +188,22 @@ namespace Volunteers.Migrations
 
             modelBuilder.Entity("Volunteers.Data.Models.Badge", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -232,6 +244,9 @@ namespace Volunteers.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ProjectId")
                         .HasColumnType("nvarchar(450)");
 
@@ -242,6 +257,7 @@ namespace Volunteers.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -271,12 +287,16 @@ namespace Volunteers.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("CompletedImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsCompleted")
@@ -298,9 +318,6 @@ namespace Volunteers.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("Votes")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

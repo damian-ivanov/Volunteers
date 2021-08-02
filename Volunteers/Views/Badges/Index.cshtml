@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Volunteers.Models.Badges.BadgesListingViewModel>
+
+@{
+    ViewData["Title"] = "All badges";
+}
+
+<br />
+
+<div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
+    <div class="card-columns">
+        @foreach (var badge in Model)
+        {
+            <div class="card" style="text-align: center;">      
+                <img class="card-img-top" src="@badge.Image" alt="Card image cap">
+                <div class="card-body">   
+                    <h5 class="card-title">@badge.Title</h5><h6><span class="badge badge-info">Awarded to: @badge.Users volunteers</span></h6>
+                    <hr />
+                    <h6 class="card-text">@badge.Description</h6>
+                </div>
+            </div>
+        }
+    </div>
+</div>

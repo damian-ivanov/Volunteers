@@ -25,8 +25,28 @@ namespace Volunteers.Infrastructure
 
             SeedCategories(services);
             SeedAdministrator(services);
+            SeedBadges(services);
 
             return app;
+        }
+
+        private static void SeedBadges(IServiceProvider services)
+        {
+            var data = services.GetRequiredService<VolunteersDbContext>();
+            if (data.Badges.Any())
+            {
+                return;
+            }
+
+            data.Badges.AddRange(new[]
+            {
+                new Badge {  Title=FirstBadgeTitle, Description = FirstBadgeDesctiption, Image = FirstBadgeImage},
+                new Badge {  Title=SecondBadgeTitle, Description = SecondBadgeDesctiption, Image = SecondBadgeImage},
+                new Badge {  Title=ThirdBadgeTitle, Description = ThirdBadgeDesctiption, Image = ThirdBadgeImage},
+                new Badge {  Title=ForthBadgeTitle, Description = ForthBadgeDesctiption, Image = ForthBadgeImage},
+            });
+
+            data.SaveChanges();
         }
 
         private static void MigrateDatabase(IServiceProvider services)
@@ -76,20 +96,15 @@ namespace Volunteers.Infrastructure
                     var role = new IdentityRole { Name = AdministratorRoleName };
 
                     await roleManager.CreateAsync(role);
-
-                    const string adminEmail = "admin@admin.com";
-                    const string adminUsername = "admin";
-                    const string adminPassword = "111111";
-
+         
                     var user = new User
                     {
-                        Email = adminEmail,
-                        UserName = adminUsername,
+                        Email = AdministratorEmail,
+                        UserName = AdministratorUsername,
                         
                     };
 
-                    await userManager.CreateAsync(user, adminPassword);
-
+                    await userManager.CreateAsync(user, AdministratorPassword);
                     await userManager.AddToRoleAsync(user, role.Name);
                 })
                 .GetAwaiter()
