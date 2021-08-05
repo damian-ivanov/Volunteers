@@ -20,6 +20,9 @@ namespace Volunteers.Data
         public const string AdministratorUsername = "admin";
         public const string AdministratorPassword = "111111";
 
+        public const string UserRoleName = "User";
+        public const string ModeratorRoleName = "Moderator";
+
         //Badges
         public const string FirstBadgeTitle = "First project";
         public const string FirstBadgeDesctiption = "This badge is awarded for your first submitted and approved project";

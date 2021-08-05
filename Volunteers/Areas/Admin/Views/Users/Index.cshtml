@@ -8,33 +8,76 @@
 <div class="text-center">
     <h1 class="display-4">Users Admin</h1>
 
-        <table class="table table-striped">
-            <thead>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col">Manage</th>
+                <th scope="col">Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
                 <tr>
-                    <th scope="col">Username</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model)
-                {
-                    <tr>
-                        <td>@user.Username</td>
-                        <td>@user.Email</td>
-                        <td>
-                            @foreach (var role in user.Role)
-                            {
-                                @role
-                            }
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                    <td>
+                        @foreach (var role in user.UserRoles)
+                        {
+                            @role
+                        }
 
-                        </td>
-                        <td><a type="button" class="btn btn-primary" asp-controller="ProjectsController" asp-action="Details" asp-route-id="@user.Id">Details</a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    
+                    </td>
+                    <td>
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#setRole">
+                            Set role
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="setRole" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Set new role:</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form asp-controller="Users" asp-action="SetRole" asp-route-id="@user.Id">
+                                            <div class="form-group">
+                                                <label class="control-label"></label>
+                                                <select id="roleName" name="roleName" class="form-control" >
+                                                    @foreach (var role in user.Roles)
+                                                    {
+                                                        <option value="@role.Name">@role.Name</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                <input type="submit" value="Save" class="btn btn-success" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+                    <td><a type="button" class="btn btn-primary" asp-controller="ProjectsController" asp-action="Details" asp-route-id="@user.Id">Profile</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
 </div>
 
 

@@ -46,20 +46,14 @@ namespace Volunteers.Services.Users
                 {
                     Id = user.Id,
                     Email = user.Email,
-                    Role = role,
-                    Username = user.UserName
+                    UserRoles = role,
+                    Username = user.UserName,
+                    Roles = roleManager.Roles.ToList()
                 };
                 usersList.Add(userToAdd);
 
             }
             return usersList;
-
-            //return await this.data.Users.Select(u => new UsersServiceModel
-            //{
-            //    Id = u.Id,
-            //    Email = u.Email,
-            //    Role = GetRole(u.Id),
-            //}).ToList();
         }
 
         public async Task<ICollection<string>> GetRole(string userId)
@@ -68,6 +62,16 @@ namespace Volunteers.Services.Users
             var role = await userManager.GetRolesAsync(user);
             return role.ToList();
         }
-       
+
+        public async Task SetRole(string roleName, string userId)
+        {
+            var rolesToRemove = await userManager.GetRolesAsync(await userManager.FindByIdAsync(userId));
+            var user = await userManager.FindByIdAsync(userId);
+
+            await userManager.RemoveFromRolesAsync(user, rolesToRemove.ToArray());
+            await userManager.AddToRoleAsync(user, roleName);
+
+            data.SaveChanges();
+        }
     }
 }

@@ -12,6 +12,11 @@ namespace Volunteers.Services.Users
 
         public bool IsAdministrator(string userId);
 
+        public Task SetRole(string roleName, string userId);
+
         public Task<IEnumerable<UsersServiceModel>> UsersList();
+
+
+
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,8 @@ namespace Volunteers.Services.Users.Models
 
         public string Email { get; set; }
 
-        public ICollection<string> Role { get; set; }
+        public ICollection<string> UserRoles { get; set; }
+
+        public ICollection<IdentityRole> Roles { get; set; }
     }
 }

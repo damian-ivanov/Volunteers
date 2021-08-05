@@ -23,6 +23,12 @@ namespace Volunteers.Areas.Admin.Controllers
             return View(await users.UsersList());
         }
 
+        public async Task<IActionResult> SetRole(string roleName, string Id)
+        {
+            await users.SetRole(roleName, Id);
+            return RedirectToAction("Index", "Users");
+        }
+
 
     }
 }

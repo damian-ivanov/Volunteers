@@ -24,6 +24,7 @@ namespace Volunteers.Infrastructure
             MigrateDatabase(services);
 
             SeedCategories(services);
+            SeedRoles(services);
             SeedAdministrator(services);
             SeedBadges(services);
 
@@ -79,33 +80,53 @@ namespace Volunteers.Infrastructure
             data.SaveChanges();
         }
 
-
-        private static void SeedAdministrator(IServiceProvider services)
+        private static void SeedRoles(IServiceProvider services)
         {
-            var userManager = services.GetRequiredService<UserManager<User>>();
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
             Task
                 .Run(async () =>
                 {
-                    if (await roleManager.RoleExistsAsync(AdministratorRoleName))
+                    if (!await roleManager.RoleExistsAsync(AdministratorRoleName))
                     {
-                        return;
+                        var role = new IdentityRole { Name = AdministratorRoleName };
+
+                        await roleManager.CreateAsync(role);
                     }
 
-                    var role = new IdentityRole { Name = AdministratorRoleName };
+                    if (!await roleManager.RoleExistsAsync(ModeratorRoleName))
+                    {
+                        var role = new IdentityRole { Name = ModeratorRoleName };
 
-                    await roleManager.CreateAsync(role);
-         
+                        await roleManager.CreateAsync(role);
+                    }
+
+                    if (!await roleManager.RoleExistsAsync(UserRoleName))
+                    {
+                        var role = new IdentityRole { Name = UserRoleName };
+
+                        await roleManager.CreateAsync(role);
+                    }
+                })
+                .GetAwaiter()
+                .GetResult();
+        }
+
+        private static void SeedAdministrator(IServiceProvider services)
+        {
+            var userManager = services.GetRequiredService<UserManager<User>>();
+
+            Task
+                .Run(async () =>
+                {     
                     var user = new User
                     {
                         Email = AdministratorEmail,
                         UserName = AdministratorUsername,
-                        
                     };
 
                     await userManager.CreateAsync(user, AdministratorPassword);
-                    await userManager.AddToRoleAsync(user, role.Name);
+                    await userManager.AddToRoleAsync(user, AdministratorRoleName);
                 })
                 .GetAwaiter()
                 .GetResult();
