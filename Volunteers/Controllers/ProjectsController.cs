@@ -295,7 +295,8 @@ namespace Volunteers.Controllers
             data.SaveChanges();
 
             badges.Evaluate(project.OwnerId);
-            return RedirectToAction("Admin", "Projects");
+            //return RedirectToAction("Admin", "Projects");
+            return Redirect("/Admin/Projects");
         }
 
         [Authorize]
@@ -377,7 +378,7 @@ namespace Volunteers.Controllers
 
             project.IsPublic = false;
             data.SaveChanges();
-            return RedirectToAction("Admin", "Projects");
+            return RedirectToAction("Index", "Projects", new { area = "Admin" });
         }
 
 

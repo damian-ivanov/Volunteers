@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Projects Admin";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="text-center">
@@ -37,7 +37,7 @@
                         <td>@project.Address</td>
                         <td>@project.StartDate</td>
                         <td>@project.PublishedOn</td>
-                        <td><a type="button" class="btn btn-primary" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a></td>
+                        <td><a type="button" class="btn btn-primary" asp-area="" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a></td>
                     </tr>
                 }
             </tbody>

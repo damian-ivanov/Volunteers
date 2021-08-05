@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Volunteers</title>
+    <title>@ViewData["Title"] - Volunteers Admin</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -20,13 +20,18 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a style="margin-right: 10px;" type="button" class="btn btn-secondary" asp-area="" asp-controller="Projects" asp-action="Admin">
-                                Pending projects: <span class="badge badge-light">@ViewBag.ProjectsCount</span>
+                            <a style="margin-right: 10px;" type="button" class="btn btn-secondary" asp-area="Admin" asp-controller="Projects" asp-action="Index">
+                                Pending projects <span class="badge badge-light">@ViewBag.ProjectsCount</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a type="button" class="btn btn-secondary" asp-area="" asp-controller="Comments" asp-action="Admin">
-                                Pending comments: <span class="badge badge-light">@ViewBag.CommentsCount</span>
+                            <a style="margin-right: 10px;" type="button" class="btn btn-secondary" asp-area="Admin" asp-controller="Comments" asp-action="Index">
+                                Pending comments <span class="badge badge-light">@ViewBag.CommentsCount</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a type="button" class="btn btn-secondary" asp-area="Admin" asp-controller="Users" asp-action="Index">
+                                Manage users <span class="badge badge-light">@ViewBag.UsersCount</span>
                             </a>
                         </li>
                     </ul>

@@ -31,7 +31,7 @@
                     <partial name="_LoginPartial" />
                     @if (User.IsInRole("Administrator"))
                     {
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Projects" asp-action="Admin">Admin</a>
+                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Projects" asp-action="Index">Admin</a>
                     }
                 </div>
             </div>

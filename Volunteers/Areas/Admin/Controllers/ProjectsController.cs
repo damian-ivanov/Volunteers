@@ -5,12 +5,13 @@ namespace Volunteers.Areas.Admin.Controllers
     using System.Linq;
     using Volunteers.Data;
     using Volunteers.Models.Projects;
+    using Volunteers.Services.Stats;
 
     public class ProjectsController : AdminController
     {
         private readonly VolunteersDbContext data;
 
-        public ProjectsController(VolunteersDbContext data)
+        public ProjectsController(IStatsService stats, VolunteersDbContext data) : base(stats)
         {
             this.data = data;
         }
@@ -29,5 +30,7 @@ namespace Volunteers.Areas.Admin.Controllers
                 Title = p.Title,
             }).ToList());
         }
+
+
     }
 }

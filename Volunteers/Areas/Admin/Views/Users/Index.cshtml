@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Volunteers.Services.Users.Models.UsersServiceModel>
+
+@{
+    ViewData["Title"] = "Users Admin";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Users Admin</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.Username</td>
+                        <td>@user.Email</td>
+                        <td>
+                            @foreach (var role in user.Role)
+                            {
+                                @role
+                            }
+
+                        </td>
+                        <td><a type="button" class="btn btn-primary" asp-controller="ProjectsController" asp-action="Details" asp-route-id="@user.Id">Details</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    
+</div>
+
+
