@@ -1,0 +1,50 @@
+﻿@model Volunteers.Models.Users.ProfileViewModel
+
+@{
+    ViewData["Title"] = "User profile page";
+}
+
+<br />
+
+<div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
+    Username: @Model.Username
+    Email: @Model.Email
+    Role: @Model.Role
+    Completed projects: @Model.ProjectsCompleted
+    Projects involved: @Model.ProjectsInvolved
+    Projects submitted: @Model.ProjectsSubmitted
+    <hr />
+    @if (Model.Projects.Any())
+    {
+        <div class="card-columns">
+            @foreach (var project in Model.Projects)
+            {
+                <div class="card">
+                    @if (!project.IsCompleted)
+                    {
+                        <div class="project-status-active">
+                            Active
+                        </div>
+                    }
+                    @if (project.IsCompleted)
+                    {
+                        <div class="project-status-completed">
+                            Completed
+                        </div>
+                    }
+
+                    <img class="card-img-top" src="@project.Image" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@project.Title</h5><h6><span class="badge badge-info">@project.Participants participants</span></h6>
+                        <hr />
+                        <p class="card-text"><b>What:</b> @project.Description</p>
+                        <p class="card-text"><b>Where:</b> @project.City</p>
+                        <p class="card-text"><b>When:</b> @project.StartDate</p>
+                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+</div>

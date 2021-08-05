@@ -37,7 +37,7 @@
                     }
 
                 </p>
-                <p><b>Submitted by:</b> @Model.project.OwnerName</p>
+                <p><b>Submitted by: </b><a asp-controller="Users" asp-action="Profile" asp-route-Id="@Model.project.OwnerName">@Model.project.OwnerName</a></p>
             </div><!-- / project-info-box -->
 
             <div class="project-info-box mt-0 mb-0">

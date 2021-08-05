@@ -2,11 +2,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Volunteers.Data;
 using Volunteers.Data.Models;
+using Volunteers.Models.Projects;
+using Volunteers.Models.Users;
 using Volunteers.Services.Users.Models;
 
 namespace Volunteers.Services.Users
@@ -70,8 +73,39 @@ namespace Volunteers.Services.Users
 
             await userManager.RemoveFromRolesAsync(user, rolesToRemove.ToArray());
             await userManager.AddToRoleAsync(user, roleName);
-
-            data.SaveChanges();
         }
+
+        public async Task<ProfileViewModel> GetUserInfo(string userName)
+        {
+            var currentUser = await userManager.FindByNameAsync(userName);
+            var role = await userManager.GetRolesAsync(currentUser);
+
+            var projects = this.data.Projects.Where(p => p.IsPublic).AsQueryable();
+
+            return new ProfileViewModel
+            {
+                Username = currentUser.UserName,
+                Email = currentUser.Email,
+                Role = role.FirstOrDefault(),
+                ProjectsCompleted = projects.Where(p => p.IsCompleted).Count(),
+                ProjectsInvolved = projects.Where(p => p.Users.Contains(currentUser)).Count(),
+                ProjectsSubmitted = projects.Where(p => p.OwnerId == currentUser.Id).Count(),
+                Projects = projects.Where(p => p.OwnerId == currentUser.Id).Select(p => new ProjectListingViewModel
+                {
+                    Address = p.Address,
+                    City = p.City,
+                    Description = p.Description,
+                    Id = p.Id,
+                    Participants = p.Users.Count(),
+                    PublishedOn = p.PublishedOn.ToString("d"),
+                    StartDate = p.StartDate.ToString("d"),
+                    Title = p.Title,
+                    IsCompleted = p.IsCompleted,
+                    Image = Path.Combine("/uploads/", p.Image)
+                }).ToList()
+        };
+
+
     }
+}
 }
