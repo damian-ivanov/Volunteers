@@ -29,6 +29,12 @@ namespace Volunteers.Areas.Admin.Controllers
             return RedirectToAction("Index", "Users");
         }
 
+        public async Task<IActionResult> Delete(string Id)
+        {
+            await users.DeleteUser(Id);
+            return RedirectToAction("Index", "Users");
+        }
+
 
     }
 }

@@ -19,6 +19,8 @@ namespace Volunteers.Services.Users
 
         public Task<IEnumerable<UsersServiceModel>> UsersList();
 
+        public Task DeleteUser(string userId);
+
 
 
     }

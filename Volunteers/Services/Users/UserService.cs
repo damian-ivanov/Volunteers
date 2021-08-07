@@ -107,5 +107,11 @@ namespace Volunteers.Services.Users
 
 
     }
-}
+
+        public async Task DeleteUser(string userId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+            await userManager.DeleteAsync(user);
+        }
+    }
 }
