@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Volunteers.Models.Projects.ProjectListingViewModel>
+﻿@model IEnumerable<Volunteers.Services.Projects.Models.ProjectListingServiceModel>
 
 @{
     ViewData["Title"] = "All projects";
@@ -38,7 +38,7 @@
 
                 <img class="card-img-top" src="@project.Image" alt="Card image cap">
                 <div class="card-body">   
-                    <h5 class="card-title">@project.Title</h5><h6><span class="badge badge-info">@project.Participants participants</span></h6>
+                    <h5 class="card-title">@project.Title</h5><h6><span class="badge badge-info">@project.Participants participants</span><span style="margin-left:5px" class="badge badge-info">@project.Comments comments</span></h6>
                     <hr />
                     <p class="card-text"><b>What:</b> @project.Description</p>
                     <p class="card-text"><b>Where:</b> @project.City</p>

@@ -18,6 +18,7 @@ using Volunteers.Services.Users;
 using System.Dynamic;
 using Volunteers.Models.Comments;
 using Volunteers.Services.Badges;
+using Volunteers.Services.Projects;
 
 namespace Volunteers.Controllers
 {
@@ -25,61 +26,29 @@ namespace Volunteers.Controllers
     {
         private readonly IUserService userService;
         private readonly IBadgesService badges;
+        private readonly IProjectService projects;
+
 
         private readonly VolunteersDbContext data;
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
-        public ProjectsController(VolunteersDbContext data, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IUserService userService, IBadgesService badges)
+        public ProjectsController(VolunteersDbContext data, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IUserService userService, IBadgesService badges, IProjectService projects)
         {
             this.data = data;
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.userService = userService;
             this.badges = badges;
+            this.projects = projects;
         }
 
         public IActionResult Index(string sortOrder)
         {
-            var projects = data.Projects.Where(p => p.IsPublic == true);
-
-            //Adding sorting functionality
             ViewData["DateSortParm"] = sortOrder;
-
-            switch (sortOrder)
-            {
-                case "Newest":
-                    projects = projects.OrderByDescending(p => p.PublishedOn);
-                    break;
-                case "Oldest":
-                    projects = projects.OrderBy(p => p.PublishedOn);
-                    break;
-                case "Starting Soon":
-                    projects = projects.OrderBy(p => p.StartDate);
-                    break;
-                case "Most participants":
-                    projects = projects.OrderByDescending(p => p.Users.Count());
-                    break;
-                default:
-                    projects = projects.OrderByDescending(p => p.PublishedOn);
-                    break;
-            }
-
             ViewBag.ViewType = sortOrder;
 
-            return View(projects.Select(p => new ProjectListingViewModel
-            {
-                Address = p.Address,
-                City = p.City,
-                Description = p.Description,
-                Id = p.Id,
-                Participants = p.Users.Count(),
-                PublishedOn = p.PublishedOn.ToString("d"),
-                StartDate = p.StartDate.ToString("d"),
-                Title = p.Title,
-                IsCompleted = p.IsCompleted,
-                Image = Path.Combine("/uploads/", p.Image)
-            }).ToList());
+            return View(projects.ListProjects(sortOrder));
         }
 
         [Authorize]
@@ -93,16 +62,16 @@ namespace Volunteers.Controllers
         [Authorize]
         public IActionResult Create(AddProjectFormModel project, IFormFile image)
         {
-            var secureImageName = "";
+            var ownerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var extension = "";
 
             if (image != null)
             {
                 extension = Path.GetExtension(image.FileName.ToLower());
 
-                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
+                if (!WebConstants.AllowedImageExtensions.Contains(extension))
                 {
-                    this.ModelState.AddModelError(nameof(project.Image), "Invalid image format. Allowed images are of type .jpg, .jpeg or .png.");
+                    this.ModelState.AddModelError(nameof(project.Image), $"Invalid image format. Allowed images are of type {String.Join(", ",WebConstants.AllowedImageExtensions)}.");
                 }
             }
 
@@ -127,37 +96,7 @@ namespace Volunteers.Controllers
                 return View(project);
             }
 
-            //Adding image
-            string webRootPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-
-            secureImageName = Guid.NewGuid() + extension;
-
-            var folderPath = Path.Combine(webRootPath, "uploads", secureImageName);
-
-            using (var fileStream = new FileStream(folderPath, FileMode.Create))
-            {
-                image.CopyTo(fileStream);
-            }
-
-            //Creating the project
-            var validProject = new Project
-            {
-                Address = project.Address,
-                CategoryId = project.CategoryId,
-                City = project.City,
-                Description = project.Description,
-                IsPublic = false,
-                PublishedOn = DateTime.Now,
-                StartDate = project.StartDate,
-                Title = project.Title,
-                Image = secureImageName,
-                CompletedImage = "",
-                OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
-            };
-
-
-            data.Projects.Add(validProject);
-            data.SaveChanges();
+            projects.Create(project, projects.AddImage(image, extension), ownerId);
 
             return RedirectToAction("Confirmation", "Projects");
         }
@@ -169,30 +108,9 @@ namespace Volunteers.Controllers
 
         public IActionResult Details(string id)
         {
-
-            var project = this.data.Projects.Where(p => p.Id == id).Select(p => new ProjectDetailViewModel
-            {
-                Address = p.Address,
-                Category = p.Category.Name,
-                City = p.City,
-                Description = p.Description,
-                PublishedOn = p.PublishedOn.ToString("d"),
-                StartDate = p.StartDate.ToString("d"),
-                Title = p.Title,
-                Id = p.Id,
-                Participants = p.Users.Count(),
-                IsPublic = p.IsPublic,
-                Image = Path.Combine("/uploads/", p.Image),
-                IsCompleted = p.IsCompleted,
-                CompletedImage = Path.Combine("/uploads/", p.CompletedImage),
-                Comments = p.Comments.Where(c => c.IsPublic).OrderByDescending(c => c.PublishedOn).ToList(),
-                OwnerName = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.UserName).FirstOrDefault(),
-                IsOwner = userService.IsOwner(p.Id, userManager.GetUserId(User)),
-                Joined = p.Users.Contains(this.data.Users.Where(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault())
-        }).FirstOrDefault();
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             dynamic mymodel = new ExpandoObject();
-            mymodel.project = project;
+            mymodel.project = projects.Details(id, userId);
             mymodel.comment = new AddCommentFormModel();
 
             return View(mymodel);
@@ -201,18 +119,7 @@ namespace Volunteers.Controllers
 
         public IActionResult Edit(string id)
         {
-            var project = this.data.Projects.Where(p => p.Id == id).Select(p => new EditProjectViewModel
-            {
-                Address = p.Address,
-                CurrentCategory = p.Category.Name,
-                CurrentCategoryId = p.CategoryId,
-                City = p.City,
-                Description = p.Description,
-                StartDate = p.StartDate,
-                Title = p.Title,
-                OldImage = Path.Combine("/uploads/", p.Image),
-                Image = Path.Combine("/uploads/", p.Image)
-            }).FirstOrDefault();
+            var project = projects.Edit(id);
 
             project.Categories = this.GetProjectCategories();
 
@@ -223,16 +130,16 @@ namespace Volunteers.Controllers
         [Authorize]
         public IActionResult Edit(EditProjectViewModel project, IFormFile image)
         {
-            var secureImageName = "";
             var extension = "";
+            var secureImageName = "";
 
             if (image != null)
             {
                 extension = Path.GetExtension(image.FileName.ToLower());
 
-                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
+                if (!WebConstants.AllowedImageExtensions.Contains(extension))
                 {
-                    this.ModelState.AddModelError(nameof(project.Image), "Invalid image format. Allowed images are of type .jpg, .jpeg or .png.");
+                    this.ModelState.AddModelError(nameof(project.Image), $"Invalid image format. Allowed images are of type {String.Join(", ", WebConstants.AllowedImageExtensions)}.");
                 }
             }
 
@@ -250,52 +157,27 @@ namespace Volunteers.Controllers
 
             if (image != null)
             {
-                //Adding image
-                string webRootPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-
-                secureImageName = Guid.NewGuid() + extension;
-
-                var folderPath = Path.Combine(webRootPath, "uploads", secureImageName);
-
-                using (var fileStream = new FileStream(folderPath, FileMode.Create))
-                {
-                    image.CopyTo(fileStream);
-                }
+                secureImageName = projects.AddImage(image, extension);
             }
             else
             {
                 secureImageName = project.OldImage;
             }
 
-            var projectToEdit = this.data.Projects.SingleOrDefault(p => p.Id == project.Id);
-
-            projectToEdit.Address = project.Address;
-            projectToEdit.CategoryId = project.CategoryId;
-            projectToEdit.City = project.City;
-            projectToEdit.Description = project.Description;
-            projectToEdit.StartDate = project.StartDate;
-            projectToEdit.Title = project.Title;
-            projectToEdit.Image = secureImageName;
-            data.SaveChanges();
+            projects.Edit(project, secureImageName);
             return RedirectToAction("Details", new { id = project.Id });
         }
 
 
         [Authorize]
+        [Authorize(Roles = AdministratorRoleName)]
         public IActionResult Approve(string id)
         {
-            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
-
-            if (project == null)
+            if (!projects.Approve(id))
             {
                 return RedirectToAction("Admin", "Projects");
             }
 
-            project.IsPublic = true;
-            data.SaveChanges();
-
-            badges.Evaluate(project.OwnerId);
-            //return RedirectToAction("Admin", "Projects");
             return Redirect("/Admin/Projects");
         }
 
@@ -306,17 +188,26 @@ namespace Volunteers.Controllers
         [HttpPost]
         public IActionResult Complete(CompleteProjectFormModel project, IFormFile image)
         {
-            var secureImageName = "";
             var extension = "";
+
+            if (image == null)
+            {
+                this.ModelState.AddModelError(nameof(project.CompletedImage), "Please, upload an image for the project.");
+            }
 
             if (image != null)
             {
                 extension = Path.GetExtension(image.FileName.ToLower());
 
-                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
+                if (!WebConstants.AllowedImageExtensions.Contains(extension))
                 {
-                    this.ModelState.AddModelError(nameof(project.CompletedImage), "Invalid image format. Allowed images are of type .jpg, .jpeg or .png.");
+                    this.ModelState.AddModelError(nameof(project.CompletedImage), $"Invalid image format. Allowed images are of type {String.Join(", ", WebConstants.AllowedImageExtensions)}.");
                 }
+            }
+
+            if (project == null)
+            {
+                return RedirectToAction("Index", "Projects");
             }
 
             if (!ModelState.IsValid)
@@ -324,60 +215,27 @@ namespace Volunteers.Controllers
                 return View(project);
             }
 
-            //Adding image
-            string webRootPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-
-            secureImageName = Guid.NewGuid() + extension;
-
-            var folderPath = Path.Combine(webRootPath, "uploads", secureImageName);
-
-            using (var fileStream = new FileStream(folderPath, FileMode.Create))
-            {
-                image.CopyTo(fileStream);
-            }
-
-            var completedProject = this.data.Projects.Where(p => p.Id == project.Id).FirstOrDefault();
-
-            if (project == null)
-            {
-                return RedirectToAction("Admin", "Projects");
-            }
-
-            completedProject.IsCompleted = true;
-            completedProject.CompletedImage = secureImageName;
-            data.SaveChanges();
+            var secureImageName = projects.AddImage(image, extension);
+            projects.Complete(project, secureImageName);
+            
             return RedirectToAction("Details", new { id = project.Id });
         }
 
 
 
         [Authorize]
-        public IActionResult Activate (string id)
+        [Authorize(Roles = AdministratorRoleName)]
+        public IActionResult Activate(string id)
         {
-            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
-
-            if (project == null)
-            {
-                return RedirectToAction("Admin", "Projects");
-            }
-
-            project.IsCompleted = false;
-            data.SaveChanges();
+            projects.Activate(id);
             return RedirectToAction("Index", "Projects");
         }
 
         [Authorize]
+        [Authorize(Roles = AdministratorRoleName)]
         public IActionResult Hide(string id)
         {
-            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
-
-            if (project == null)
-            {
-                return RedirectToAction("Admin", "Projects");
-            }
-
-            project.IsPublic = false;
-            data.SaveChanges();
+            projects.Hide(id);
             return RedirectToAction("Index", "Projects", new { area = "Admin" });
         }
 
@@ -390,38 +248,10 @@ namespace Volunteers.Controllers
                 return RedirectToAction("Index", "Projects");
             }
 
-            var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
-
-            if (project == null)
-            {
-                return RedirectToAction("Index", "Projects");
-            }
-
-
-            this.data.Projects.Remove(project);
-            data.SaveChanges();
+            projects.Delete(id);
             return RedirectToAction("Index", "Projects");
         }
 
-        [Authorize]
-        [Authorize(Roles = AdministratorRoleName)]
-        public IActionResult Admin()
-        {
-            ViewBag.ProjectsCount = data.Projects.Where(p => p.IsPublic == false).Count();
-            ViewBag.CommentsCount = data.Comments.Where(c => c.IsPublic == false).Count();
-
-            return View(data.Projects.Where(p => p.IsPublic == false).Select(p => new ProjectListingViewModel
-            {
-                Address = p.Address,
-                City = p.City,
-                Description = p.Description,
-                Id = p.Id,
-                Participants = p.Users.Count(),
-                PublishedOn = p.PublishedOn.ToString("d"),
-                StartDate = p.StartDate.ToString("d"),
-                Title = p.Title,
-            }).ToList());    
-        }
 
         [Authorize]
         public IActionResult Join(string id)
@@ -466,6 +296,9 @@ namespace Volunteers.Controllers
             data.SaveChanges();
             return RedirectToAction("Details", new { id = project.Id });
         }
+
+
+
 
 
         private IEnumerable<ProjectCategoryViewModel> GetProjectCategories()

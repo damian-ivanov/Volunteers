@@ -17,6 +17,7 @@ using Volunteers.Data.Models;
 using Volunteers.Infrastructure;
 using Volunteers.Services.Badges;
 using Volunteers.Services.Comments;
+using Volunteers.Services.Projects;
 using Volunteers.Services.Stats;
 using Volunteers.Services.Users;
 
@@ -58,6 +59,7 @@ namespace Volunteers
             });
 
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IProjectService, ProjectService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IBadgesService, BadgesService>();
             services.AddTransient<IStatsService, StatsService>();
