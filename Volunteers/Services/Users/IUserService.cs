@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Volunteers.Data.Models;
 using Volunteers.Models.Users;
 using Volunteers.Services.Users.Models;
 

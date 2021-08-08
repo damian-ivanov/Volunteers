@@ -1,14 +1,9 @@
 namespace Volunteers.Areas.Admin.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
+
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Volunteers.Data;
-    using Volunteers.Models.Projects;
     using Volunteers.Services.Comments;
     using Volunteers.Services.Stats;
-    using Volunteers.Services.Users;
 
     public class CommentsController : AdminController
     {

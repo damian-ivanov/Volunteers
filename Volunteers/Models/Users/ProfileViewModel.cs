@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Volunteers.Models.Badges;
 using Volunteers.Models.Projects;

@@ -1,17 +1,16 @@
+using System.Linq;
+using Volunteers.Data;
+using Volunteers.Data.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using static Volunteers.Data.DataConstants;
+using System;
+
 namespace Volunteers.Infrastructure
 {
-    using System.Linq;
-    using Volunteers.Data;
-    using Volunteers.Data.Models;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-    using System.Threading.Tasks;
-    using static Volunteers.Data.DataConstants;
-    using System;
-
     public static class ApplicationBuilderExtensions
     {
 

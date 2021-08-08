@@ -36,12 +36,12 @@
                     <td><a target="_blank" class="btn btn-primary" asp-area="" asp-controller="Projects" asp-action="Details" asp-route-id="@comment.ProjectId">Details</a></td>
                     <td>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approve">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approve-@(comment.Id)">
                             Approve
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal fade" id="approve-@(comment.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -63,12 +63,12 @@
                         </div>
                     
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-@(comment.Id)">
                             Delete
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal fade" id="delete-@(comment.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">

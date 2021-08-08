@@ -1,10 +1,6 @@
 namespace Volunteers.Areas.Admin.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
-    using Volunteers.Data;
-    using Volunteers.Models.Projects;
     using Volunteers.Services.Projects;
     using Volunteers.Services.Stats;
 

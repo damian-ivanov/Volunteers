@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using Volunteers.Data;
 using Volunteers.Models.Badges;
-using Volunteers.Models.Comments;
 using static Volunteers.Data.DataConstants;
 
 namespace Volunteers.Services.Badges

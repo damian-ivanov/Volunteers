@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Claims;
 using Volunteers.Areas.Admin.Models;
 using Volunteers.Data;
 using Volunteers.Data.Models;

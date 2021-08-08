@@ -1,12 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Volunteers.Data;
 using Volunteers.Data.Models;
 using Volunteers.Models.Comments;
-using Volunteers.Models.Projects;
 using Volunteers.Services.Comments;
-using static Volunteers.Data.DataConstants;
 
 namespace Volunteers.Services.Users
 

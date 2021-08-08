@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Volunteers.Data;
-using Volunteers.Data.Models;
-using Volunteers.Models.Projects;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Volunteers.Services.Comments;
-using Volunteers.Models.Comments;
-using static Volunteers.Data.DataConstants;
 
 namespace Volunteers.Controllers
 {

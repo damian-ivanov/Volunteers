@@ -34,12 +34,12 @@
                     </td>
                     <td>
                         <!-- Set role Button trigger modal -->
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#setRole">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#setRole-@(user.Id)">
                             Set role
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="setRole" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal fade" id="setRole-@(user.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -72,12 +72,12 @@
 
                     <td>
                         <!-- Delete user Button trigger modal -->
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-@(user.Id)">
                             Delete user
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal fade" id="delete-@(user.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">

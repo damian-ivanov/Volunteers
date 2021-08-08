@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using static Volunteers.Data.DataConstants;
-using Volunteers.Data.Models;
 
 namespace Volunteers.Models.Comments
 {

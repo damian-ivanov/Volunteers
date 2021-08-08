@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using Volunteers.Data.Models;
-
 namespace Volunteers.Areas.Admin.Models
 {
     public class ProjectListingAdminViewModel
