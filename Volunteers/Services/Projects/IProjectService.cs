@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Volunteers.Areas.Admin.Models;
 using Volunteers.Data.Models;
 using Volunteers.Models.Projects;
@@ -22,7 +23,7 @@ namespace Volunteers.Services.Projects
 
         void Create(AddProjectFormModel project, string secureImageName, string ownerId);
 
-        void Edit(EditProjectViewModel project, string secureImageName);
+        public Task Edit(EditProjectViewModel project, string secureImageName, string editorId);
 
         bool Approve(string id);
 

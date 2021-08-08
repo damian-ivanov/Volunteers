@@ -10,7 +10,7 @@ namespace Volunteers.Services.Users
     {
         public bool IsOwner(string projectId, string userId);
 
-        public bool IsAdministrator(string userId);
+        public Task<bool> IsAdministrator(string userId);
 
         public Task SetRole(string roleName, string userId);
 
@@ -20,7 +20,7 @@ namespace Volunteers.Services.Users
 
         public Task DeleteUser(string userId);
 
-
+        public Task<ICollection<string>> GetRole(string userId);
 
     }
 }

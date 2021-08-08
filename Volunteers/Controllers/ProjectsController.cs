@@ -14,6 +14,7 @@ using Volunteers.Services.Users;
 using System.Dynamic;
 using Volunteers.Models.Comments;
 using Volunteers.Services.Projects;
+using System.Threading.Tasks;
 
 namespace Volunteers.Controllers
 {
@@ -22,12 +23,11 @@ namespace Volunteers.Controllers
         private readonly IUserService userService;
         private readonly IProjectService projects;
         private readonly UserManager<User> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
+   
 
-        public ProjectsController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IUserService userService, IProjectService projects)
+        public ProjectsController(UserManager<User> userManager, IUserService userService, IProjectService projects)
         { 
             this.userManager = userManager;
-            this.roleManager = roleManager;
             this.userService = userService;
             this.projects = projects;
         }
@@ -116,10 +116,11 @@ namespace Volunteers.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Edit(EditProjectViewModel project, IFormFile image)
+        public async Task<IActionResult> Edit(EditProjectViewModel project, IFormFile image)
         {
             var extension = "";
             var secureImageName = "";
+            var editorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (image != null)
             {
@@ -152,7 +153,7 @@ namespace Volunteers.Controllers
                 secureImageName = project.OldImage;
             }
 
-            projects.Edit(project, secureImageName);
+            await projects.Edit(project, secureImageName, editorId);
             return RedirectToAction("Details", new { id = project.Id });
         }
 

@@ -25,9 +25,10 @@ namespace Volunteers.Services.Users
             this.roleManager = roleManager;
         }
 
-        public bool IsAdministrator(string userId)
+        public async Task<bool> IsAdministrator(string editorId)
         {
-            throw new System.NotImplementedException();
+            var user = await userManager.FindByIdAsync(editorId);
+            return await userManager.IsInRoleAsync(user, DataConstants.AdministratorRoleName);
         }
 
         public bool IsOwner(string projectId, string userId)

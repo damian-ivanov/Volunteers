@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Volunteers.Areas.Admin.Models;
 using Volunteers.Data;
 using Volunteers.Data.Models;
@@ -163,9 +164,10 @@ namespace Volunteers.Services.Projects
             }).FirstOrDefault();
         }
 
-        public void Edit(EditProjectViewModel project, string secureImageName)
+        public async Task Edit(EditProjectViewModel project, string secureImageName, string editorId)
         {
             var projectToEdit = this.data.Projects.SingleOrDefault(p => p.Id == project.Id);
+            var isOwnerAdmin = await userService.IsAdministrator(editorId);
 
             projectToEdit.Address = project.Address;
             projectToEdit.CategoryId = project.CategoryId;
@@ -174,6 +176,12 @@ namespace Volunteers.Services.Projects
             projectToEdit.StartDate = project.StartDate;
             projectToEdit.Title = project.Title;
             projectToEdit.Image = secureImageName;
+
+            if (!isOwnerAdmin)
+            {
+                projectToEdit.IsPublic = false;
+            }
+            
             data.SaveChanges();
         }
 
