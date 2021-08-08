@@ -282,5 +282,74 @@ namespace Volunteers.Services.Projects
         {
             return this.data.Categories.Any(c => c.Id == project.CategoryId);
         }
+
+        public IEnumerable<ProjectListingViewModel> ListProjectsHomePage(AllProjectsQueryModel query)
+        {
+            var projectsQuery = this.data.Projects.Where(p => p.IsPublic == true).AsQueryable();
+
+            if (!string.IsNullOrEmpty(query.SearchTerm))
+            {
+                projectsQuery = projectsQuery.Where(p => p.City.ToLower() == query.SearchTerm.ToLower());
+            }
+
+            if (!string.IsNullOrEmpty(query.Category))
+            {
+                projectsQuery = projectsQuery.Where(c => c.Category.Name == query.Category);
+            }
+
+            if (query.ShowCompleted == false)
+            {
+                projectsQuery = projectsQuery.Where(p => p.IsCompleted == false);
+                //query.ShowCompleted = true;
+            }
+
+            var sortOrder = query.SortOrder;
+
+            switch (sortOrder)
+            {
+                case "Newest":
+                    projectsQuery = projectsQuery.OrderByDescending(p => p.PublishedOn);
+                    break;
+                case "Oldest":
+                    projectsQuery = projectsQuery.OrderBy(p => p.PublishedOn);
+                    break;
+                case "Starting Soon":
+                    projectsQuery = projectsQuery.OrderBy(p => p.StartDate);
+                    break;
+                case "Most participants":
+                    projectsQuery = projectsQuery.OrderByDescending(p => p.Users.Count());
+                    break;
+                default:
+                    sortOrder = "Newest";
+                    projectsQuery = projectsQuery.OrderByDescending(p => p.PublishedOn);
+                    break;
+            }
+            //Search criteria end
+
+            var categories = this.data.Categories.ToList();
+
+            var totalProjects = projectsQuery.Count();
+
+            var projects = projectsQuery.Skip((query.CurrentPage - 1) * AllProjectsQueryModel.ProjectsPerPage)
+                .Take(AllProjectsQueryModel.ProjectsPerPage).Select(p => new ProjectListingViewModel
+                {
+                    Address = p.Address,
+                    City = p.City,
+                    Description = p.Description,
+                    Id = p.Id,
+                    Participants = p.Users.Count(),
+                    PublishedOn = p.PublishedOn.ToString("d"),
+                    StartDate = p.StartDate.ToString("d"),
+                    Title = p.Title,
+                    Image = Path.Combine("/uploads/", p.Image),
+                    IsCompleted = p.IsCompleted,
+                }).ToList();
+
+            query.Categories = categories;
+            query.Projects = projects;
+            query.TotalProjects = totalProjects;
+
+            return projects;
+        }
     }
 }

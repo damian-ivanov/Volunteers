@@ -5,5 +5,7 @@ namespace Volunteers.Services.Stats
     {
         public (int, int, int) GetStats();
 
+        public (int, int, int) GetHomePageStats();
+
     }
 }
