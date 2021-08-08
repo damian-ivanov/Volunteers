@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using Volunteers.Data.Models;
 using Volunteers.Models.Projects;
 using Volunteers.Services.Projects.Models;
 
@@ -28,7 +29,17 @@ namespace Volunteers.Services.Projects
 
         void Delete(string id);
 
+        Project Join(string id, string userId);
+
+        Project Leave(string id, string userId);
+
         string AddImage(IFormFile image, string extension);
+
+        IEnumerable<ProjectCategoryViewModel> GetProjectCategories();
+
+        bool EmptyCategoryCheck(AddProjectFormModel project);
+
+        bool EmptyCategoryCheck(EditProjectViewModel project);
 
     }
 }

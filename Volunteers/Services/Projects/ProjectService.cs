@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -207,6 +208,62 @@ namespace Volunteers.Services.Projects
 
             this.data.Projects.Remove(project);
             data.SaveChanges();
+        }
+
+        public Project Join(string id, string userId)
+        {
+            var project = this.data.Projects.Include(u => u.Users).FirstOrDefault(p => p.Id == id);
+            var user = this.data.Users.Where(u => u.Id == userId).FirstOrDefault();
+
+            if (project.Users.Contains(user))
+            {
+                return project;
+            }
+
+            project.Users.Add(user);
+
+            data.SaveChanges();
+            return project;
+        }
+
+        public Project Leave(string id, string userId)
+        {
+            var project = this.data.Projects.Include(u => u.Users).FirstOrDefault(p => p.Id == id);
+            var user = this.data.Users.Where(u => u.Id == userId).FirstOrDefault();
+
+            if (project == null || user == null)
+            {
+                return project;
+            }
+
+            if (!project.Users.Contains(user))
+            {
+                return project;
+            }
+
+            project.Users.Remove(user);
+
+            data.SaveChanges();
+            return project;
+        }
+
+        public IEnumerable<ProjectCategoryViewModel> GetProjectCategories()
+        {
+            return this.data.Categories.Select(c => new ProjectCategoryViewModel
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList();
+        }
+
+        public bool EmptyCategoryCheck(AddProjectFormModel project)
+        {
+            return this.data.Categories.Any(c => c.Id == project.CategoryId);
+        }
+
+        public bool EmptyCategoryCheck(EditProjectViewModel project)
+        {
+            return this.data.Categories.Any(c => c.Id == project.CategoryId);
         }
     }
 }

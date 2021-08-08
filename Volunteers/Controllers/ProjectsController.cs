@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Volunteers.Data;
 using Volunteers.Data.Models;
 using Volunteers.Models.Projects;
 using Microsoft.AspNetCore.Identity;
@@ -17,7 +13,6 @@ using static Volunteers.Data.DataConstants;
 using Volunteers.Services.Users;
 using System.Dynamic;
 using Volunteers.Models.Comments;
-using Volunteers.Services.Badges;
 using Volunteers.Services.Projects;
 
 namespace Volunteers.Controllers
@@ -25,21 +20,15 @@ namespace Volunteers.Controllers
     public class ProjectsController : Controller
     {
         private readonly IUserService userService;
-        private readonly IBadgesService badges;
         private readonly IProjectService projects;
-
-
-        private readonly VolunteersDbContext data;
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
-        public ProjectsController(VolunteersDbContext data, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IUserService userService, IBadgesService badges, IProjectService projects)
-        {
-            this.data = data;
+        public ProjectsController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IUserService userService, IProjectService projects)
+        { 
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.userService = userService;
-            this.badges = badges;
             this.projects = projects;
         }
 
@@ -54,7 +43,7 @@ namespace Volunteers.Controllers
         [Authorize]
         public IActionResult Create() => View(new AddProjectFormModel
         {
-            Categories = this.GetProjectCategories()
+            Categories = projects.GetProjectCategories()
         });
 
 
@@ -80,7 +69,7 @@ namespace Volunteers.Controllers
                 this.ModelState.AddModelError(nameof(project.Image), "Please, upload an image for the project.");
             }
 
-            if (!this.data.Categories.Any(c => c.Id == project.CategoryId))
+            if (!projects.EmptyCategoryCheck(project))
             {
                 this.ModelState.AddModelError(nameof(project.CategoryId), "Category does not exist.");
             }
@@ -92,7 +81,7 @@ namespace Volunteers.Controllers
 
             if (!ModelState.IsValid)
             {
-                project.Categories = this.GetProjectCategories();
+                project.Categories = projects.GetProjectCategories();
                 return View(project);
             }
 
@@ -120,8 +109,7 @@ namespace Volunteers.Controllers
         public IActionResult Edit(string id)
         {
             var project = projects.Edit(id);
-
-            project.Categories = this.GetProjectCategories();
+            project.Categories = projects.GetProjectCategories();
 
             return View(project);
         }
@@ -143,14 +131,14 @@ namespace Volunteers.Controllers
                 }
             }
 
-            if (!this.data.Categories.Any(c => c.Id == project.CategoryId))
+            if (!projects.EmptyCategoryCheck(project))
             {
                 this.ModelState.AddModelError(nameof(project.CategoryId), "Category does not exist.");
             }
 
             if (!ModelState.IsValid)
             {
-                project.Categories = this.GetProjectCategories();
+                project.Categories = projects.GetProjectCategories();
 
                 return View(project);
             }
@@ -256,58 +244,24 @@ namespace Volunteers.Controllers
         [Authorize]
         public IActionResult Join(string id)
         {
-            var project = this.data.Projects.Include(u => u.Users).FirstOrDefault(p => p.Id == id);
-            var user = this.data.Users.Where(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
-            
-            if (project == null || user == null)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (id == null || userId == null)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            if (project.Users.Contains(user))
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            projects.Join(id, userId);
 
-            project.Users.Add(user);
-
-            data.SaveChanges();
-            return RedirectToAction("Details", new { id = project.Id });
+            return RedirectToAction("Details", new { id = projects.Join(id, userId).Id });
         }
 
         [Authorize]
         public IActionResult Leave(string id)
         {
-            var project = this.data.Projects.Include(u => u.Users).FirstOrDefault(p => p.Id == id);
-            var user = this.data.Users.Where(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier)).FirstOrDefault();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (project == null || user == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            if (!project.Users.Contains(user))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            project.Users.Remove(user);
-
-            data.SaveChanges();
-            return RedirectToAction("Details", new { id = project.Id });
-        }
-
-
-
-
-
-        private IEnumerable<ProjectCategoryViewModel> GetProjectCategories()
-        {
-            return this.data.Categories.Select(c => new ProjectCategoryViewModel
-            {
-                Id = c.Id,
-                Name = c.Name
-            }).ToList();
+            return RedirectToAction("Details", new { id = projects.Leave(id, userId).Id });
         }
     }
 }
