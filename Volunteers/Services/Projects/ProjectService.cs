@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using Volunteers.Areas.Admin.Models;
 using Volunteers.Data;
 using Volunteers.Data.Models;
 using Volunteers.Models.Projects;
@@ -70,6 +71,22 @@ namespace Volunteers.Services.Projects
             }).ToList();
         }
 
+        public IEnumerable<ProjectListingAdminViewModel> ListProjectsAdmin()
+        {
+            return data.Projects.Where(p => p.IsPublic == false).Select(p => new ProjectListingAdminViewModel
+            {
+                Address = p.Address,
+                City = p.City,
+                Description = p.Description,
+                Id = p.Id,
+                Participants = p.Users.Count(),
+                PublishedOn = p.PublishedOn.ToString("d"),
+                StartDate = p.StartDate.ToString("d"),
+                Title = p.Title,
+                IsCompleted = p.IsCompleted,
+                Image = Path.Combine("/uploads/", p.Image)
+            }).ToList();
+        }
 
         public void Create(AddProjectFormModel project, string secureImageName, string ownerId)
         {

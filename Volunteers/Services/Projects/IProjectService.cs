@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using Volunteers.Areas.Admin.Models;
 using Volunteers.Data.Models;
 using Volunteers.Models.Projects;
 using Volunteers.Services.Projects.Models;
@@ -10,6 +11,8 @@ namespace Volunteers.Services.Projects
     public interface IProjectService
     {
         IEnumerable<ProjectListingServiceModel> ListProjects(string sortOrder);
+
+        IEnumerable<ProjectListingAdminViewModel> ListProjectsAdmin();
 
         ProjectDetailsServiceModel Details(string id, string userId);
 

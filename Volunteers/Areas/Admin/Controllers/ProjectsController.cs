@@ -5,30 +5,21 @@ namespace Volunteers.Areas.Admin.Controllers
     using System.Linq;
     using Volunteers.Data;
     using Volunteers.Models.Projects;
+    using Volunteers.Services.Projects;
     using Volunteers.Services.Stats;
 
     public class ProjectsController : AdminController
     {
-        private readonly VolunteersDbContext data;
+        private readonly IProjectService projects;
 
-        public ProjectsController(IStatsService stats, VolunteersDbContext data) : base(stats)
+        public ProjectsController(IStatsService stats, IProjectService projects) : base(stats)
         {
-            this.data = data;
+            this.projects = projects;
         }
 
         public IActionResult Index()
         {
-            return View(data.Projects.Where(p => p.IsPublic == false).Select(p => new ProjectListingViewModel
-            {
-                Address = p.Address,
-                City = p.City,
-                Description = p.Description,
-                Id = p.Id,
-                Participants = p.Users.Count(),
-                PublishedOn = p.PublishedOn.ToString("d"),
-                StartDate = p.StartDate.ToString("d"),
-                Title = p.Title,
-            }).ToList());
+            return View(projects.ListProjectsAdmin());
         }
 
 

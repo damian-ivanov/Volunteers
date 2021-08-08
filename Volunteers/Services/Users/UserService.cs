@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Volunteers.Data;
 using Volunteers.Data.Models;
+using Volunteers.Models;
 using Volunteers.Models.Projects;
 using Volunteers.Models.Users;
 using Volunteers.Services.Users.Models;
