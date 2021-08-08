@@ -23,7 +23,7 @@ namespace Volunteers.Models.Projects
         [Required]
         public string Address { get; set; }
 
-        [Display(Name = "Upload a photo")]
+        [Display(Name = "Please, upload a photo of type .jpg, .jpeg or .png")]
         public string Image { get; set; }
 
         [Required]
@@ -32,7 +32,6 @@ namespace Volunteers.Models.Projects
         public DateTime StartDate { get; set; } = @DateTime.UtcNow;
 
         [Required]
-
         [Display(Name = "Category")]
         public int CategoryId { get; init; }
 
