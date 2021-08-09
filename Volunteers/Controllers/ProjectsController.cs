@@ -98,8 +98,15 @@ namespace Volunteers.Controllers
         public IActionResult Details(string id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var project = projects.Details(id, userId);
+
+            if (!project.IsPublic && !User.IsInRole(AdministratorRoleName) && !userService.IsOwner(id, userManager.GetUserId(User)))
+            {
+                return RedirectToAction("PendingApproval", "Projects");
+            }
+
             dynamic mymodel = new ExpandoObject();
-            mymodel.project = projects.Details(id, userId);
+            mymodel.project = project;
             mymodel.comment = new AddCommentFormModel();
 
             return View(mymodel);
@@ -263,6 +270,11 @@ namespace Volunteers.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             return RedirectToAction("Details", new { id = projects.Leave(id, userId).Id });
+        }
+
+        public IActionResult PendingApproval()
+        {
+            return View();
         }
     }
 }
