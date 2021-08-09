@@ -164,7 +164,7 @@ namespace Volunteers.Services.Projects
             }).FirstOrDefault();
         }
 
-        public async Task Edit(EditProjectViewModel project, string secureImageName, string editorId)
+        public async Task<bool> Edit(EditProjectViewModel project, string secureImageName, string editorId)
         {
             var projectToEdit = this.data.Projects.SingleOrDefault(p => p.Id == project.Id);
             var isOwnerAdmin = await userService.IsAdministrator(editorId);
@@ -183,6 +183,17 @@ namespace Volunteers.Services.Projects
             }
             
             data.SaveChanges();
+
+            if (isOwnerAdmin)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+
         }
 
         public bool Approve(string id)

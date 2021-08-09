@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Volunteers.Services.Comments;
+using static Volunteers.WebConstants;
 
 namespace Volunteers.Controllers
 {
@@ -22,6 +23,7 @@ namespace Volunteers.Controllers
             ViewData["comment"] = comment;
 
             comments.Add(comment, Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
+            TempData[GlobalMessageKey] = PostedComment;
             return Redirect("/Projects/Details/" + $"{Id}");
         }
 

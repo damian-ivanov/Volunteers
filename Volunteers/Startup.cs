@@ -91,6 +91,7 @@ namespace Volunteers
 
             app.UseAuthentication();
             app.UseAuthorization();
+            //app.UseStatusCodePages();
 
             app.UseEndpoints(endpoints =>
             {

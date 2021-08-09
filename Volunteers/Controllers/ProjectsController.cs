@@ -15,6 +15,7 @@ using System.Dynamic;
 using Volunteers.Models.Comments;
 using Volunteers.Services.Projects;
 using System.Threading.Tasks;
+using static Volunteers.WebConstants;
 
 namespace Volunteers.Controllers
 {
@@ -87,6 +88,7 @@ namespace Volunteers.Controllers
 
             projects.Create(project, projects.AddImage(image, extension), ownerId);
 
+            TempData[GlobalMessageKey] = CreatedProject;
             return RedirectToAction("Confirmation", "Projects");
         }
 
@@ -99,6 +101,11 @@ namespace Volunteers.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var project = projects.Details(id, userId);
+
+            if (project == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
 
             if (!project.IsPublic && !User.IsInRole(AdministratorRoleName) && !userService.IsOwner(id, userManager.GetUserId(User)))
             {
@@ -159,8 +166,16 @@ namespace Volunteers.Controllers
             {
                 secureImageName = project.OldImage;
             }
-
-            await projects.Edit(project, secureImageName, editorId);
+        
+            if (await projects.Edit(project, secureImageName, editorId))
+            {
+                TempData[GlobalMessageKey] = EditedProjectAdmin;
+            }
+            else
+            {
+                TempData[GlobalMessageKey] = EditedProject;
+            }
+            
             return RedirectToAction("Details", new { id = project.Id });
         }
 
@@ -174,6 +189,7 @@ namespace Volunteers.Controllers
                 return RedirectToAction("Admin", "Projects");
             }
 
+            TempData[GlobalMessageKey] = ApprovedProject;
             return Redirect("/Admin/Projects");
         }
 
@@ -213,7 +229,8 @@ namespace Volunteers.Controllers
 
             var secureImageName = projects.AddImage(image, extension);
             projects.Complete(project, secureImageName);
-            
+
+            TempData[GlobalMessageKey] = CompletedProject;
             return RedirectToAction("Details", new { id = project.Id });
         }
 
@@ -224,7 +241,8 @@ namespace Volunteers.Controllers
         public IActionResult Activate(string id)
         {
             projects.Activate(id);
-            return RedirectToAction("Index", "Projects");
+            TempData[GlobalMessageKey] = ActivateProject;
+            return RedirectToAction("Details", new { id = id });
         }
 
         [Authorize]
@@ -232,6 +250,7 @@ namespace Volunteers.Controllers
         public IActionResult Hide(string id)
         {
             projects.Hide(id);
+            TempData[GlobalMessageKey] = HideProject;
             return RedirectToAction("Index", "Projects", new { area = "Admin" });
         }
 
@@ -245,6 +264,7 @@ namespace Volunteers.Controllers
             }
 
             projects.Delete(id);
+            TempData[GlobalMessageKey] = DeleteProject;
             return RedirectToAction("Index", "Projects");
         }
 
@@ -260,7 +280,7 @@ namespace Volunteers.Controllers
             }
 
             projects.Join(id, userId);
-
+            TempData[GlobalMessageKey] = JoinedProject;
             return RedirectToAction("Details", new { id = projects.Join(id, userId).Id });
         }
 
@@ -268,7 +288,7 @@ namespace Volunteers.Controllers
         public IActionResult Leave(string id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+            TempData[GlobalMessageKey] = LeftProject;
             return RedirectToAction("Details", new { id = projects.Leave(id, userId).Id });
         }
 

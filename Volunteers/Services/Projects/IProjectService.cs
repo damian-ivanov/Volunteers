@@ -23,7 +23,7 @@ namespace Volunteers.Services.Projects
 
         void Create(AddProjectFormModel project, string secureImageName, string ownerId);
 
-        public Task Edit(EditProjectViewModel project, string secureImageName, string editorId);
+        public Task<bool> Edit(EditProjectViewModel project, string secureImageName, string editorId);
 
         bool Approve(string id);
 
