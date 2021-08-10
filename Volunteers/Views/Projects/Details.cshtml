@@ -51,7 +51,7 @@
         </div><!-- / column -->
 
         <div class="col-md-7">
-            <img src="@Model.project.Image" alt="project-image" class="rounded">
+            <img style="max-width: 100%;" src="@Model.project.Image" alt="project-image" class="rounded">
             <div class="project-info-box">
                 <p><b>Category:</b> @Model.project.Category</p>
                 <p>
@@ -115,7 +115,7 @@
                 @if (Model.project.IsCompleted)
                 {
                     <h4>This project is complete! Here is the result:</h4>
-                    <img src="@Model.project.CompletedImage" alt="project-image" class="rounded">
+                    <img style="max-width: 100%;" src="@Model.project.CompletedImage" alt="project-image" class="rounded">
                 }
 
 
@@ -148,43 +148,45 @@
                 </div>
             </div>
         </div><!-- / column -->
+        <div class="col-md-5">
+        </div>
+            <div class="col-md-7">
+                <br />
+                @if (Model.project.Comments.Count == 0)
+                {
+                    <h4>No comments added yet.</h4>
+                }
 
-        <div class="col-lg-8 offset-2 mt-5">
-            @if (Model.project.Comments.Count == 0)
-            {
-                <h4>No comments added yet.</h4>
-            }
-
-            @if (Model.project.Comments.Count > 0)
-            {
-                <h4>Comments:</h4>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Author:</th>
-                                <th scope="col">Comment:</th>
-                                <th scope="col">Posted on:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @foreach (var comment in Model.project.Comments)
-                            {
-
-
+                @if (Model.project.Comments.Count > 0)
+                {
+                    <h4>Comments:</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
                                 <tr>
-                                    <td scope="row">@comment.UserName</td>
-                                    <td style="word-wrap: break-word; min-width: 160px; max-width: 160px;">@comment.Content</td>
-                                    <td>@comment.PublishedOn</td>
+                                    <th scope="col">Author:</th>
+                                    <th scope="col">Comment:</th>
+                                    <th scope="col">Posted on:</th>
                                 </tr>
+                            </thead>
+                            <tbody>
 
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
+                                @foreach (var comment in Model.project.Comments)
+                                {
 
+
+                                    <tr>
+                                        <td scope="row">@comment.UserName</td>
+                                        <td style="word-wrap: break-word; min-width: 160px; max-width: 160px;">@comment.Content</td>
+                                        <td>@comment.PublishedOn</td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+            </div>
         </div>
     </div>
-</div>

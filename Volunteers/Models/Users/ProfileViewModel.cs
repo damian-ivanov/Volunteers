@@ -18,6 +18,8 @@ namespace Volunteers.Models.Users
 
         public int ProjectsInvolved { get; set; }
 
+        public int CommentsCount { get; set; }
+
         public IEnumerable<ProjectListingViewModel> Projects { get; set; }
 
         public IEnumerable<BadgesListingViewModel> BadgesEarned { get; set; }

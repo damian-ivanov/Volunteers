@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Volunteers.Data;
 using Volunteers.Data.Models;
+using Volunteers.Models.Badges;
 using Volunteers.Models.Projects;
 using Volunteers.Models.Users;
 using Volunteers.Services.Users.Models;
@@ -75,7 +77,7 @@ namespace Volunteers.Services.Users
 
         public async Task<ProfileViewModel> GetUserInfo(string userName)
         {
-            var currentUser = await userManager.FindByNameAsync(userName);
+            var currentUser = await this.data.Users.Include(b => b.Badges).Where(u => u.UserName == userName).FirstOrDefaultAsync();
             var role = await userManager.GetRolesAsync(currentUser);
 
             var projects = this.data.Projects.Where(p => p.IsPublic).AsQueryable();
@@ -88,6 +90,14 @@ namespace Volunteers.Services.Users
                 ProjectsCompleted = projects.Where(p => p.IsCompleted).Count(),
                 ProjectsInvolved = projects.Where(p => p.Users.Contains(currentUser)).Count(),
                 ProjectsSubmitted = projects.Where(p => p.OwnerId == currentUser.Id).Count(),
+                CommentsCount = this.data.Comments.Where(c => c.UserName == userName).Count(),
+                BadgesEarned = currentUser.Badges.Select(b => new BadgesListingViewModel
+                {
+                    Description = b.Description,
+                    Image = Path.Combine("/badges/", b.Image),
+                    Title = b.Title,
+                    Users = b.Users.Count()
+                }),
                 Projects = projects.Where(p => p.OwnerId == currentUser.Id).Select(p => new ProjectListingViewModel
                 {
                     Address = p.Address,
@@ -101,10 +111,10 @@ namespace Volunteers.Services.Users
                     IsCompleted = p.IsCompleted,
                     Image = Path.Combine("/uploads/", p.Image)
                 }).ToList()
-        };
+            };
 
 
-    }
+        }
 
         public async Task DeleteUser(string userId)
         {

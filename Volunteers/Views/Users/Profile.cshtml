@@ -5,14 +5,66 @@
 }
 
 <br />
-
+<br />
 <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
-    Username: @Model.Username
-    Email: @Model.Email
-    Role: @Model.Role
-    Completed projects: @Model.ProjectsCompleted
-    Projects involved: @Model.ProjectsInvolved
-    Projects submitted: @Model.ProjectsSubmitted
+    <h2 style="text-align:center">Welcome to user @Model.Username's profile page</h2>
+    <p style="text-align:center">(<b>Email:</b> @Model.Email, <b>Role:</b> @Model.Role)</p>
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-sm-3" style="background-color: #A3D6D4">
+            <div class="tiles">
+                <p>Projects submitted:</p>
+                <h2 class="title">@Model.ProjectsSubmitted</h2>
+            </div>
+        </div>
+        <div class="col-sm-3" style="background-color: #F1E9CB">
+            <div class="tiles">
+                <p>Projects involved in:</p>
+                <h2 class="title">@Model.ProjectsInvolved</h2>
+
+            </div>
+        </div>
+        <div class="col-sm-3" style="background-color: #C2D5A7">
+            <div class="tiles">
+                <p>Completed projects:</p>
+                <h2 class="title">@Model.ProjectsCompleted</h2>
+            </div>
+        </div>
+        <div class="col-sm-3" style="background-color: #B0ABCA">
+            <div class="tiles">
+                <p>Comments:</p>
+                <h2 class="title">@Model.CommentsCount</h2>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    @if (Model.BadgesEarned.Any())
+    {
+        <h4 style="text-align:center">Badges earned by user @Model.Username</h4>
+        <hr />
+
+        <div class="card-columns">
+            @foreach (var badge in Model.BadgesEarned)
+            {
+                <div class="card" style="text-align: center;">
+                    <img class="card-img-top" src="@badge.Image" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@badge.Title</h5><h6><span class="badge badge-info">Awarded to: @badge.Users volunteers</span></h6>
+                        <hr />
+                        <h6 class="card-text">@badge.Description</h6>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    <br />
+    <br />
+    <br />
+    <h4 style="text-align:center">Projects submitted by user @Model.Username</h4>
     <hr />
     @if (Model.Projects.Any())
     {
