@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -78,6 +79,7 @@ namespace Volunteers.Services.Users
         public async Task<ProfileViewModel> GetUserInfo(string userName)
         {
             var currentUser = await this.data.Users.Include(b => b.Badges).Where(u => u.UserName == userName).FirstOrDefaultAsync();
+
             var role = await userManager.GetRolesAsync(currentUser);
 
             var projects = this.data.Projects.Where(p => p.IsPublic).AsQueryable();
@@ -120,6 +122,12 @@ namespace Volunteers.Services.Users
         {
             var user = await userManager.FindByIdAsync(userId);
             await userManager.DeleteAsync(user);
+        }
+
+        public async Task<bool> IsValid(string userName)
+        {
+            var user = await userManager.FindByNameAsync(userName);
+            return user==null ? false : true;
         }
     }
 }

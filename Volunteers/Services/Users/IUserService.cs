@@ -16,6 +16,8 @@ namespace Volunteers.Services.Users
 
         public Task<ProfileViewModel> GetUserInfo(string userName);
 
+        public Task<bool> IsValid(string userName);
+
         public Task<IEnumerable<UsersServiceModel>> UsersList();
 
         public Task DeleteUser(string userId);

@@ -15,6 +15,11 @@ namespace Volunteers.Controllers
 
         public async Task<IActionResult> Profile(string Id)
         {
+            if (!await users.IsValid(Id))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
             return View(await users.GetUserInfo(Id));
         }
     }

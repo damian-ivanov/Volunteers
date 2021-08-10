@@ -18,6 +18,7 @@ namespace Volunteers.Controllers
             this.stats = stats;
             this.projects = projects;
         }
+
         public IActionResult Index([FromQuery] AllProjectsQueryModel query)
         {
             ViewBag.ProjectsCount = stats.GetHomePageStats().Item1;
@@ -38,11 +39,5 @@ namespace Volunteers.Controllers
         {
             return View();
         }
-
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
     }
 }
