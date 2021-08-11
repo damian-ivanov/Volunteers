@@ -100,6 +100,7 @@ namespace Volunteers.Controllers
         public IActionResult Details(string id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var project = projects.Details(id, userId);
 
             if (project == null)
@@ -119,10 +120,21 @@ namespace Volunteers.Controllers
             return View(mymodel);
         }
 
-
+        [Authorize]
         public IActionResult Edit(string id)
         {
+            if (!User.IsInRole(AdministratorRoleName) && !userService.IsOwner(id, userManager.GetUserId(User)))
+            {
+                return RedirectToAction("Index", "Projects");
+            }
+
             var project = projects.Edit(id);
+
+            if (project == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
             project.Categories = projects.GetProjectCategories();
 
             return View(project);
@@ -186,11 +198,11 @@ namespace Volunteers.Controllers
         {
             if (!projects.Approve(id))
             {
-                return RedirectToAction("Admin", "Projects");
+                return RedirectToAction("Error", "Home");
             }
 
             TempData[GlobalMessageKey] = ApprovedProject;
-            return Redirect("/Admin/Projects");
+            return RedirectToAction("Admin", "Projects");
         }
 
         [Authorize]
