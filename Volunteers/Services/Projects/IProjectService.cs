@@ -43,6 +43,8 @@ namespace Volunteers.Services.Projects
 
         IEnumerable<ProjectCategoryViewModel> GetProjectCategories();
 
+        bool IsValid(string id);
+
         bool EmptyCategoryCheck(AddProjectFormModel project);
 
         bool EmptyCategoryCheck(EditProjectViewModel project);

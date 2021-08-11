@@ -150,7 +150,8 @@ namespace Volunteers.Services.Projects
 
         public EditProjectViewModel Edit(string id)
         {
-            return this.data.Projects.Where(p => p.Id == id).Select(p => new EditProjectViewModel
+            var project = this.data.Projects.Where(p => p.Id == id).AsQueryable();
+            return project.Select(p => new EditProjectViewModel
             {
                 Address = p.Address,
                 CurrentCategory = p.Category.Name,
@@ -367,6 +368,16 @@ namespace Volunteers.Services.Projects
             query.TotalProjects = totalProjects;
 
             return projects;
+        }
+
+        public bool IsValid(string id)
+        {
+            if (this.data.Projects.Where(p => p.Id == id).Any())
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

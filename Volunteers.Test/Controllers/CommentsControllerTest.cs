@@ -17,10 +17,11 @@ namespace Volunteers.Test
             var comment = "sample comment";
             string id = "9cf1f6a2-2c94-42e2-b896-839faf685c25";
             
-            MyController<CommentsController>.Instance(instance => instance.WithUser(user => user.WithUsername("admin")))
-                .Calling(c => c.Add(comment, id))
-                .ShouldReturn()
-                .View(view => view.WithModelOfType<dynamic>());
+
+            MyController<CommentsController>.Instance(instance => instance.WithUser("admin", new[] { "User" }).WithData(project, user))
+               .Calling(c => c.Add(comment, id))
+               .ShouldReturn()
+               .Redirect("/Projects/Details/" + $"{id}");
         }
     }
 }

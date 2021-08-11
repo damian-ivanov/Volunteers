@@ -202,7 +202,7 @@ namespace Volunteers.Controllers
             }
 
             TempData[GlobalMessageKey] = ApprovedProject;
-            return RedirectToAction("Admin", "Projects");
+            return RedirectToAction("Details", new { id = id });
         }
 
         [Authorize]
@@ -272,7 +272,12 @@ namespace Volunteers.Controllers
         {
             if (!User.IsInRole(AdministratorRoleName) && !userService.IsOwner(id, userManager.GetUserId(User)))
             {
-                return RedirectToAction("Index", "Projects");
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (!projects.IsValid(id))
+            {
+                return RedirectToAction("Index", "Home");
             }
 
             projects.Delete(id);
@@ -286,7 +291,7 @@ namespace Volunteers.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (id == null || userId == null)
+            if (!projects.IsValid(id) || userId == null )
             {
                 return RedirectToAction("Index", "Home");
             }
