@@ -40,6 +40,8 @@ namespace Volunteers.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        public DateTime RegistrationDate { get; init; }
+
         public string ReturnUrl { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
@@ -81,7 +83,7 @@ namespace Volunteers.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new User {  UserName = Input.UserName, Email = Input.Email};
+                var user = new User {  UserName = Input.UserName, Email = Input.Email, RegistrationDate = DateTime.Now};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

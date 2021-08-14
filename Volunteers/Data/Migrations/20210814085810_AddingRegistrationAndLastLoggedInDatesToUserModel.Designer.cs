@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volunteers.Data;
 
 namespace Volunteers.data.migrations
 {
     [DbContext(typeof(VolunteersDbContext))]
-    partial class VolunteersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210814085810_AddingRegistrationAndLastLoggedInDatesToUserModel")]
+    partial class AddingRegistrationAndLastLoggedInDatesToUserModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

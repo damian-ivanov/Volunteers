@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Volunteers.Models.Users.ProfileViewModel>
+
+@{
+    ViewData["Title"] = "Participants";
+}
+
+<br />
+<br />
+
+<div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
+
+    @foreach (var user in Model)
+    {
+        <div class="card text-center">
+            <div class="card-header">
+                <b>User @user.Username</b>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Statistics:</h5>
+                <div class="row">
+                    <div class="col-sm-3" style="background-color: #A3D6D4">
+                        <div class="tiles">
+                            <p>Projects submitted:</p>
+                            <h2 class="title">@user.ProjectsSubmitted</h2>
+                        </div>
+                    </div>
+                    <div class="col-sm-3" style="background-color: #F1E9CB">
+                        <div class="tiles">
+                            <p>Projects involved in:</p>
+                            <h2 class="title">@user.ProjectsInvolved</h2>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3" style="background-color: #C2D5A7">
+                        <div class="tiles">
+                            <p>Completed projects:</p>
+                            <h2 class="title">@user.ProjectsCompleted</h2>
+                        </div>
+                    </div>
+                    <div class="col-sm-3" style="background-color: #B0ABCA">
+                        <div class="tiles">
+                            <p>Comments:</p>
+                            <h2 class="title">@user.CommentsCount</h2>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <a asp-controller="Users" asp-action="Profile" asp-route-Id="@user.Username" class="btn btn-primary">See @user.Username's profile</a>
+            </div>
+            <div class="card-footer text-muted">
+                Registered on: @user.DateJoined   |   Last seen: @user.LastLogin
+            </div>
+        </div>
+        <br />
+        <br />
+    }
+</div>

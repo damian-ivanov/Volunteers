@@ -22,6 +22,12 @@ namespace Volunteers.Controllers
 
             return View(await users.GetUserInfo(Id));
         }
+
+        public IActionResult Participants()
+        {
+
+            return View(users.AllUsersInfo());
+        }
     }
 }
 

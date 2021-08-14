@@ -22,7 +22,7 @@ namespace Volunteers.Areas.Identity.Pages.Account
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<User> signInManager, 
+        public LoginModel(SignInManager<User> signInManager,
             ILogger<LoginModel> logger,
             UserManager<User> userManager)
         {
@@ -38,13 +38,15 @@ namespace Volunteers.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
+        public DateTime LastLoginTime { get; set; }
+
         [TempData]
         public string ErrorMessage { get; set; }
 
         public class InputModel
         {
             [Required]
-            
+
             public string UserName { get; set; }
 
             [Required]
@@ -53,6 +55,7 @@ namespace Volunteers.Areas.Identity.Pages.Account
 
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -77,7 +80,7 @@ namespace Volunteers.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -86,7 +89,11 @@ namespace Volunteers.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    var currentUser = await _userManager.FindByNameAsync(Input.UserName);
+                    currentUser.LastLoginTime = DateTime.Now;
+                    await _userManager.UpdateAsync(currentUser);
                     return LocalRedirect(returnUrl);
+                    
                 }
                 if (result.RequiresTwoFactor)
                 {

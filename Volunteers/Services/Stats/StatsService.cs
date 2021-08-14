@@ -18,7 +18,7 @@ namespace Volunteers.Services.Stats
         {
             int projectsCount = data.Projects.Where(p => p.IsCompleted == true).Count();
             int townsCount = data.Projects.Where(p => p.IsCompleted == true).Select(c => c.City).Distinct().Count();
-            int usersCount = data.Projects.Select(u => u.OwnerId).ToList().Distinct().Count();
+            int usersCount = data.Users.Count();
 
             return (projectsCount, townsCount, usersCount);
         }

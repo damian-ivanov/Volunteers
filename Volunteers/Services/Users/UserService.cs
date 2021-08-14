@@ -89,7 +89,7 @@ namespace Volunteers.Services.Users
                 Username = currentUser.UserName,
                 Email = currentUser.Email,
                 Role = role.FirstOrDefault(),
-                ProjectsCompleted = projects.Where(p => p.IsCompleted).Count(),
+                ProjectsCompleted = projects.Where(p => p.IsCompleted && p.OwnerId == currentUser.Id).Count(),
                 ProjectsInvolved = projects.Where(p => p.Users.Contains(currentUser)).Count(),
                 ProjectsSubmitted = projects.Where(p => p.OwnerId == currentUser.Id).Count(),
                 CommentsCount = this.data.Comments.Where(c => c.UserName == userName).Count(),
@@ -127,7 +127,29 @@ namespace Volunteers.Services.Users
         public async Task<bool> IsValid(string userName)
         {
             var user = await userManager.FindByNameAsync(userName);
-            return user==null ? false : true;
+            return user == null ? false : true;
+        }
+
+        public List<ProfileViewModel> AllUsersInfo()
+        {
+            var projects = this.data.Projects.Where(p => p.IsPublic).AsQueryable();
+
+            var users = this.data.Users.Select(u => new ProfileViewModel
+            {
+                Username = u.UserName,
+                Email = u.Email,
+                Role = userManager.GetRolesAsync(u).ToString(),
+                ProjectsCompleted = projects.Where(p => p.IsCompleted && p.OwnerId == u.Id).Count(),
+                ProjectsInvolved = projects.Where(p => p.Users.Contains(u)).Count(),
+                ProjectsSubmitted = projects.Where(p => p.OwnerId == u.Id).Count(),
+                CommentsCount = this.data.Comments.Where(c => c.User == u).Count(),
+                DateJoined = u.RegistrationDate,
+                LastLogin = u.LastLoginTime,
+            }).ToList();
+
+            return users;
+
+
         }
     }
 }
