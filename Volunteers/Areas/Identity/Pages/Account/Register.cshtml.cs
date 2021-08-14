@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Volunteers.Data.Models;
+using static Volunteers.Data.DataConstants;
 
 namespace Volunteers.Areas.Identity.Pages.Account
 {
@@ -85,6 +86,8 @@ namespace Volunteers.Areas.Identity.Pages.Account
             {
                 var user = new User {  UserName = Input.UserName, Email = Input.Email, RegistrationDate = DateTime.Now};
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                await _userManager.AddToRoleAsync(user, DefaultUserRoleName);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
