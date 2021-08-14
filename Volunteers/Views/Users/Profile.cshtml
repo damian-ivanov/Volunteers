@@ -64,12 +64,45 @@
     }
     <br />
     <br />
+    <hr />
+    @if (User.Identity.Name == Model.Username && Model.Upcoming.Any())
+    {
+        <h4 style="text-align:center">Upcoming projects:</h4>
+        <br />
+        <br />
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Starting on</th>
+                    <th scope="col">Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var project in Model.Upcoming)
+                {
+                    <tr>
+                        <td>@project.Title</td>
+                        <td>@project.Description</td>
+                        <td>@project.StartDate</td>
+                        <td><a type="button" class="btn btn-primary" asp-area="" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">See details</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
     <br />
-    <h4 style="text-align:center">@Model.Username hasn't submitted any projects yet :(</h4>
+    @if (!Model.Projects.Any())
+    {
+        <h4 style="text-align:center">@Model.Username hasn't submitted any projects yet :(</h4>
+    }
     <hr />
     @if (Model.Projects.Any())
     {
         <h4 style="text-align:center">Projects submitted by user @Model.Username</h4>
+        <br />
+        <br />
         <div class="card-columns">
             @foreach (var project in Model.Projects)
             {

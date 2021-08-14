@@ -93,6 +93,13 @@ namespace Volunteers.Services.Users
                 ProjectsInvolved = projects.Where(p => p.Users.Contains(currentUser)).Count(),
                 ProjectsSubmitted = projects.Where(p => p.OwnerId == currentUser.Id).Count(),
                 CommentsCount = this.data.Comments.Where(c => c.UserName == userName).Count(),
+                Upcoming = projects.Where(p => p.Users.Contains(currentUser) && p.IsCompleted == false).OrderBy(p => p.StartDate).Select(p => new ProjectListingViewModel
+                {
+                    Id = p.Id,
+                    Description = p.Description,
+                    StartDate = p.StartDate.ToString("d"),
+                    Title = p.Title
+                }).ToList(),
                 BadgesEarned = currentUser.Badges.Select(b => new BadgesListingViewModel
                 {
                     Description = b.Description,

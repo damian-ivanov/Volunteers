@@ -31,6 +31,8 @@ namespace Volunteers.Models.Users
 
         public IEnumerable<ProjectListingViewModel> Projects { get; set; }
 
+        public IEnumerable<ProjectListingViewModel> Upcoming { get; set; }
+
         public IEnumerable<BadgesListingViewModel> BadgesEarned { get; set; }
     }
 }
