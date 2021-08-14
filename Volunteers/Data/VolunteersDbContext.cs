@@ -32,14 +32,3 @@ namespace Volunteers.Data
 
     }
 }
-
-//modelBuilder.Entity<Parent>()
-//              .HasMany<Child>(c => c.Children)
-//              .WithOptional(x => x.Parent)
-//              .WillCascadeOnDelete(true);
-
-//Builder.Entity<OfficerPrisoner>()
-//.HasOne(x => x.Prisoner)
-//.WithMany(x => x.PrisonerOfficers)
-//.HasForeignKey(x => x.PrisonerId)
-//.OnDelete(DeleteBehavior.Restrict);

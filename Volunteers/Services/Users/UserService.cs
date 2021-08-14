@@ -121,6 +121,9 @@ namespace Volunteers.Services.Users
         public async Task DeleteUser(string userId)
         {
             var user = await userManager.FindByIdAsync(userId);
+            var userComments = this.data.Comments.Where(u => u.User == user);
+            this.data.Comments.RemoveRange(userComments);
+
             await userManager.DeleteAsync(user);
         }
 
