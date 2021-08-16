@@ -101,7 +101,8 @@ namespace Volunteers.Services.Projects
                 Title = project.Title,
                 Image = secureImageName,
                 CompletedImage = "",
-                OwnerId = ownerId
+                OwnerId = ownerId,
+                Coordinates = project.Coordinates.Substring(7).TrimEnd(')')
             };
 
             data.Projects.Add(validProject);
@@ -144,7 +145,8 @@ namespace Volunteers.Services.Projects
                 Comments = p.Comments.Where(c => c.IsPublic).OrderByDescending(c => c.PublishedOn).ToList(),
                 OwnerName = this.data.Users.Where(u => u.Id == p.OwnerId).Select(u => u.UserName).FirstOrDefault(),
                 IsOwner = userService.IsOwner(p.Id, userId),
-                Joined = p.Users.Contains(this.data.Users.Where(u => u.Id == userId).FirstOrDefault())
+                Joined = p.Users.Contains(this.data.Users.Where(u => u.Id == userId).FirstOrDefault()),
+                Coordinates = p.Coordinates
             }).FirstOrDefault();
         }
 
@@ -160,6 +162,7 @@ namespace Volunteers.Services.Projects
                 Description = p.Description,
                 StartDate = p.StartDate,
                 Title = p.Title,
+                Coordinates = "LatLng(" + p.Coordinates +  ")",
                 OldImage = Path.Combine("/uploads/", p.Image),
                 Image = Path.Combine("/uploads/", p.Image)
             }).FirstOrDefault();
@@ -170,6 +173,7 @@ namespace Volunteers.Services.Projects
             var projectToEdit = this.data.Projects.SingleOrDefault(p => p.Id == project.Id);
             var isOwnerAdmin = await userService.IsAdministrator(editorId);
 
+            projectToEdit.Coordinates = project.Coordinates.Substring(7).TrimEnd(')');
             projectToEdit.Address = project.Address;
             projectToEdit.CategoryId = project.CategoryId;
             projectToEdit.City = project.City;
@@ -361,6 +365,7 @@ namespace Volunteers.Services.Projects
                     Title = p.Title,
                     Image = Path.Combine("/uploads/", p.Image),
                     IsCompleted = p.IsCompleted,
+                    Coordinates = p.Coordinates
                 }).ToList();
 
             query.Categories = categories;

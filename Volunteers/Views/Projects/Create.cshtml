@@ -1,69 +1,75 @@
 ﻿@model AddProjectFormModel
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="@Url.Content("~/js/initializeMap.js")"></script>
+    <script src="@Url.Content("~/js/createPageMap.js")"></script>
+}
+
 @{
     ViewData["Title"] = "Create project";
 }
 
-    <h4>Project</h4>
-    <hr />
-    <div class="row">
-        <div class=".col-md-6 align-self-center">
-            <form asp-action="Create" EncType="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" class="form-control" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="City" class="control-label"></label>
-                    <input asp-for="City" class="form-control" />
-                    <span asp-validation-for="City" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Address" class="control-label"></label>
-                    <input asp-for="Address" class="form-control" />
-                    <span asp-validation-for="Address" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="StartDate" class="control-label"></label>
-                    <input asp-for="StartDate" class="form-control" />
-                    <span asp-validation-for="StartDate" class="text-danger"></span>
-                </div>
+<h4>Project</h4>
+<hr />
+<div class="row">
+    <div class=".col-md-6 align-self-center">
+        <form asp-action="Create" EncType="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <div id="mapid" style="width: 600px; height: 400px;"></div>
+                <input asp-for="Coordinates" id="coordinates" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
 
-                <div class="form-group">
-                    <label asp-for="CategoryId" class="control-label"></label>
-                    <select asp-for="CategoryId" class="form-control">
-                        @foreach (var category in Model.Categories)
-                        {
-                            <option value="@category.Id">@category.Name</option>
-                        }
-                    </select>
-                </div>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control">
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+            </div>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
 
-                <div class="form-group">
-                    <label asp-for="Image" class="control-label"></label>
-                    <input required type="file" name="Image" class="form-control-file" />
-                    <span asp-validation-for="Image" class="text-danger"></span>
-                </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input required type="file" name="Image" class="form-control-file" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
 
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
+</div>
 
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

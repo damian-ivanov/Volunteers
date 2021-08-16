@@ -96,3 +96,7 @@ body {
     width: auto;
     height: 200px;
 }
+
+#mapid {
+    height: 180px;
+}

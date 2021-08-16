@@ -38,5 +38,7 @@ namespace Volunteers.Services.Projects.Models
         public bool Joined { get; set; }
 
         public string CompletedImage { get; set; }
+
+        public object Coordinates { get; set; }
     }
 }

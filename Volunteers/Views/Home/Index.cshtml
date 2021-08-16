@@ -27,6 +27,7 @@
     </div>
 </div>
 <br />
+
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         <h1 class="display-4" style="text-align: center;">Find projects in your area:</h1>
@@ -71,6 +72,7 @@
                 </div>
             </div>
         </form>
+        <div id="mapid" style="width: 100%; height: 450px;"></div>
     </div>
 </div>
 <br />
@@ -152,4 +154,25 @@
     </div>
 </div>
 
+<script src="@Url.Content("~/js/initializeMap.js")"></script>
 
+@*Script to place all project pointers on the map*@
+<script>
+    var modelData = JSON.parse('@Html.Raw(Json.Serialize(@Model.Projects))');
+
+for (var project of modelData) {
+
+    var array = project.coordinates.split(", ");
+    var marker = L.marker([array[0], array[1]]).addTo(mymap);
+
+    //Constructing the URL to project details:
+    let string1 = "<br><a href='Projects/Details/";
+    let projectId = project.id.toString();
+    let string2 = "'>See details</a>"
+    let titleAndDate = "<b>" + project.title + "</b><br>Happening on: " + project.startDate;
+    string1.concat(projectId, string2);
+
+    marker.bindPopup(titleAndDate.concat(string1, projectId, string2));
+
+}
+</script>

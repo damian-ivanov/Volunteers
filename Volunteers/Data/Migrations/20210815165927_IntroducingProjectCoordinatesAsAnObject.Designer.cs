@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volunteers.Data;
 
 namespace Volunteers.data.migrations
 {
     [DbContext(typeof(VolunteersDbContext))]
-    partial class VolunteersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210815165927_IntroducingProjectCoordinatesAsAnObject")]
+    partial class IntroducingProjectCoordinatesAsAnObject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -286,9 +288,6 @@ namespace Volunteers.data.migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("CompletedImage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Coordinates")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")

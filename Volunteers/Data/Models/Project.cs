@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Volunteers.Data.Models
 {
@@ -50,6 +51,9 @@ namespace Volunteers.Data.Models
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
+
+        public string Coordinates { get; set; }
+
 
 
     }

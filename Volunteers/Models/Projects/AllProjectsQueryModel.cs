@@ -22,7 +22,10 @@ namespace Volunteers.Models.Projects
         public string Image { get; set; }
 
         public int TotalProjects { get; set; }
+
         public IEnumerable<Category> Categories { get; set; }
+
         public IEnumerable<ProjectListingViewModel> Projects { get; set; }
+
     }
 }

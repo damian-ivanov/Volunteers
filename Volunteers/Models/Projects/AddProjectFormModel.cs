@@ -37,5 +37,8 @@ namespace Volunteers.Models.Projects
 
         public IEnumerable<ProjectCategoryViewModel> Categories { get; set; }
 
+        [Required]
+        public string Coordinates { get; set; }
+
     }
 }
