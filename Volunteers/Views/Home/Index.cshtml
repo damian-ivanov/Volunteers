@@ -109,13 +109,15 @@
 
                     <img class="card-img-top" src="@project.Image" alt="Card image cap">
                     <div class="card-body">
-                        <h5 class="card-title">@project.Title</h5><h6><span class="badge badge-info">@project.Participants participants</span></h6>
+                        <h5 class="card-title">@project.Title</h5><h6 style="text-align: center;"><span class="badge badge-info">@project.Participants participants</span></h6>
                         <hr />
                         <p class="card-text"><b>What:</b> @project.Description</p>
                         <p class="card-text"><b>Where:</b> @project.City</p>
                         <p class="card-text"><b>When:</b> @project.StartDate (in (@project.StartDate - @DateTime.Now)</p>
                         <p class="card-text"><b>Published on:</b> @project.PublishedOn</p>
-                        <a class="btn btn-primary" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                        <div class="col text-center">
+                            <a class="btn btn-primary" asp-controller="Projects "asp-action="Details" asp-route-id="@project.Id">Details</a>
+                        </div>
                     </div>
                 </div>
             }
