@@ -4,153 +4,155 @@
     ViewData["Title"] = "Home Page";
 }
 
+
 <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
-    <div class="row">
-        <div class="col-sm-4" style="background-color: #5133AB">
+    <div class="row ml-auto mr-auto mt-4">
+        <div class="col-md-4" style="background-color: #5133AB">
             <div class="tiles">
                 <h2 class="title">@ViewBag.UsersCount</h2>
-                <p>Participants</p>
+                <p>Registered users</p>
             </div>
         </div>
-        <div class="col-sm-4" style="background-color: #00A600">
+        <div class="col-md-4" style="background-color: #00A600">
             <div class="tiles">
                 <h2 class="title">@ViewBag.ProjectsCount</h2>
                 <p>Projects completed</p>
             </div>
         </div>
-        <div class="col-sm-4" style="background-color: #DC572E">
+        <div class="col-md-4" style="background-color: #DC572E">
             <div class="tiles">
                 <h2 class="title">@ViewBag.TownsCount</h2>
                 <p>Towns improved</p>
             </div>
         </div>
     </div>
-</div>
-<br />
 
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4" style="text-align: center;">Find projects in your area:</h1>
-        <p class="lead" style="text-align: center;">Volunteer in various projects to help make your community better!</p>
-        <hr class="my-4">
-        <form method="get">
-            <div class="row">
-                <div class="form-group col-md-4">
-                    <label asp-for="SearchTerm"></label>
-                    <input asp-for="SearchTerm" class="form-control" placeholder="type your location...">
-                </div>
-                <div class="form-group col-md-4">
-                    <div class="form-group">
-                        <label asp-for="Category"></label>
-                        <select asp-for="Category" class="form-control">
-                            <option value="">All</option>
-
-                            @foreach (var category in Model.Categories)
-                            {
-                                <option value="@category.Name">@category.Name</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group col-md-4">
-                    <div class="form-group">
-                        <label asp-for="SortOrder"></label>
-                        <select asp-for="SortOrder" class="form-control">
-                            <option value="Newest" selected>Newest</option>
-                            <option value="Oldest">Oldest</option>
-                            <option value="Starting Soon">Starting Soon</option>
-                            <option value="Most participants">Most participants</option>
-                        </select>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="true" asp-for="ShowCompleted" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
-                            Show completed projects too
-                        </label>
-                        <button type="submit" class="btn btn-primary" style="float:right">Submit</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <div id="mapid" style="width: 100%; height: 450px;"></div>
-    </div>
-</div>
-<br />
-
-
-
-@if (Model.TotalProjects == 0)
-{
-    <h1 style="text-align:center">Sorry, no projects found by selected criteria :(</h1>
-}
-
-@if (Model.TotalProjects > 0)
-{
-    <h1 style="text-align:center">@Model.TotalProjects projects found:</h1>
-    <hr />
     <br />
-    <div class="card-deck">
-        @foreach (var project in Model.Projects)
-        {
-            <div class="card">
-                @if (!project.IsCompleted)
-                {
-                    <div class="project-status-active">
-                        Active
-                    </div>
-                }
-                @if (project.IsCompleted)
-                {
-                    <div class="project-status-completed">
-                        Completed
-                    </div>
-                }
 
-                <img class="card-img-top" src="@project.Image" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">@project.Title</h5><h6><span class="badge badge-info">@project.Participants participants</span></h6>
-                    <hr />
-                    <p class="card-text"><b>What:</b> @project.Description</p>
-                    <p class="card-text"><b>Where:</b> @project.City</p>
-                    <p class="card-text"><b>When:</b> @project.StartDate (in (@project.StartDate - @DateTime.Now)</p>
-                    <p class="card-text"><b>Published on:</b> @project.PublishedOn</p>
-                    <a class="btn btn-primary" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4" style="text-align: center;">Find projects in your area:</h1>
+            <p class="lead" style="text-align: center;">Volunteer in various projects to help make your community better!</p>
+            <hr class="my-4">
+            <form method="get">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label asp-for="SearchTerm"></label>
+                        <input asp-for="SearchTerm" class="form-control" placeholder="type your location...">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Category"></label>
+                            <select asp-for="Category" class="form-control">
+                                <option value="">All</option>
+
+                                @foreach (var category in Model.Categories)
+                                {
+                                    <option value="@category.Name">@category.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label asp-for="SortOrder"></label>
+                            <select asp-for="SortOrder" class="form-control">
+                                <option value="Newest" selected>Newest</option>
+                                <option value="Oldest">Oldest</option>
+                                <option value="Starting Soon">Starting Soon</option>
+                                <option value="Most participants">Most participants</option>
+                            </select>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="true" asp-for="ShowCompleted" id="defaultCheck1">
+                            <label class="form-check-label" for="defaultCheck1">
+                                Show completed projects too
+                            </label>
+                            <button type="submit" class="btn btn-primary" style="float:right">Submit</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        }
+            </form>
+            <div id="mapid"></div>
+        </div>
     </div>
+    <br />
 
-}
-@{
-    var previousPage = Model.CurrentPage - 1;
-    if (previousPage < 1)
+
+
+    @if (Model.TotalProjects == 0)
     {
-        previousPage = 1;
+        <h1 style="text-align:center">Sorry, no projects found by selected criteria :(</h1>
     }
 
-    var maxPage = Math.Ceiling((double)Model.TotalProjects / AllProjectsQueryModel.ProjectsPerPage);
-}
+    @if (Model.TotalProjects > 0)
+    {
+        <h1 style="text-align:center">@Model.TotalProjects projects found:</h1>
+        <hr />
+        <br />
+        <div class="card-deck">
+            @foreach (var project in Model.Projects)
+            {
+                <div class="card">
+                    @if (!project.IsCompleted)
+                    {
+                        <div class="project-status-active">
+                            Active
+                        </div>
+                    }
+                    @if (project.IsCompleted)
+                    {
+                        <div class="project-status-completed">
+                            Completed
+                        </div>
+                    }
 
-<div class="row mb-5 mt-3 d-flex justify-content-center">
-    <div class="col-md-1">
-        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
-           asp-controller="Home"
-           asp-action="Index"
-           asp-route-ShowCompleted="@Model.ShowCompleted"
-           asp-route-currentPage="@previousPage"
-           asp-route-Category="@Model.Category"
-           asp-route-SearchTerm="@Model.SearchTerm"
-           asp-route-SortOrder="@Model.SortOrder"><<</a>
-    </div>
-    <div class="col-md-1">
-        <a class="btn btn-primary float-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)"
-           asp-controller="Home"
-           asp-action="Index"
-           asp-route-ShowCompleted="@Model.ShowCompleted"
-           asp-route-currentPage="@(Model.CurrentPage + 1)"
-           asp-route-Category="@Model.Category"
-           asp-route-SearchTerm="@Model.SearchTerm"
-           asp-route-SortOrder="@Model.SortOrder">>></a>
+                    <img class="card-img-top" src="@project.Image" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@project.Title</h5><h6><span class="badge badge-info">@project.Participants participants</span></h6>
+                        <hr />
+                        <p class="card-text"><b>What:</b> @project.Description</p>
+                        <p class="card-text"><b>Where:</b> @project.City</p>
+                        <p class="card-text"><b>When:</b> @project.StartDate (in (@project.StartDate - @DateTime.Now)</p>
+                        <p class="card-text"><b>Published on:</b> @project.PublishedOn</p>
+                        <a class="btn btn-primary" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+    }
+    @{
+        var previousPage = Model.CurrentPage - 1;
+        if (previousPage < 1)
+        {
+            previousPage = 1;
+        }
+
+        var maxPage = Math.Ceiling((double)Model.TotalProjects / AllProjectsQueryModel.ProjectsPerPage);
+    }
+
+    <div class="row mb-5 mt-3 d-flex justify-content-center">
+        <div class="col-md-1">
+            <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+               asp-controller="Home"
+               asp-action="Index"
+               asp-route-ShowCompleted="@Model.ShowCompleted"
+               asp-route-currentPage="@previousPage"
+               asp-route-Category="@Model.Category"
+               asp-route-SearchTerm="@Model.SearchTerm"
+               asp-route-SortOrder="@Model.SortOrder"><<</a>
+        </div>
+        <div class="col-md-1">
+            <a class="btn btn-primary float-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)"
+               asp-controller="Home"
+               asp-action="Index"
+               asp-route-ShowCompleted="@Model.ShowCompleted"
+               asp-route-currentPage="@(Model.CurrentPage + 1)"
+               asp-route-Category="@Model.Category"
+               asp-route-SearchTerm="@Model.SearchTerm"
+               asp-route-SortOrder="@Model.SortOrder">>></a>
+        </div>
     </div>
 </div>
 

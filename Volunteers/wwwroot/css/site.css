@@ -80,13 +80,29 @@ body {
 .project-status-active {
     background-color: #28a745;
     color: white;
-    text-align: center;
+    font-weight: 500;
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    float: right;
+    padding: 0px 5px 0px 5px;
+    font-weight: 500;
 }
 
 .project-status-completed {
     background-color: #cccccc;
     color: white;
-    text-align: center;
+    font-weight: 500;
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    float: right;
+    padding: 0px 5px 0px 5px;
+    font-weight: 500;
 }
 
 .confirmation-gif {
@@ -98,5 +114,11 @@ body {
 }
 
 #mapid {
-    height: 180px;
+    min-height: 400px;
+    width: auto;
+}
+
+
+.leaflet-popup-content {
+    overflow-wrap: break-word;
 }

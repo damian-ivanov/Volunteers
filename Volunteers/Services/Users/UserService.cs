@@ -158,8 +158,6 @@ namespace Volunteers.Services.Users
             }).ToList();
 
             return users;
-
-
         }
     }
 }

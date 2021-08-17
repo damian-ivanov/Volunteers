@@ -80,6 +80,11 @@ namespace Volunteers.Controllers
                 this.ModelState.AddModelError(nameof(project.StartDate), "Please, choose a date in the future.");
             }
 
+            if (project.Coordinates == null)
+            {
+                this.ModelState.AddModelError(nameof(project.Coordinates), "Please, choose a location on the map.");
+            }
+
             if (!ModelState.IsValid)
             {
                 project.Categories = projects.GetProjectCategories();

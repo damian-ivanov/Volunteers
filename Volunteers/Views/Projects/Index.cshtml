@@ -3,9 +3,9 @@
 @{
     ViewData["Title"] = "All projects";
 }
-
+<h4 style="text-align:center">All projects:</h4>
+<hr />
 <br />
-
 <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,15 +37,17 @@
                 }
 
                 <img class="card-img-top" src="@project.Image" alt="Card image cap">
-                <div class="card-body">   
-                    <h5 class="card-title">@project.Title</h5><h6><span class="badge badge-info">@project.Participants participants</span><span style="margin-left:5px" class="badge badge-info">@project.Comments comments</span></h6>
+                <div class="card-body">
+                    <h5 class="card-title">@project.Title</h5><h6 style="text-align: center;"><span class="badge badge-info">@project.Participants participants</span><span style="margin-left:5px" class="badge badge-info">@project.Comments comments</span></h6>
                     <hr />
                     <p class="card-text"><b>What:</b> @project.Description</p>
                     <p class="card-text"><b>Where:</b> @project.City</p>
                     <p class="card-text"><b>When:</b> @project.StartDate</p>
-                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                    <div class="col text-center">
+                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
         }
     </div>
 </div>

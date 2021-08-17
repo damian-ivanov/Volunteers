@@ -4,13 +4,12 @@
     ViewData["Title"] = "User profile page";
 }
 
+<h4 style="text-align:center">Welcome to @Model.Username's profile page</h4>
+<hr />
 <br />
-<br />
+
 <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
-    <h2 style="text-align:center">Welcome to @Model.Username's profile page</h2>
-    <p style="text-align:center"><b>Email:</b> @Model.Email</p>
-    <p style="text-align:center"><b>Role:</b> @Model.Role</p>
-    <br />
+    <p style="text-align:center"><b>Email:</b> @Model.Email | <b>Role:</b> @Model.Role
     <br />
     <br />
     <div class="row">
@@ -127,7 +126,7 @@
                         <p class="card-text"><b>What:</b> @project.Description</p>
                         <p class="card-text"><b>Where:</b> @project.City</p>
                         <p class="card-text"><b>When:</b> @project.StartDate</p>
-                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                        <a class="btn btn-primary" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
                     </div>
                 </div>
             }

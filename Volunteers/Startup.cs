@@ -77,6 +77,7 @@ namespace Volunteers
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
+                app.UseStatusCodePagesWithReExecute("/Home/Error", "?code={0}");
             }
             else
             {
@@ -91,6 +92,7 @@ namespace Volunteers
 
             app.UseAuthentication();
             app.UseAuthorization();
+            //app.UseStatusCodePagesWithReExecute("/Home/Error", "?code={0}");
             //app.UseStatusCodePages();
 
             app.UseEndpoints(endpoints =>
