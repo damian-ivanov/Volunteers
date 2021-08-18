@@ -10,7 +10,7 @@ namespace Volunteers.Models.Projects
 
         public int CurrentPage { get; init; } = 1;
 
-        [Display(Name ="Location (optional")]
+        [Display(Name ="Location (optional)")]
         public string SearchTerm { get; set; }
 
         public string Category { get; set; }

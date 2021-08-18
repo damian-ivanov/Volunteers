@@ -42,7 +42,7 @@
                     <hr />
                     <p>
                         <img class="project-icons-list" src="/question-mark-line.png" />
-                        <span class="card-text">@project.Description</span>
+                        <span class="card-text">@project.Description.Substring(0, Math.Min(project.Description.Length, 200))...</span>
                     </p>
                     <p>
                         <img class="project-icons-list" src="/location-info.png" />
