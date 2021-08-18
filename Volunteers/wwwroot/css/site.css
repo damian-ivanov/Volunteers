@@ -146,3 +146,7 @@ body {
 .jumbotron {
     background-color: #f7f7f782;
 }
+
+.modal-body {
+    word-break: break-word;
+}

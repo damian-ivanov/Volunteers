@@ -225,7 +225,7 @@
 
                         @if (Model.project.Comments.Count > 0)
                         {
-                            <div class="table-responsive text-left mt-4">
+                            <div class="table-responsive text-left mt-4" style="word-break: break-word;">
                                 <table class="table table-striped">
                                     <tbody>
 
@@ -233,7 +233,7 @@
                                         {
                                             <tr>
                                                 <td scope="row"><p>by: <b>@comment.UserName</b></p><p>on @comment.PublishedOn</p> </td>
-                                                <td style="word-wrap: break-word; width:70%;">@comment.Content</td>
+                                                <td style="width:70%;">@comment.Content</td>
                                             </tr>
                                         }
                                     </tbody>
