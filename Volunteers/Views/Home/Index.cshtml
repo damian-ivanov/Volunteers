@@ -118,9 +118,18 @@
                 <div class="card-body">
                     <h5 class="card-title">@project.Title</h5><h6 style="text-align: center;"><span class="badge badge-info">@project.Participants participants</span></h6>
                     <hr />
-                    <p class="card-text"><b>What:</b> @project.Description</p>
-                    <p class="card-text"><b>Where:</b> @project.City</p>
-                    <p class="card-text"><b>When:</b> @project.StartDate</p>
+                    <p>
+                        <img class="project-icons-list" src="/question-mark-line.png" />
+                        <span class="card-text">@project.Description.Substring(0, Math.Min(project.Description.Length, 100))...</span>
+                    </p>
+                    <p>
+                        <img class="project-icons-list" src="/location-info.png" />
+                        <span class="card-text">@project.City</span>
+                    </p>
+                    <p>
+                        <img class="project-icons-list" src="/clock-timing.png" />
+                        <span class="card-text">@project.StartDate</span>
+                    </p>
                     <p class="card-text"><b>Published on:</b> @project.PublishedOn</p>
                     <div class="col text-center" style="margin-top: 1.25rem">
                         <a class="btn btn-primary" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>

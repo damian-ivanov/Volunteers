@@ -40,13 +40,22 @@
                 <div class="card-body">
                     <h5 class="card-title">@project.Title</h5><h6 style="text-align: center;"><span class="badge badge-info">@project.Participants participants</span><span style="margin-left:5px" class="badge badge-info">@project.Comments comments</span></h6>
                     <hr />
-                    <p class="card-text"><b>What:</b> @project.Description</p>
-                    <p class="card-text"><b>Where:</b> @project.City</p>
-                    <p class="card-text"><b>When:</b> @project.StartDate</p>
-                    <div class="col text-center" style="margin-top: 1.25rem">
-                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                    <p>
+                        <img class="project-icons-list" src="/question-mark-line.png" />
+                        <span class="card-text">@project.Description</span>
+                    </p>
+                    <p>
+                        <img class="project-icons-list" src="/location-info.png" />
+                        <span class="card-text">@project.City</span>
+                    </p>
+                    <p>
+                        <img class="project-icons-list" src="/clock-timing.png" />
+                        <span class="card-text">@project.StartDate</span>
+                    </p>
+                        <div class="col text-center" style="margin-top: 1.25rem">
+                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@project.Id">Details</a>
                         </div>
-                    </div>
+                </div>
                 </div>
         }
     </div>
