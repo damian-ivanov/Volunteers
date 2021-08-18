@@ -16,73 +16,29 @@
 <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
     <div class="container">
         <div class="row">
-            <div class="col-md-5">
-                <div class="project-info-box mt-0">
-                    <img class="project-icons" src="/question-mark-line.png" />
-                    <span class="mb-0" style="word-break: break-all;">@Model.project.Description</span><hr />
-                </div><!-- / project-info-box -->
-                <div class="project-info-box">
-                    <img class="project-icons" src="/location-info.png" />
-                    <span class="mb-0">@Model.project.City, @Model.project.Address</span>
-                    <br />
-                    <br />
-                    <img class="project-icons" src="/clock-timing.png" />
-                    <span class="mb-0">@Model.project.StartDate</span>
-                    <br />
-                    <hr />
-                    <p>
-                        @if (Model.project.Participants == 0 || Model.project.Participants > 1)
-                        {
-                            <b>@Model.project.Participants volunteers have joined</b>
-                        }
-
-                        @if (Model.project.Participants == 1)
-                        {
-                            <b>@Model.project.Participants volunteer has joined</b>
-                        }
-
-
-                        @if (!Model.project.Joined)
-                        {
-                            <a type="button" class="badge badge-pill badge-success" asp-action="Join" asp-route-id="@Model.project.Id">Join</a>
-                        }
-
-                        @if (Model.project.Joined)
-                        {
-                            <a type="button" class="badge badge-pill badge-dark" style="color:white;">You are in!</a> <a type="button" class="badge badge-pill align-text-bottom" asp-action="Leave" asp-route-id="@Model.project.Id">Leave</a>
-                        }
-
-                    </p>
-                    <p><b>Submitted by: </b><a asp-controller="Users" asp-action="Profile" asp-route-Id="@Model.project.OwnerName">@Model.project.OwnerName</a></p>
-                </div><!-- / project-info-box -->
+            <div class="col-md-5 mb-5px">
+                <div id="mapid" style="height:300px"></div>
                 <div id="projectCoordinates">@Model.project.Coordinates</div>
-                <div id="mapid" style="width: 100%; height: 400px;"></div>
-                <div class="project-info-box mt-0 mb-0">
-                    <p class="mb-0">
-                        <a href="#x" class="btn btn-xs btn-facebook btn-circle btn-icon mr-5 mb-0"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#x" class="btn btn-xs btn-twitter btn-circle btn-icon mr-5 mb-0"><i class="fab fa-twitter"></i></a>
-                        <a href="#x" class="btn btn-xs btn-pinterest btn-circle btn-icon mr-5 mb-0"><i class="fab fa-pinterest"></i></a>
-                        <a href="#x" class="btn btn-xs btn-linkedin btn-circle btn-icon mr-5 mb-0"><i class="fab fa-linkedin-in"></i></a>
-                    </p>
-                </div><!-- / project-info-box -->
-            </div><!-- / column -->
+            </div>
 
             <div class="col-md-7">
-                @if (!Model.project.IsCompleted)
-                {
-                    <div class="project-status-active">
-                        Active
-                    </div>
-                }
-                @if (Model.project.IsCompleted)
-                {
-                    <div class="project-status-completed">
-                        Completed
-                    </div>
-                }
-                <img style="max-width: 100%;" src="@Model.project.Image" alt="project-image" class="rounded">
-                <div class="project-info-box">
-                    <p><b>Category:</b> @Model.project.Category</p>
+                <div style="height: 400px; background-color: #f7f7f782; display: flex ">
+                    @if (!Model.project.IsCompleted)
+                    {
+                        <div class="project-status-active">
+                            Active
+                        </div>
+                    }
+                    @if (Model.project.IsCompleted)
+                    {
+                        <div class="project-status-completed">
+                            Completed - <a href="#completed">see results</a>
+                        </div>
+                    }
+                    <img style="max-height:100%; margin:auto;" src="@Model.project.Image" alt="project-image" class="img-fluid mx-auto d-block">
+                </div>
+                <br />
+                <div>
                     <p>
                         @if (User.IsInRole("Administrator"))
                         {
@@ -136,87 +92,156 @@
                                     </div>
                                 </div>
                             </div>
-
                         }
-
                     </p>
+                </div>
+            </div>
 
-                    @if (Model.project.IsCompleted)
+            <div class="col-md-5">
+                <hr />
+                <img class="project-icons" src="/location-info.png" />
+                <span class="mb-0">@Model.project.City, @Model.project.Address</span>
+                <br />
+                <br />
+                <img class="project-icons" src="/clock-timing.png" />
+                <span class="mb-0">@Model.project.StartDate</span>
+                <br />
+                <hr />
+                <p>
+                    @if (Model.project.Participants == 0 || Model.project.Participants > 1)
                     {
-                        <h4>This project is complete! Here is the result:</h4>
-                        <img style="max-width: 100%;" src="@Model.project.CompletedImage" alt="project-image" class="rounded">
+                        <b>@Model.project.Participants volunteers have joined</b>
+                    }
+
+                    @if (Model.project.Participants == 1)
+                    {
+                        <b>@Model.project.Participants volunteer has joined</b>
                     }
 
 
-                </div><!-- / project-info-box -->
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#commentModal">
-                    Comment
-                </button>
+                    @if (!Model.project.Joined)
+                    {
+                        <a type="button" class="badge badge-pill badge-success" asp-action="Join" asp-route-id="@Model.project.Id">Join</a>
+                    }
 
-                <!-- Modal -->
-                <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModal" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Your comment for "@Model.project.Title"</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form class="needs-validation" required asp-controller="Comments" asp-action="Add" asp-route-id="@Model.project.Id">
-                                    <textarea required minlength="3" maxlength="1000" id="text" name="comment" class="form-control" rows="3"></textarea>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                        <input type="submit" value="Post comment" class="btn btn-success" />
-                                    </div>
-                                </form>
-                            </div>
+                    @if (Model.project.Joined)
+                    {
+                        <a type="button" class="badge badge-pill badge-dark" style="color:white;">You are in!</a> <a type="button" class="badge badge-pill align-text-bottom" asp-action="Leave" asp-route-id="@Model.project.Id">Leave</a>
+                    }
+
+                </p>
+                <p><b>Category:</b> @Model.project.Category</p>
+                <p><b>Submitted by: </b><a asp-controller="Users" asp-action="Profile" asp-route-Id="@Model.project.OwnerName">@Model.project.OwnerName</a></p>
+            </div>
+
+            <div class="col-md-7">
+                <hr />
+                <img class="project-icons" src="/question-mark-line.png" />
+                <span class="mb-0" style="word-break: break-word;">@Model.project.Description</span>
+                <br />
+            </div>
+
+
+
+            @if (Model.project.IsCompleted)
+            {
+
+
+                <div id="completed" class="col-md-12 text-center">
+                    <br />
+                    <hr />
+                    <h5>This project is complete! Here is the result:</h5>
+                </div>
+
+                <div class="col-md-6">
+                    <div style="height: 400px; background-color: #f7f7f782; display: flex; margin-bottom:10px">
+                        <br />
+                        <div class="project-status-active">
+                            Before:
                         </div>
+                        <img style="max-height:100%; margin:auto;" src="@Model.project.Image" alt="project-image" class="img-fluid mx-auto d-block">
                     </div>
                 </div>
-            </div><!-- / column -->
-            <div class="col-md-5">
-            </div>
-            <div class="col-md-7">
-                <br />
-                @if (Model.project.Comments.Count == 0)
-                {
-                    <h4>No comments added yet.</h4>
-                }
 
-                @if (Model.project.Comments.Count > 0)
-                {
-                    <h4>Comments:</h4>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Author:</th>
-                                    <th scope="col">Comment:</th>
-                                    <th scope="col">Posted on:</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @foreach (var comment in Model.project.Comments)
-                                {
-
-
-                                    <tr>
-                                        <td scope="row">@comment.UserName</td>
-                                        <td style="word-wrap: break-word; min-width: 160px; max-width: 160px;">@comment.Content</td>
-                                        <td>@comment.PublishedOn</td>
-                                    </tr>
-
-                                }
-                            </tbody>
-                        </table>
+                <div class="col-md-6">
+                    <div style="height: 400px; background-color: #f7f7f782; display: flex;">
+                        <br />
+                        <div class="project-status-active">
+                            After:
+                        </div>
+                        <img style="max-height:100%; margin:auto;" src="@Model.project.CompletedImage" alt="project-image" class="img-fluid mx-auto d-block">
                     </div>
-                }
+                </div>
 
-            </div>
-        </div>
+
+                    }
+
+
+
+
+
+                    <div class="col-md-12 text-center">
+                        <hr />
+                        <br />
+
+                        @if (Model.project.Comments.Count == 0)
+                        {
+                            <img style="text-align:center;" class="project-icons" src="/talk-bubble.png" />
+                            <span class="mb-0">No comments added yet.</span>
+                        }
+                        @if (Model.project.Comments.Count > 0)
+                        {
+                            <img style="text-align:center;" class="project-icons" src="/talk-bubble.png" />
+                            <span class="mb-0">There are <b>@Model.project.Comments.Count</b> comments:</span>
+                        }
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#commentModal" style="float:right;">
+                            Comment
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Your comment for "@Model.project.Title"</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="needs-validation" required asp-controller="Comments" asp-action="Add" asp-route-id="@Model.project.Id">
+                                            <textarea required minlength="3" maxlength="1000" id="text" name="comment" class="form-control" rows="3"></textarea>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                <input type="submit" value="Post comment" class="btn btn-success" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (Model.project.Comments.Count > 0)
+                        {
+                            <div class="table-responsive text-left mt-4">
+                                <table class="table table-striped">
+                                    <tbody>
+
+                                        @foreach (var comment in Model.project.Comments)
+                                        {
+                                            <tr>
+                                                <td scope="row"><p>by: <b>@comment.UserName</b></p><p>on @comment.PublishedOn</p> </td>
+                                                <td style="word-wrap: break-word; width:70%;">@comment.Content</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+
+                    </div>
+                </div>
     </div>
 </div>
