@@ -4657,9 +4657,11 @@ input[type="button"].btn-block {
 }
 
 .card-img-top {
-  width: 100%;
-  border-top-left-radius: calc(0.25rem - 1px);
-  border-top-right-radius: calc(0.25rem - 1px);
+    width: 100%;
+    border-top-left-radius: calc(0.25rem - 1px);
+    border-top-right-radius: calc(0.25rem - 1px);
+    object-fit: cover !important;
+    height: 200px !important;
 }
 
 .card-img-bottom {
