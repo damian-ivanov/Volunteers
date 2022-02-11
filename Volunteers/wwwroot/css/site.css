@@ -150,3 +150,8 @@ body {
 .modal-body {
     word-break: break-word;
 }
+
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+}
