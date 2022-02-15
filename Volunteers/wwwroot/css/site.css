@@ -58,6 +58,12 @@ html {
   min-height: 100%;
 }
 
+header {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
+
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
@@ -154,4 +160,12 @@ body {
 .card-img-top {
     object-fit: cover;
     height: 200px;
+}
+
+.navbar {
+    padding: 3px;
+}
+
+.navbar-expand-sm .navbar-collapse {
+    align-items: flex-end;
 }
