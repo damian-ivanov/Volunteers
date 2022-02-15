@@ -169,6 +169,7 @@ body {
     padding: 3px;
     background-color: #bd9;
     color: white;
+    font-size: 15px;
 }
 
 .navbar-nav {
@@ -191,7 +192,7 @@ body {
 .nav-item-button {
     background: none !important;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 1rem;
     color: white;
 }
 
@@ -200,7 +201,12 @@ body {
     border-radius: 5px;
 }
 
-.nav-item-add :hover {
-    background-color: #176429 !important;
-    border-radius: 5px;
+    .nav-item-add :hover {
+        background-color: #176429 !important;
+        border-radius: 5px;
+    }
+
+.logo img {
+    max-width: 100%;
+    margin-right: 10px;
 }
