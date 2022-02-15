@@ -166,6 +166,6 @@ body {
     padding: 3px;
 }
 
-.navbar-expand-sm .navbar-collapse {
-    align-items: flex-end;
+.navbar-nav {
+    align-items: center;
 }
