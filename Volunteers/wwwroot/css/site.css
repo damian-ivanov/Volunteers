@@ -166,7 +166,7 @@ body {
 }
 
 .navbar {
-    padding: 3px;
+    padding: 1px;
     background-color: #bd9;
     color: white;
     font-size: 15px;
@@ -199,6 +199,7 @@ body {
 .nav-item-add {
     background-color: #28a745;
     border-radius: 5px;
+    margin-right: 1px;
 }
 
     .nav-item-add :hover {
