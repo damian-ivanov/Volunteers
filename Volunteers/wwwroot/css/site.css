@@ -211,3 +211,7 @@ body {
     max-width: 100%;
     margin-right: 10px;
 }
+
+.card-img-top-badge {
+    width: 100%;
+}
