@@ -16,7 +16,7 @@ namespace Volunteers.Services.Users
 
         public Task<ProfileViewModel> GetUserInfo(string userName);
 
-        public List<ProfileViewModel> AllUsersInfo();
+        public List<ProfileViewModel> AllUsersInfo(string projectId = null);
 
         public Task<bool> IsValid(string userName);
 

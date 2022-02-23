@@ -43,6 +43,7 @@ namespace Volunteers.Services.Users
         {
             var usersList = new List<UsersServiceModel>();
             var users = this.data.Users;
+
             foreach (var user in users)
             {
                 var role = await userManager.GetRolesAsync(await userManager.FindByIdAsync(user.Id));
@@ -140,11 +141,20 @@ namespace Volunteers.Services.Users
             return user == null ? false : true;
         }
 
-        public List<ProfileViewModel> AllUsersInfo()
+        public List<ProfileViewModel> AllUsersInfo(string projectId = null)
         {
             var projects = this.data.Projects.Where(p => p.IsPublic).AsQueryable();
 
-            var users = this.data.Users.Select(u => new ProfileViewModel
+            var users = this.data.Users.AsQueryable();
+
+            if (projectId != null)
+            {
+                var projectJoinedUsers = this.data.Projects.Include(u => u.Users).Where(p => p.Id == projectId).FirstOrDefault();
+
+                users = projectJoinedUsers.Users.AsQueryable();
+            }
+
+            var usersData = users.Select(u => new ProfileViewModel
             {
                 Username = u.UserName,
                 Email = u.Email,
@@ -157,7 +167,27 @@ namespace Volunteers.Services.Users
                 LastLogin = u.LastLoginTime,
             }).ToList();
 
-            return users;
+            return usersData;
         }
+
+        //public List<ProfileViewModel> AllUsersInfo(string projectId = null)
+        //{
+        //    var projects = this.data.Projects.Where(p => p.IsPublic).AsQueryable();
+
+        //    var users = this.data.Users.Select(u => new ProfileViewModel
+        //    {
+        //        Username = u.UserName,
+        //        Email = u.Email,
+        //        Role = userManager.GetRolesAsync(u).ToString(),
+        //        ProjectsCompleted = projects.Where(p => p.IsCompleted && p.OwnerId == u.Id).Count(),
+        //        ProjectsInvolved = projects.Where(p => p.Users.Contains(u)).Count(),
+        //        ProjectsSubmitted = projects.Where(p => p.OwnerId == u.Id).Count(),
+        //        CommentsCount = this.data.Comments.Where(c => c.User == u).Count(),
+        //        DateJoined = u.RegistrationDate,
+        //        LastLogin = u.LastLoginTime,
+        //    }).ToList();
+
+        //    return users;
+        //}
     }
 }

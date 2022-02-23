@@ -318,6 +318,13 @@ namespace Volunteers.Controllers
         {
             return View();
         }
+
+        public IActionResult ProjectParticipants()
+        {
+
+            return View(userService.AllUsersInfo("cc01d3f0-2440-4c67-b476-4d822855f100"));
+        }
+        
     }
 }
 
