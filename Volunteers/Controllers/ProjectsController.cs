@@ -319,10 +319,10 @@ namespace Volunteers.Controllers
             return View();
         }
 
-        public IActionResult ProjectParticipants()
+        public IActionResult ProjectParticipants(string id)
         {
 
-            return View(userService.AllUsersInfo("cc01d3f0-2440-4c67-b476-4d822855f100"));
+            return View(userService.AllUsersInfo(id));
         }
         
     }

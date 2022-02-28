@@ -110,12 +110,16 @@
                 <p>
                     @if (Model.project.Participants == 0 || Model.project.Participants > 1)
                     {
+                    <a asp-action="ProjectParticipants" asp-route-id="@Model.project.Id">
                         <b>@Model.project.Participants volunteers have joined</b>
-                    }
+                    </a>
+                        }
 
-                    @if (Model.project.Participants == 1)
-                    {
-                        <b>@Model.project.Participants volunteer has joined</b>
+                        @if (Model.project.Participants == 1)
+                        {
+                <a asp-action="ProjectParticipants" asp-route-id="@Model.project.Id">
+                    <b>@Model.project.Participants volunteer has joined</b>
+                </a>
                     }
 
 
@@ -129,7 +133,7 @@
                         <a type="button" class="badge badge-pill badge-dark" style="color:white;">You are in!</a> <a type="button" class="badge badge-pill align-text-bottom" asp-action="Leave" asp-route-id="@Model.project.Id">Leave</a>
                     }
 
-                </p>
+</p>
                 <p><b>Category:</b> @Model.project.Category</p>
                 <p><b>Submitted by: </b><a asp-controller="Users" asp-action="Profile" asp-route-Id="@Model.project.OwnerName">@Model.project.OwnerName</a></p>
             </div>
