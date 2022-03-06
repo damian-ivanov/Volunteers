@@ -141,7 +141,7 @@ namespace Volunteers.Services.Users
             return user == null ? false : true;
         }
 
-        public List<ProfileViewModel> AllUsersInfo(string projectId = null)
+        public async Task<List<ProfileViewModel>> AllUsersInfo(string projectId = null)
         {
             var projects = this.data.Projects.Where(p => p.IsPublic).AsQueryable();
 
@@ -149,12 +149,12 @@ namespace Volunteers.Services.Users
 
             if (projectId != null)
             {
-                var projectJoinedUsers = this.data.Projects.Include(u => u.Users).Where(p => p.Id == projectId).FirstOrDefault();
+                var projectJoinedUsers = await this.data.Projects.Include(u => u.Users).Where(p => p.Id == projectId).FirstOrDefaultAsync();
 
                 users = projectJoinedUsers.Users.AsQueryable();
             }
 
-            var usersData = users.Select(u => new ProfileViewModel
+            return users.Select(u => new ProfileViewModel
             {
                 Username = u.UserName,
                 Email = u.Email,
@@ -166,8 +166,6 @@ namespace Volunteers.Services.Users
                 DateJoined = u.RegistrationDate,
                 LastLogin = u.LastLoginTime,
             }).ToList();
-
-            return usersData;
         }
 
         //public List<ProfileViewModel> AllUsersInfo(string projectId = null)

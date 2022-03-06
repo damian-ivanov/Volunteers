@@ -319,10 +319,10 @@ namespace Volunteers.Controllers
             return View();
         }
 
-        public IActionResult ProjectParticipants(string id)
+        public async Task<IActionResult> ProjectParticipants(string id)
         {
 
-            return View(userService.AllUsersInfo(id));
+            return View(await userService.AllUsersInfo(id));
         }
         
     }

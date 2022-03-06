@@ -23,10 +23,10 @@ namespace Volunteers.Controllers
             return View(await users.GetUserInfo(Id));
         }
 
-        public IActionResult Participants()
+        public async Task<IActionResult> Participants()
         {
 
-            return View(users.AllUsersInfo());
+            return View(await users.AllUsersInfo());
         }
     }
 }
