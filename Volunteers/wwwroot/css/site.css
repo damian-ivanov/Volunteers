@@ -215,3 +215,7 @@ body {
 .card-img-top-badge {
     width: 100%;
 }
+
+.display-4 {
+    font-size: 3.3rem;
+}
