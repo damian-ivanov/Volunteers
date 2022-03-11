@@ -227,3 +227,9 @@ body {
 .display-4 {
     font-size: 3.3rem;
 }
+
+.card:hover {
+    border: 1px gray solid;
+    opacity: 0.8;
+        
+}
