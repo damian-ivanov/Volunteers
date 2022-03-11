@@ -7,19 +7,19 @@
 
 <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
     <div class="row ml-auto mr-auto mt-4">
-        <div class="col-md-4" style="background-color: #5133AB">
+        <div class="col-md-4" style="background-color: #AAD9CD">
             <div class="tiles">
                 <h2 class="title">@ViewBag.UsersCount</h2>
                 <p>Registered users</p>
             </div>
         </div>
-        <div class="col-md-4" style="background-color: #00A600">
+        <div class="col-md-4" style="background-color: #E8D595">
             <div class="tiles">
                 <h2 class="title">@ViewBag.ProjectsCount</h2>
                 <p>Projects completed</p>
             </div>
         </div>
-        <div class="col-md-4" style="background-color: #DC572E">
+        <div class="col-md-4" style="background-color: #8DA47E">
             <div class="tiles">
                 <h2 class="title">@ViewBag.TownsCount</h2>
                 <p>Towns improved</p>
@@ -131,9 +131,8 @@
                         <span class="card-text">@project.StartDate</span>
                     </p>
                     <p class="card-text"><b>Published on:</b> @project.PublishedOn</p>
-                    <hr />
                     <div class="col text-center" style="margin-top: 1.25rem">
-                        <a class="btn btn-primary" id="detailsButton" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                        <a class="btn btn-primary" style="display:none" id="detailsButton" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
                     </div>
                 </div>
             </div>
