@@ -176,12 +176,20 @@ body {
     align-items: center;
 }
 
+.navbar .container {
+    align-items: stretch;
+}
+
 .navbar-light .navbar-brand {
     color: white;
 }
 
 .navbar-light .navbar-nav .nav-link {
     color: white !important;
+}
+
+.nav-link {
+    padding: 0.3rem 1rem;
 }
 
 .nav-item :hover {
