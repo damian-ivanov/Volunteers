@@ -1,6 +1,10 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+h1 {
+    font-size: 2.3rem;
+}
+
 a.navbar-brand {
     white-space: normal;
     text-align: center;
@@ -98,6 +102,7 @@ body {
     float: right;
     padding: 0px 5px 0px 5px;
     font-weight: 500;
+    font-size: 14px;
 }
 
 .project-status-completed {
@@ -112,6 +117,7 @@ body {
     float: right;
     padding: 0px 5px 0px 5px;
     font-weight: 500;
+    font-size: 14px;
 }
 
 .confirmation-gif {
