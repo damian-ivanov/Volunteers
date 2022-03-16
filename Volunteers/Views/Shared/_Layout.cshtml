@@ -65,8 +65,17 @@
     </div>
 
     <footer class="border-top footer text-muted text-center">
+        <div>
+            <div>
+                <a href="https://www.facebook.com/" target="_blank" rel="noreferrer" className={styles.a}><i className="fab fa-facebook"></i></a>
+                <a href="https://twitter.com/" target="_blank" rel="noreferrer" className={styles.a}><i className="fab fa-twitter"></i></a>
+                <a href="https://instagram.com/" target="_blank" rel="noreferrer" className={styles.a}><i className="fab fa-instagram"></i></a>
+                <a href="https://youtube.com/" target="_blank" rel="noreferrer" className={styles.a}><i className="fab fa-youtube"></i></a>
+            </div>
+            <p><a href='https://github.com/damian-ivanov/Volunteers' rel="noreferrer" target="_blank">source code</a></p>
+        </div>
         <div class="container">
-            &copy; @DateTime.UtcNow.Year - Volunteers - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - @DateTime.UtcNow.Year - Volunteers - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
