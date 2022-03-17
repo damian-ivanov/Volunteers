@@ -179,7 +179,7 @@ body {
 
 .navbar {
     padding: 1px;
-    background-color: #bd9;
+    background-color: white;
     color: white;
     font-size: 15px;
 }
@@ -193,11 +193,11 @@ body {
 }
 
 .navbar-light .navbar-brand {
-    color: white;
+    color: gray;
 }
 
 .navbar-light .navbar-nav .nav-link {
-    color: white !important;
+    color: gray !important;
 }
 
 .nav-link {
@@ -205,8 +205,13 @@ body {
 }
 
 .nav-item :hover {
-    background-color: #28a745;
+    background-color: #8DA47E;
     border-radius: 5px;
+    color: white !important;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: white !important;
 }
 
 .nav-item-button {
@@ -217,9 +222,14 @@ body {
 }
 
 .nav-item-add {
-    background-color: #28a745;
+    background-color: #8DA47E;
     border-radius: 5px;
     margin-right: 1px;
+    color: white !important;
+}
+
+.navbar-light .navbar-nav .nav-item-add a {
+    color: white !important;
 }
 
 .nav-item-add :hover {
