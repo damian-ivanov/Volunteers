@@ -74,6 +74,7 @@ header {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    background-color: #fafafa;
 }
 
 .footer {
@@ -163,7 +164,8 @@ body {
 }
 
 .jumbotron {
-    background-color: #f7f7f782;
+    /*background-color: #f7f7f782;*/
+    background-color: #00000008;
 }
 
 .modal-body {
@@ -187,7 +189,7 @@ body {
 }
 
 .navbar .container {
-/*    align-items: stretch;*/
+    /*    align-items: stretch;*/
 }
 
 .navbar-light .navbar-brand {
@@ -220,10 +222,10 @@ body {
     margin-right: 1px;
 }
 
-    .nav-item-add :hover {
-        background-color: #176429 !important;
-        border-radius: 5px;
-    }
+.nav-item-add :hover {
+    background-color: #176429 !important;
+    border-radius: 5px;
+}
 
 .logo img {
     max-width: 100%;
@@ -241,5 +243,4 @@ body {
 .card:hover {
     border: 1px gray solid;
     opacity: 0.8;
-        
 }
