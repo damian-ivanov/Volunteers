@@ -22,7 +22,7 @@
     <div class="card-columns">
         @foreach (var project in Model)
         {
-            <div class="card" onclick="document.getElementById('detailsButton').click()" style="cursor:pointer">
+            <div class="card" onclick="document.getElementById('@project.Id').click()" style="cursor:pointer">
                 @if (!project.IsCompleted)
                 {
                     <div class="project-status-active">
@@ -54,7 +54,7 @@
                     </p>
                     
                     <div class="col text-center" style="margin-top: 1.25rem">
-                        <a class="btn btn-primary" style="display:none" id="detailsButton" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                        <a class="btn btn-primary" style="display:none" id="@project.Id" asp-action="Details" asp-route-id="@project.Id">Details</a>
                     </div>
                 </div>
                 </div>
