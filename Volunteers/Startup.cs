@@ -20,6 +20,7 @@ using Volunteers.Services.Comments;
 using Volunteers.Services.Projects;
 using Volunteers.Services.Stats;
 using Volunteers.Services.Users;
+using Volunteers.Hubs;
 
 namespace Volunteers
 {
@@ -63,6 +64,7 @@ namespace Volunteers
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IBadgesService, BadgesService>();
             services.AddTransient<IStatsService, StatsService>();
+            services.AddSignalR();
         }
 
 
@@ -106,6 +108,7 @@ namespace Volunteers
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapRazorPages();
+                endpoints.MapHub<NotificationHub>("/NotificationHub");
             });
         }
     }

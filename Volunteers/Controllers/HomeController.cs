@@ -39,5 +39,10 @@ namespace Volunteers.Controllers
         {
             return View();
         }
+
+        public IActionResult Notifications()
+        {
+            return View();
+        }
     }
 }
