@@ -82,12 +82,12 @@
 
     @if (Model.TotalProjects == 0)
     {
-        <h1 style="text-align:center">Sorry, no projects found by selected criteria :(</h1>
+        <h2 style="text-align:center">Sorry, no projects found by selected criteria :(</h2>
     }
 
     @if (Model.TotalProjects > 0)
     {
-        <h1 style="text-align:center">@Model.TotalProjects projects found:</h1>
+        <h2 style="text-align:center">@Model.TotalProjects projects found:</h2>
         <hr />
         <br />
         var count = 0;
