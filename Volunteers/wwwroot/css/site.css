@@ -11,6 +11,10 @@ h2 {
     font-weight: 300;
 }
 
+h3, h4, h5 {
+    font-weight: 400;
+}
+
 a.navbar-brand {
     white-space: normal;
     text-align: center;
