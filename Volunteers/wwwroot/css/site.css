@@ -262,3 +262,21 @@ body {
     border: 1px gray solid;
     opacity: 0.8;
 }
+
+.nav-item {
+ 
+    position: relative;
+    
+}
+
+.nav-item .badge {
+    color: red;
+    position: absolute;
+    top: -3px;
+    right: -9px;
+    padding: 4px 8px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    display: none;
+}
