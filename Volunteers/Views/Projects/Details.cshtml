@@ -4,6 +4,16 @@
 {
 
     <script src="@Url.Content("~/js/detailsPageMap.js")"></script>
+    <script>
+        document.getElementById("approve").addEventListener("click", function (event) {
+            //var user = document.getElementById("userInput").value;
+            //var message = document.getElementById("messageInput").value;
+            connection.invoke("SendMessage", "", "").catch(function (err) {
+                return console.error(err.toString());
+            });
+  
+        });
+    </script>
 }
 
 @{
@@ -45,7 +55,7 @@
 
                             @if (!Model.project.IsPublic)
                             {
-                                <a type="button" class="btn btn-success" asp-action="Approve" asp-route-id="@Model.project.Id">Approve</a>
+                                <a type="button" id="approve"class="btn btn-success" asp-action="Approve" asp-route-id="@Model.project.Id">Approve</a>
                             }
                             @if (Model.project.IsPublic)
                             {
