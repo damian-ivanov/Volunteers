@@ -9,15 +9,7 @@
 <br />
 
 <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
-    <p style="text-align:center"><b>Email:</b> @Model.Email | <b>Role:</b> @Model.Role
-    
-    @if (@Model.Username == @User.Identity.Name)
-	{
-    <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">| Settings</a>
-	}
-    
-    <br />
-    <br />
+
     <div class="row">
         <div class="col-sm-3" style="background-color: #A3D6D4">
             <div class="tiles">
@@ -25,7 +17,7 @@
                 <h2 class="title">@Model.ProjectsSubmitted</h2>
             </div>
         </div>
-        <div class="col-sm-3" style="background-color: #F1E9CB">
+        <div class="col-sm-3" style="background-color: #E8D595">
             <div class="tiles">
                 <p>Projects involved in:</p>
                 <h2 class="title">@Model.ProjectsInvolved</h2>
@@ -47,96 +39,105 @@
     </div>
     <br />
     <br />
-    <br />
-    @if (Model.BadgesEarned.Any())
-    {
-        <h4 style="text-align:center">Badges earned by user @Model.Username</h4>
-        <hr />
+    <p style="text-align:center">
+        <b>Email:</b> @Model.Email | <b>Role:</b> @Model.Role
 
-        <div class="card-columns">
-            @foreach (var badge in Model.BadgesEarned)
-            {
-                <div class="card" style="text-align: center;">
-                    <img class="card-img-top-badge" src="@badge.Image" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">@badge.Title</h5><h6><span class="badge badge-info">Awarded to: @badge.Users volunteers</span></h6>
-                        <hr />
-                        <h6 class="card-text">@badge.Description</h6>
-                    </div>
-                </div>
-            }
-        </div>
-    }
-    <br />
-    <br />
-    <hr />
-    @if (User.Identity.Name == Model.Username && Model.Upcoming.Any())
-    {
-        <h4 style="text-align:center">Upcoming projects:</h4>
+        @if (@Model.Username == @User.Identity.Name)
+        {
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">| Settings</a>
+        }
+
         <br />
         <br />
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Starting on</th>
-                    <th scope="col">Link</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var project in Model.Upcoming)
+        @if (Model.BadgesEarned.Any())
+        {
+            <h4 style="text-align:center">Badges earned by user @Model.Username</h4>
+            <hr />
+
+            <div class="card-columns">
+                @foreach (var badge in Model.BadgesEarned)
                 {
-                    <tr>
-                        <td>@project.Title</td>
-                        <td>@project.Description</td>
-                        <td>@project.StartDate</td>
-                        <td><a type="button" class="btn btn-primary" asp-area="" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">See details</a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    <br />
-    @if (!Model.Projects.Any())
-    {
-        <h4 style="text-align:center">@Model.Username hasn't submitted any projects yet :(</h4>
-    }
-    <hr />
-    @if (Model.Projects.Any())
-    {
-        <h4 style="text-align:center">Projects submitted by user @Model.Username</h4>
-        <br />
-        <br />
-        <div class="card-columns">
-            @foreach (var project in Model.Projects)
-            {
-                <div class="card">
-                    @if (!project.IsCompleted)
-                    {
-                        <div class="project-status-active">
-                            Active
+                    <div class="card" style="text-align: center;">
+                        <img class="card-img-top-badge" src="@badge.Image" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">@badge.Title</h5><h6><span class="badge badge-info">Awarded to: @badge.Users volunteers</span></h6>
+                            <hr />
+                            <h6 class="card-text">@badge.Description</h6>
                         </div>
-                    }
-                    @if (project.IsCompleted)
-                    {
-                        <div class="project-status-completed">
-                            Completed
-                        </div>
-                    }
-
-                    <img class="card-img-top" src="@project.Image" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">@project.Title</h5><h6><span class="badge badge-info">@project.Participants participants</span></h6>
-                        <hr />
-                        <p class="card-text"><b>What:</b> @project.Description</p>
-                        <p class="card-text"><b>Where:</b> @project.City</p>
-                        <p class="card-text"><b>When:</b> @project.StartDate</p>
-                        <a class="btn btn-primary" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
                     </div>
-                </div>
-            }
-        </div>
-    }
+                }
+            </div>
+        }
+        <br />
+        <br />
+        <hr />
+        @if (User.Identity.Name == Model.Username && Model.Upcoming.Any())
+        {
+            <h4 style="text-align:center">Upcoming projects:</h4>
+            <br />
+            <br />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Starting on</th>
+                        <th scope="col">Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var project in Model.Upcoming)
+                    {
+                        <tr>
+                            <td>@project.Title</td>
+                            <td>@project.Description</td>
+                            <td>@project.StartDate</td>
+                            <td><a type="button" class="btn btn-primary" asp-area="" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">See details</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        <br />
+        @if (!Model.Projects.Any())
+        {
+            <h4 style="text-align:center">@Model.Username hasn't submitted any projects yet :(</h4>
+        }
+        <hr />
+        @if (Model.Projects.Any())
+        {
+            <h4 style="text-align:center">Projects submitted by user @Model.Username</h4>
+            <br />
+            <br />
+            <div class="card-columns">
+                @foreach (var project in Model.Projects)
+                {
+                    <div class="card">
+                        @if (!project.IsCompleted)
+                        {
+                            <div class="project-status-active">
+                                Active
+                            </div>
+                        }
+                        @if (project.IsCompleted)
+                        {
+                            <div class="project-status-completed">
+                                Completed
+                            </div>
+                        }
+
+                        <img class="card-img-top" src="@project.Image" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">@project.Title</h5><h6><span class="badge badge-info">@project.Participants participants</span></h6>
+                            <hr />
+                            <p class="card-text"><b>What:</b> @project.Description</p>
+                            <p class="card-text"><b>Where:</b> @project.City</p>
+                            <p class="card-text"><b>When:</b> @project.StartDate</p>
+                            <a class="btn btn-primary" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
 
 </div>
