@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volunteers.Areas.Admin.Models;
 using Volunteers.Data.Models;
+using Volunteers.Models.Notifications;
 using Volunteers.Models.Projects;
 using Volunteers.Services.Projects.Models;
 
@@ -48,6 +49,10 @@ namespace Volunteers.Services.Projects
         bool EmptyCategoryCheck(AddProjectFormModel project);
 
         bool EmptyCategoryCheck(EditProjectViewModel project);
+
+        public Task<IEnumerable<ProjectNotificationViewModel>> GetNotifications(string userName);
+
+        public void RemoveFromNotifications(string projectId, string userId);
 
     }
 }

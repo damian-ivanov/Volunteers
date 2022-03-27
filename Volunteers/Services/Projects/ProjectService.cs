@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Volunteers.Areas.Admin.Models;
 using Volunteers.Data;
 using Volunteers.Data.Models;
+using Volunteers.Models.Notifications;
 using Volunteers.Models.Projects;
 using Volunteers.Services.Badges;
 using Volunteers.Services.Projects.Models;
@@ -106,6 +107,15 @@ namespace Volunteers.Services.Projects
             };
 
             data.Projects.Add(validProject);
+
+            var notification = new Notification
+            {
+                ProjectId = validProject.Id,
+                Title = validProject.Title,
+            };
+
+            data.Notifications.Add(notification);
+
             data.SaveChanges();
         }
 
@@ -383,6 +393,28 @@ namespace Volunteers.Services.Projects
             }
 
             return false;
+        }
+
+        public async Task<IEnumerable<ProjectNotificationViewModel>> GetNotifications(string userName)
+        {
+
+            var user = await userService.FindUserByUsername(userName);
+            var notifications = this.data.Notifications.Include(u => u.Users).Where(n => !n.Users.Contains(user)).Select(n => new ProjectNotificationViewModel
+            {
+                Id = n.Id,
+                ProjectId = n.ProjectId,
+                Title = n.Title
+            }).ToList();
+
+            return notifications;
+        }
+
+        public void RemoveFromNotifications(string projectId, string userId)
+        {
+            var user = this.data.Users.FirstOrDefault(u => u.Id == userId);
+            var notification = this.data.Notifications.Include(u => u.Users).Where(n => n.ProjectId == projectId).FirstOrDefault();
+            notification.Users.Add(user);
+            this.data.SaveChanges();
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Volunteers.Data.Models
 
         public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
         public virtual ICollection<Badge> Badges { get; set; } = new List<Badge>();
+        public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
         public virtual DateTime? LastLoginTime { get; set; }
         public virtual DateTime? RegistrationDate { get; init; }
 

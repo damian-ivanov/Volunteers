@@ -7,7 +7,7 @@ using Volunteers.Services.Stats;
 
 namespace Volunteers.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
  
         private readonly IStatsService stats;

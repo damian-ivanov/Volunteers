@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volunteers.Data;
 
 namespace Volunteers.data.migrations
 {
     [DbContext(typeof(VolunteersDbContext))]
-    partial class VolunteersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220325150345_UpdateUsers")]
+    partial class UpdateUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,21 +169,6 @@ namespace Volunteers.data.migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("NotificationUser", b =>
-                {
-                    b.Property<int>("NotificationsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("NotificationsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("NotificationUser");
                 });
 
             modelBuilder.Entity("ProjectUser", b =>
@@ -398,6 +385,9 @@ namespace Volunteers.data.migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<int?>("NotificationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -429,6 +419,8 @@ namespace Volunteers.data.migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("NotificationId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -499,21 +491,6 @@ namespace Volunteers.data.migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("NotificationUser", b =>
-                {
-                    b.HasOne("Volunteers.Data.Models.Notification", null)
-                        .WithMany()
-                        .HasForeignKey("NotificationsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Volunteers.Data.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ProjectUser", b =>
                 {
                     b.HasOne("Volunteers.Data.Models.Project", null)
@@ -556,9 +533,23 @@ namespace Volunteers.data.migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Volunteers.Data.Models.User", b =>
+                {
+                    b.HasOne("Volunteers.Data.Models.Notification", "Notification")
+                        .WithMany("Users")
+                        .HasForeignKey("NotificationId");
+
+                    b.Navigation("Notification");
+                });
+
             modelBuilder.Entity("Volunteers.Data.Models.Category", b =>
                 {
                     b.Navigation("Projects");
+                });
+
+            modelBuilder.Entity("Volunteers.Data.Models.Notification", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Volunteers.Data.Models.Project", b =>

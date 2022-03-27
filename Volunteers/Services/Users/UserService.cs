@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Volunteers.Data;
 using Volunteers.Data.Models;
 using Volunteers.Models.Badges;
+using Volunteers.Models.Notifications;
 using Volunteers.Models.Projects;
 using Volunteers.Models.Users;
 using Volunteers.Services.Users.Models;
@@ -168,24 +169,17 @@ namespace Volunteers.Services.Users
             }).ToList();
         }
 
-        //public List<ProfileViewModel> AllUsersInfo(string projectId = null)
-        //{
-        //    var projects = this.data.Projects.Where(p => p.IsPublic).AsQueryable();
+        public async Task<User> FindUserByUsername(string userName)
+        {
+            var user = await userManager.FindByNameAsync(userName);
+            return user;
+        }
 
-        //    var users = this.data.Users.Select(u => new ProfileViewModel
-        //    {
-        //        Username = u.UserName,
-        //        Email = u.Email,
-        //        Role = userManager.GetRolesAsync(u).ToString(),
-        //        ProjectsCompleted = projects.Where(p => p.IsCompleted && p.OwnerId == u.Id).Count(),
-        //        ProjectsInvolved = projects.Where(p => p.Users.Contains(u)).Count(),
-        //        ProjectsSubmitted = projects.Where(p => p.OwnerId == u.Id).Count(),
-        //        CommentsCount = this.data.Comments.Where(c => c.User == u).Count(),
-        //        DateJoined = u.RegistrationDate,
-        //        LastLogin = u.LastLoginTime,
-        //    }).ToList();
 
-        //    return users;
-        //}
+        public async Task<User> FindUserById(string userId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+            return user;
+        }
     }
 }

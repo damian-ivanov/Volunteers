@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Volunteers.Data.Models;
+using Volunteers.Models.Notifications;
 using Volunteers.Models.Users;
 using Volunteers.Services.Users.Models;
 
@@ -15,6 +17,10 @@ namespace Volunteers.Services.Users
         public Task SetRole(string roleName, string userId);
 
         public Task<ProfileViewModel> GetUserInfo(string userName);
+
+        public Task<User> FindUserByUsername(string userName);
+
+        public Task<User> FindUserById(string userId);
 
         public Task<List<ProfileViewModel>> AllUsersInfo(string projectId = null);
 

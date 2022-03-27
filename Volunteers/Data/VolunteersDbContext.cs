@@ -16,6 +16,8 @@ namespace Volunteers.Data
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Notification> Notifications { get; set; }
+
         public VolunteersDbContext(DbContextOptions<VolunteersDbContext> options)
             : base(options)
         {
@@ -26,6 +28,7 @@ namespace Volunteers.Data
         {
             builder.Entity<Project>().HasMany<Comment>(c => c.Comments).WithOne(p => p.Project).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Project>().HasMany(x => x.Users).WithMany(x => x.Projects);
+            builder.Entity<Notification>().HasMany(x => x.Users).WithMany(x => x.Notifications);
             base.OnModelCreating(builder);
         }
 
