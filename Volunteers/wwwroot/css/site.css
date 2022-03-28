@@ -280,3 +280,23 @@ body {
     color: white;
     display: none;
 }
+
+.footer-icons {
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 50%;
+    margin-top: 30px !important;
+    margin: auto;
+}
+
+.footer-icons a {
+    color: gray;
+}
+
+    .footer-icons a:hover {
+        color: darkgray;
+    }
