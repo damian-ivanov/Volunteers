@@ -63,10 +63,11 @@ namespace Volunteers.Services.Badges
         {
             return this.data.Badges.Select(b => new BadgesListingViewModel
             {
+                Id = b.Id,
                 Description = b.Description,
                 Image = Path.Combine("/badges/", b.Image),
                 Users = b.Users.Count
-            }).OrderByDescending(u => u.Users).ToList();
+            }).OrderByDescending(b => b.Id).ToList();
         }
     }
 }
