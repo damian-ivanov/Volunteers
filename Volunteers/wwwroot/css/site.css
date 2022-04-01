@@ -251,9 +251,12 @@ body {
 }
 
 .card-img-top-badge {
-    width: 100%;
+    width: 60%;
 }
 
+.badge-image {
+    padding-top: 1.25rem;
+}
 .display-4 {
     font-size: 2.8rem;
 }
@@ -301,3 +304,4 @@ body {
 .footer-icons a:hover {
     color: darkgray;
 }
+
