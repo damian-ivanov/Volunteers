@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Volunteers.Models;
 using Volunteers.Models.Projects;
+using Volunteers.Services.Notifications;
 using Volunteers.Services.Projects;
 using Volunteers.Services.Stats;
 
@@ -13,7 +14,13 @@ namespace Volunteers.Controllers
         private readonly IStatsService stats;
         private readonly IProjectService projects;
 
-        public HomeController(IStatsService stats, IProjectService projects)
+        //public HomeController(IStatsService stats, IProjectService projects)
+        //{
+        //    this.stats = stats;
+        //    this.projects = projects;
+        //}
+
+        public HomeController(INotificationsService notifications, IStatsService stats, IProjectService projects) : base(notifications)
         {
             this.stats = stats;
             this.projects = projects;

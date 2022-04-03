@@ -21,6 +21,7 @@ using Volunteers.Services.Projects;
 using Volunteers.Services.Stats;
 using Volunteers.Services.Users;
 using Volunteers.Hubs;
+using Volunteers.Services.Notifications;
 
 namespace Volunteers
 {
@@ -64,6 +65,7 @@ namespace Volunteers
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IBadgesService, BadgesService>();
             services.AddTransient<IStatsService, StatsService>();
+            services.AddTransient<INotificationsService, NotificationsService>();
             services.AddSignalR();
         }
 
