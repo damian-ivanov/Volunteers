@@ -119,7 +119,11 @@ namespace Volunteers.Controllers
                 return RedirectToAction("PendingApproval", "Projects");
             }
 
-            projects.RemoveFromNotifications(id, userId);
+            if (userId != null)
+            {
+                projects.RemoveFromNotifications(id, userId);
+            }
+            
 
             dynamic mymodel = new ExpandoObject();
             mymodel.project = project;

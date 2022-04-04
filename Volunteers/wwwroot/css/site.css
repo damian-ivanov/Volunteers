@@ -307,3 +307,7 @@ body {
     color: darkgray;
 }
 
+.fa-comments {
+    font-size: 30px;
+    margin-right: 15px;
+}
