@@ -24,7 +24,7 @@ namespace Volunteers.Services.Notifications
         {
 
             var user = await userService.FindUserById(userId);
-            var notifications = this.data.Notifications.Include(u => u.Users).Where(n => !n.Users.Contains(user)).Count();
+            var notifications = await data.Notifications.Include(u => u.Users).Where(n => !n.Users.Contains(user)).CountAsync();
 
             return notifications;
         }

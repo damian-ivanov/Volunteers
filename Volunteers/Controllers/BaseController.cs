@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -17,12 +18,12 @@ namespace Volunteers.Controllers
         }
 
 
+        [Authorize]
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            if (userId != null)
+            if (User.Identity.IsAuthenticated)
             {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 var notificationsCount = notifications.GetNotifications(userId);
 
                 ViewBag.NotificationsCount = notificationsCount;
