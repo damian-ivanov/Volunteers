@@ -11,7 +11,10 @@
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark notification" asp-area="" asp-controller="Notifications" asp-action="Index" asp-route-Id="@User.Identity.Name"><i class="fa-solid fa-bell"></i></a>
-            <span class="badge" id="badge">@ViewBag.NotificationsCount</span>
+            @if (@ViewBag.NotificationsCount > 0)
+            {
+                <span class="badge" id="badge">@ViewBag.NotificationsCount</span>
+            }
         </li>
 
         <li class="nav-item" style="margin-left:5px">
