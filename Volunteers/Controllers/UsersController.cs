@@ -1,14 +1,15 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Volunteers.Services.Notifications;
 using Volunteers.Services.Users;
 
 namespace Volunteers.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private readonly IUserService users;
 
-        public UsersController(IUserService users)
+        public UsersController(INotificationsService notifications, IUserService users) : base(notifications)
         {
             this.users = users;
         }

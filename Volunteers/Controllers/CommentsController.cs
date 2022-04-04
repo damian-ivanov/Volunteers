@@ -3,18 +3,18 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Volunteers.Services.Comments;
 using static Volunteers.WebConstants;
+using Volunteers.Services.Notifications;
 
 namespace Volunteers.Controllers
 {
-    public class CommentsController : Controller
+    public class CommentsController : BaseController
     {
         private readonly ICommentService comments;
 
-        public CommentsController(ICommentService comments)
+        public CommentsController(ICommentService comments, INotificationsService notifications) : base(notifications)
         {
             this.comments = comments;
         }
-
 
         [Authorize]
         [HttpPost]

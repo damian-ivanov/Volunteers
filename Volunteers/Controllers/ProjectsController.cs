@@ -16,17 +16,18 @@ using Volunteers.Models.Comments;
 using Volunteers.Services.Projects;
 using System.Threading.Tasks;
 using static Volunteers.WebConstants;
+using Volunteers.Services.Notifications;
 
 namespace Volunteers.Controllers
 {
-    public class ProjectsController : Controller
+    public class ProjectsController : BaseController
     {
         private readonly IUserService userService;
         private readonly IProjectService projects;
         private readonly UserManager<User> userManager;
    
 
-        public ProjectsController(UserManager<User> userManager, IUserService userService, IProjectService projects)
+        public ProjectsController(UserManager<User> userManager, IUserService userService, IProjectService projects, INotificationsService notifications) : base(notifications)
         { 
             this.userManager = userManager;
             this.userService = userService;

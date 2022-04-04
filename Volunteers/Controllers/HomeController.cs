@@ -14,12 +14,6 @@ namespace Volunteers.Controllers
         private readonly IStatsService stats;
         private readonly IProjectService projects;
 
-        //public HomeController(IStatsService stats, IProjectService projects)
-        //{
-        //    this.stats = stats;
-        //    this.projects = projects;
-        //}
-
         public HomeController(INotificationsService notifications, IStatsService stats, IProjectService projects) : base(notifications)
         {
             this.stats = stats;
