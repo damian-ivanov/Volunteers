@@ -54,19 +54,21 @@
             <h4 style="text-align:center">Badges earned by user @Model.Username</h4>
             <hr />
 
-            <div class="card-columns">
+            <div class="card-deck">
                 @foreach (var badge in Model.BadgesEarned)
                 {
-                    <div class="card" style="text-align: center;">
+                <div class="card" style="text-align: center;">
+                    <div class="badge-image">
                         <img class="card-img-top-badge" src="@badge.Image" alt="Card image cap">
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title">@badge.Title</h5><h6><span class="badge badge-info">Awarded to: @badge.Users volunteers</span></h6>
                             <hr />
                             <h6 class="card-text">@badge.Description</h6>
                         </div>
                     </div>
-                }
-            </div>
+                    }
+                </div>
         }
         <br />
         <br />
