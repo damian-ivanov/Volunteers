@@ -146,7 +146,7 @@
             {
                 count = 0;
             }
-             else 
+            else
             {
                 count++;
             }
@@ -155,8 +155,12 @@
 
 
     }
-    @*@{
+
+
+    @*Pagination start*@
+    @{
         var previousPage = Model.CurrentPage - 1;
+        var nextPage = Model.CurrentPage + 1;
         if (previousPage < 1)
         {
             previousPage = 1;
@@ -164,8 +168,10 @@
 
         var maxPage = Math.Ceiling((double)Model.TotalProjects / AllProjectsQueryModel.ProjectsPerPage);
     }
-
-    <div class="row mb-5 mt-3 d-flex justify-content-center">
+    <br />
+    <br />
+    <hr />
+    <div class="row ml-auto mr-auto mt-4 d-flex justify-content-center" style="width:100%">
         <div class="col-md-1">
             <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
                asp-controller="Home"
@@ -174,19 +180,21 @@
                asp-route-currentPage="@previousPage"
                asp-route-Category="@Model.Category"
                asp-route-SearchTerm="@Model.SearchTerm"
-               asp-route-SortOrder="@Model.SortOrder"><<</a>
+               asp-route-SortOrder="@Model.SortOrder"><i class="fa-solid fa-backward"></i></a>
         </div>
         <div class="col-md-1">
-            <a class="btn btn-primary float-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)"
+            <a class="btn btn-primary @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)"
                asp-controller="Home"
                asp-action="Index"
                asp-route-ShowCompleted="@Model.ShowCompleted"
                asp-route-currentPage="@(Model.CurrentPage + 1)"
                asp-route-Category="@Model.Category"
                asp-route-SearchTerm="@Model.SearchTerm"
-               asp-route-SortOrder="@Model.SortOrder">>></a>
+               asp-route-SortOrder="@Model.SortOrder"><i class="fa-solid fa-forward"></i></a>
         </div>
-    </div>*@
+    </div>
+    @*Pagination end*@
+
 </div>
 
 <script src="@Url.Content("~/js/initializeMap.js")"></script>

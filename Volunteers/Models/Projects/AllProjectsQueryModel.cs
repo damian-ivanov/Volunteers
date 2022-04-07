@@ -6,7 +6,7 @@ namespace Volunteers.Models.Projects
 {
     public class AllProjectsQueryModel
     {
-        public const int ProjectsPerPage = 20;
+        public const int ProjectsPerPage = 9;
 
         public int CurrentPage { get; init; } = 1;
 
