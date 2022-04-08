@@ -180,7 +180,7 @@
                asp-route-currentPage="@previousPage"
                asp-route-Category="@Model.Category"
                asp-route-SearchTerm="@Model.SearchTerm"
-               asp-route-SortOrder="@Model.SortOrder"><i class="fa-solid fa-backward"></i></a>
+               asp-route-SortOrder="@Model.SortOrder"><i class="fa-solid fa-backward"></i> prev</a>
         </div>
         <div class="col-md-1">
             <a class="btn btn-primary @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)"
@@ -190,7 +190,7 @@
                asp-route-currentPage="@(Model.CurrentPage + 1)"
                asp-route-Category="@Model.Category"
                asp-route-SearchTerm="@Model.SearchTerm"
-               asp-route-SortOrder="@Model.SortOrder"><i class="fa-solid fa-forward"></i></a>
+               asp-route-SortOrder="@Model.SortOrder"><i class="fa-solid fa-forward"></i> next</a>
         </div>
     </div>
     @*Pagination end*@
