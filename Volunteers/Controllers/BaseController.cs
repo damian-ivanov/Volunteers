@@ -24,8 +24,6 @@ namespace Volunteers.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                //var notificationsCount = notifications.GetNotifications(userId);
-                
                 
                 var notificationsCount = Task.Run(async () => await notifications.GetNotifications(userId)).Result;
                 ViewBag.NotificationsCount = notificationsCount;

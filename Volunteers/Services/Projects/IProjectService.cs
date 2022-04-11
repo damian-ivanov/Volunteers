@@ -26,7 +26,7 @@ namespace Volunteers.Services.Projects
 
         public Task<bool> Edit(EditProjectViewModel project, string secureImageName, string editorId);
 
-        bool Approve(string id);
+        bool Approve(string id, string userId);
 
         void Complete(CompleteProjectFormModel project, string secureImageName);
 

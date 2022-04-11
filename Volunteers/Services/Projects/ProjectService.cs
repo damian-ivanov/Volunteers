@@ -108,14 +108,6 @@ namespace Volunteers.Services.Projects
 
             data.Projects.Add(validProject);
 
-            var notification = new Notification
-            {
-                ProjectId = validProject.Id,
-                Title = validProject.Title,
-            };
-
-            data.Notifications.Add(notification);
-
             data.SaveChanges();
         }
 
@@ -211,7 +203,7 @@ namespace Volunteers.Services.Projects
 
         }
 
-        public bool Approve(string id)
+        public bool Approve(string id, string userId)
         {
             var project = this.data.Projects.Where(p => p.Id == id).FirstOrDefault();
 
@@ -221,6 +213,21 @@ namespace Volunteers.Services.Projects
             }
 
             project.IsPublic = true;
+
+            if (!this.data.Notifications.Any(n => n.ProjectId == id))
+            {
+                var notification = new Notification
+                {
+                    ProjectId = project.Id,
+                    Title = project.Title,
+                };
+
+                data.Notifications.Add(notification);
+                data.SaveChanges();
+            }
+
+
+            RemoveFromNotifications(id, userId);
             data.SaveChanges();
 
             badges.Evaluate(project.OwnerId);

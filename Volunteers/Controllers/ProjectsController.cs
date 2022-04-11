@@ -119,7 +119,7 @@ namespace Volunteers.Controllers
                 return RedirectToAction("PendingApproval", "Projects");
             }
 
-            if (userId != null)
+            if (userId != null && !User.IsInRole("Administrator"))
             {
                 projects.RemoveFromNotifications(id, userId);
             }
@@ -208,7 +208,10 @@ namespace Volunteers.Controllers
         [Authorize(Roles = AdministratorRoleName)]
         public IActionResult Approve(string id)
         {
-            if (!projects.Approve(id))
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!projects.Approve(id, userId))
             {
                 return RedirectToAction("Error", "Home");
             }
