@@ -50,8 +50,6 @@ namespace Volunteers.Services.Projects
 
         bool EmptyCategoryCheck(EditProjectViewModel project);
 
-        public Task<IEnumerable<ProjectNotificationViewModel>> GetNotifications(string userName);
-
         public void RemoveFromNotifications(string projectId, string userId);
 
     }

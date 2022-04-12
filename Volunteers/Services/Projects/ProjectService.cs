@@ -403,20 +403,6 @@ namespace Volunteers.Services.Projects
             return false;
         }
 
-        public async Task<IEnumerable<ProjectNotificationViewModel>> GetNotifications(string userName)
-        {
-
-            var user = await userService.FindUserByUsername(userName);
-            var notifications = this.data.Notifications.Include(u => u.Users).Where(n => !n.Users.Contains(user) && n.PublishedOn >= user.RegistrationDate).Select(n => new ProjectNotificationViewModel
-            {
-                Id = n.Id,
-                ProjectId = n.ProjectId,
-                Title = n.Title,
-                PublishedOn = n.PublishedOn,
-            }).ToList();
-
-            return notifications;
-        }
 
         public void RemoveFromNotifications(string projectId, string userId)
         {

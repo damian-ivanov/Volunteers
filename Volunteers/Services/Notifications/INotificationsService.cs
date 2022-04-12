@@ -7,7 +7,9 @@ namespace Volunteers.Services.Notifications
 {
     public interface INotificationsService
     {
-        public Task<int> GetNotifications(string userId);
+        public Task<int> GetNotificationsCount(string userId);
+
+        public Task<IEnumerable<ProjectNotificationViewModel>> ListNotifications(string userName);
 
     }
 }

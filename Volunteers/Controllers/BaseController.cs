@@ -25,7 +25,7 @@ namespace Volunteers.Controllers
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 
-                var notificationsCount = Task.Run(async () => await notifications.GetNotifications(userId)).Result;
+                var notificationsCount = Task.Run(async () => await notifications.GetNotificationsCount(userId)).Result;
                 ViewBag.NotificationsCount = notificationsCount;
                 base.OnActionExecuting(filterContext);
             }

@@ -20,11 +20,26 @@ namespace Volunteers.Services.Notifications
             this.userService = userService;
         }
 
-        public async Task<int> GetNotifications(string userId)
+        public async Task<int> GetNotificationsCount(string userId)
         {
 
             var user = await userService.FindUserById(userId);
             var notifications = await this.data.Notifications.Include(u => u.Users).Where(n => !n.Users.Contains(user) && n.PublishedOn >= user.RegistrationDate).CountAsync();
+
+            return notifications;
+        }
+
+        public async Task<IEnumerable<ProjectNotificationViewModel>> ListNotifications(string userName)
+        {
+
+            var user = await userService.FindUserByUsername(userName);
+            var notifications = this.data.Notifications.Include(u => u.Users).Where(n => !n.Users.Contains(user) && n.PublishedOn >= user.RegistrationDate).Select(n => new ProjectNotificationViewModel
+            {
+                Id = n.Id,
+                ProjectId = n.ProjectId,
+                Title = n.Title,
+                PublishedOn = n.PublishedOn,
+            }).ToList();
 
             return notifications;
         }
