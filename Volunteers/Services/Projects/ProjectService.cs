@@ -164,7 +164,7 @@ namespace Volunteers.Services.Projects
                 Description = p.Description,
                 StartDate = p.StartDate,
                 Title = p.Title,
-                Coordinates = "LatLng(" + p.Coordinates +  ")",
+                Coordinates = "LatLng(" + p.Coordinates + ")",
                 OldImage = Path.Combine("/uploads/", p.Image),
                 Image = Path.Combine("/uploads/", p.Image)
             }).FirstOrDefault();
@@ -188,7 +188,7 @@ namespace Volunteers.Services.Projects
             {
                 projectToEdit.IsPublic = false;
             }
-            
+
             data.SaveChanges();
 
             if (isOwnerAdmin)
@@ -220,6 +220,7 @@ namespace Volunteers.Services.Projects
                 {
                     ProjectId = project.Id,
                     Title = project.Title,
+                    PublishedOn = project.PublishedOn,
                 };
 
                 data.Notifications.Add(notification);
@@ -406,11 +407,12 @@ namespace Volunteers.Services.Projects
         {
 
             var user = await userService.FindUserByUsername(userName);
-            var notifications = this.data.Notifications.Include(u => u.Users).Where(n => !n.Users.Contains(user)).Select(n => new ProjectNotificationViewModel
+            var notifications = this.data.Notifications.Include(u => u.Users).Where(n => !n.Users.Contains(user) && n.PublishedOn >= user.RegistrationDate).Select(n => new ProjectNotificationViewModel
             {
                 Id = n.Id,
                 ProjectId = n.ProjectId,
-                Title = n.Title
+                Title = n.Title,
+                PublishedOn = n.PublishedOn,
             }).ToList();
 
             return notifications;

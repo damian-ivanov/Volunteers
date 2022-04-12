@@ -1,3 +1,5 @@
+using System;
+
 namespace Volunteers.Models.Notifications
 {
     public class ProjectNotificationViewModel
@@ -7,6 +9,8 @@ namespace Volunteers.Models.Notifications
         public string ProjectId { get; set; }
 
         public string Title { get; set; }
+
+        public DateTime PublishedOn { get; set; }
 
     }
 }

@@ -20,6 +20,7 @@ else
             <div class="card notification" onclick="document.getElementById('@project.Id').click()" style="cursor:pointer">
                 <div class="card-header">
                     <b><i class="fa-solid fa-certificate" style="color: #8DA47E; margin-right:10px;"></i>   @project.Title</b>
+                    <b>- posted on @project.PublishedOn.ToShortDateString()</b>
                     <a class="btn btn-primary" style="display:none" id="@project.Id" asp-area="" asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId">Details</a>
                 </div>
             </div>

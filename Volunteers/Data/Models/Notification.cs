@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using static Volunteers.Data.DataConstants;
@@ -17,6 +18,8 @@ namespace Volunteers.Data.Models
         public string Title { get; set; }
 
         public ICollection<User> Users { get; set; } = new List<User>();
+
+        public DateTime PublishedOn { get; set; }
 
 
     }

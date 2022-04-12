@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volunteers.Data;
 
 namespace Volunteers.data.migrations
 {
     [DbContext(typeof(VolunteersDbContext))]
-    partial class VolunteersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220412134120_AddBlogCreatedTimestamp")]
+    partial class AddBlogCreatedTimestamp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -293,8 +295,8 @@ namespace Volunteers.data.migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("PublishedOn")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("PublishedOn")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
