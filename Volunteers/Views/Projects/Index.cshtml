@@ -19,7 +19,7 @@
         </div>
     </div>
     <br />
-    <div class="card-columns">
+    <div class="card-deck">
         @foreach (var project in Model)
         {
             <div class="card" onclick="document.getElementById('@project.Id').click()" style="cursor:pointer">
