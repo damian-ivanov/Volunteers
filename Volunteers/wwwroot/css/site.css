@@ -314,3 +314,10 @@ body {
 .card.notification {
     margin-bottom: 15px;
 }
+
+.top-note {
+    text-align: center;
+    font-size: 14px;
+    padding: 9px;
+    background-color: khaki;
+}
