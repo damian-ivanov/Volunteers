@@ -18,6 +18,8 @@ namespace Volunteers.Models.Projects
 
         public string StartDate { get; set; }
 
+        public string StartTime { get; set; }
+
         public string PublishedOn { get; set; }
 
         public int Participants { get; set; }

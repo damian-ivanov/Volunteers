@@ -380,6 +380,7 @@ namespace Volunteers.Services.Projects
                     Participants = p.Users.Count(),
                     PublishedOn = p.PublishedOn.ToString("d"),
                     StartDate = p.StartDate.ToString("d"),
+                    StartTime = p.StartDate.ToString("HH:mm"),
                     Title = p.Title,
                     Image = Path.Combine("/uploads/", p.Image),
                     IsCompleted = p.IsCompleted,

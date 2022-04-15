@@ -168,6 +168,11 @@ body {
     max-height: 20px !important;
 }
 
+.project-icons-home {
+    color: gray;
+    font-size: 15px;
+}
+
 #projectCoordinates {
     display: none;
 }
@@ -320,4 +325,9 @@ body {
     font-size: 14px;
     padding: 9px;
     background-color: khaki;
+}
+
+.dateTime {
+    display: flex;
+    justify-content: space-between;
 }
