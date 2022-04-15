@@ -25,5 +25,7 @@ namespace Volunteers.Models.Projects
         public int Participants { get; set; }
 
         public string Coordinates { get; set; }
+
+        public bool Joined { get; set; }
     }
 }

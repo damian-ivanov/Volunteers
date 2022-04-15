@@ -203,7 +203,7 @@ body {
 }
 
 .navbar .container {
-        align-items: stretch;
+    align-items: stretch;
 }
 
 .navbar-light .navbar-brand {
@@ -263,6 +263,7 @@ body {
 .badge-image {
     padding-top: 1.25rem;
 }
+
 .display-4 {
     font-size: 2.8rem;
 }
@@ -273,9 +274,7 @@ body {
 }
 
 .nav-item {
- 
     position: relative;
-    
 }
 
     .nav-item .badge {
@@ -303,13 +302,13 @@ body {
     margin: auto;
 }
 
-.footer-icons a {
-    color: gray;
-}
+    .footer-icons a {
+        color: gray;
+    }
 
-.footer-icons a:hover {
-    color: darkgray;
-}
+        .footer-icons a:hover {
+            color: darkgray;
+        }
 
 .fa-comments.list {
     font-size: 30px;
@@ -331,3 +330,25 @@ body {
     display: flex;
     justify-content: space-between;
 }
+
+.join {
+    text-align: center;
+    margin-top: revert;
+}
+
+    .join a {
+        text-decoration: none;
+        color: white;
+        background-color: #8DA47E;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+        .join a:hover {
+            -webkit-filter: brightness(120%);
+            -webkit-transition: all 1s ease;
+            -moz-transition: all 1s ease;
+            -o-transition: all 1s ease;
+            -ms-transition: all 1s ease;
+            transition: all 1s ease;
+        }

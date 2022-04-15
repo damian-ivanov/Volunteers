@@ -16,7 +16,7 @@ namespace Volunteers.Services.Projects
 
         IEnumerable<ProjectListingAdminViewModel> ListProjectsAdmin();
 
-        IEnumerable<ProjectListingViewModel> ListProjectsHomePage(AllProjectsQueryModel query);
+        IEnumerable<ProjectListingViewModel> ListProjectsHomePage(AllProjectsQueryModel query, string userId);
 
         ProjectDetailsServiceModel Details(string id, string userId);
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 using Volunteers.Models;
 using Volunteers.Models.Projects;
 using Volunteers.Services.Notifications;
@@ -10,7 +11,7 @@ namespace Volunteers.Controllers
 {
     public class HomeController : BaseController
     {
- 
+
         private readonly IStatsService stats;
         private readonly IProjectService projects;
 
@@ -26,7 +27,14 @@ namespace Volunteers.Controllers
             ViewBag.TownsCount = stats.GetHomePageStats().Item2;
             ViewBag.UsersCount = stats.GetHomePageStats().Item3;
 
-            projects.ListProjectsHomePage(query);
+            var userId = "";
+
+            if (User.Identity.IsAuthenticated)
+            {
+                userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+
+            projects.ListProjectsHomePage(query, userId);
 
             return View(query);
         }

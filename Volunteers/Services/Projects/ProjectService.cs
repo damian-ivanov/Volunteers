@@ -323,7 +323,7 @@ namespace Volunteers.Services.Projects
             return this.data.Categories.Any(c => c.Id == project.CategoryId);
         }
 
-        public IEnumerable<ProjectListingViewModel> ListProjectsHomePage(AllProjectsQueryModel query)
+        public IEnumerable<ProjectListingViewModel> ListProjectsHomePage(AllProjectsQueryModel query, string userId)
         {
             var projectsQuery = this.data.Projects.Where(p => p.IsPublic == true).AsQueryable();
 
@@ -384,7 +384,8 @@ namespace Volunteers.Services.Projects
                     Title = p.Title,
                     Image = Path.Combine("/uploads/", p.Image),
                     IsCompleted = p.IsCompleted,
-                    Coordinates = p.Coordinates
+                    Coordinates = p.Coordinates,
+                    Joined = p.Users.Contains(this.data.Users.Where(u => u.Id == userId).FirstOrDefault()),
                 }).ToList();
 
             query.Categories = categories;
