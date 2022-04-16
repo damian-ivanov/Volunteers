@@ -331,6 +331,10 @@ body {
     justify-content: space-between;
 }
 
+.dateTime p {
+    margin-bottom: 0px !important;
+}
+
 .join {
     text-align: center;
     margin-top: revert;

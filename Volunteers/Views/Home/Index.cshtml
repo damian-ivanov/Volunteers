@@ -116,21 +116,22 @@
 
                 <img class="card-img-top" src="@project.Image" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">@project.Title</h5><h6 style="text-align: center;"><span class="badge badge-info"><i class="fa-solid fa-people-group"></i> @project.Participants</span></h6>
+                    <h6 class="card-title">@project.Title</h6>
                     <hr />
                     <div class="project-icons-home">
-                        <p><i class="fa-solid fa-bullseye"></i> @project.Description.Substring(0, Math.Min(project.Description.Length, 200))...</p>
+                        <p style="height:70px"><i class="fa-solid fa-bullseye"></i> @project.Description.Substring(0, Math.Min(project.Description.Length, 200))...</p>
                         <p><i class="fa-solid fa-location-dot"></i> @project.City</p>
                         <div class="dateTime">
                             <p><i class="fa-solid fa-calendar"></i> @project.StartDate</p>
                             <p> - </p>
                             <p><i class="fa-solid fa-clock"></i> @project.StartTime</p>
                         </div>
-                        <br />
+                        
+                        <hr />
                         <p class="card-text" style="text-align: center; font-size: 12px;"><b>Published on:</b> @project.PublishedOn</p>
                         @if (!project.Joined)
                         {
-                            <p class="join"><a asp-controller="Projects" asp-action="Join" asp-route-id="@project.Id" onclick="event.stopPropagation();"><i class="fa-solid fa-plus"></i> Join</a></p>
+                            <p class="join"><span style="margin-right: 20px;"><i class="fa-solid fa-people-group"></i> @project.Participants</span><a asp-controller="Projects" asp-action="Join" asp-route-id="@project.Id" onclick="event.stopPropagation();"><i class="fa-solid fa-plus"></i> Join</a></p>
 
                         }
                     </div>
