@@ -109,48 +109,48 @@
 
             <div class="col-md-5">
                 <hr />
-                <img class="project-icons" src="/location-info.png" />
-                <span class="mb-0">@Model.project.City, @Model.project.Address</span>
-                <br />
-                <br />
-                <img class="project-icons" src="/clock-timing.png" />
-                <span class="mb-0">@Model.project.StartDate</span>
-                <br />
-                <hr />
-                <p>
-                    @if (Model.project.Participants == 0 || Model.project.Participants > 1)
-                    {
-                    <a asp-action="ProjectParticipants" asp-route-id="@Model.project.Id">
-                        <b>@Model.project.Participants volunteers have joined</b>
-                    </a>
+                <i class="fa-solid fa-location-dot"></i>
+                    <span class="mb-0">@Model.project.City, @Model.project.Address</span>
+                    <br />
+                    <br />
+                    <i class="fa-solid fa-calendar"></i>
+                    <span class="mb-0">@Model.project.StartDate</span>
+                    <br />
+                    <hr />
+                    <p>
+                        @if (Model.project.Participants == 0 || Model.project.Participants > 1)
+                        {
+                            <a asp-action="ProjectParticipants" asp-route-id="@Model.project.Id">
+                                <i class="fa-solid fa-people-group"></i> <b>@Model.project.Participants volunteers have joined</b>
+                            </a>
                         }
 
                         @if (Model.project.Participants == 1)
                         {
-                <a asp-action="ProjectParticipants" asp-route-id="@Model.project.Id">
-                    <b>@Model.project.Participants volunteer has joined</b>
-                </a>
-                    }
+                            <a asp-action="ProjectParticipants" asp-route-id="@Model.project.Id">
+                                <i class="fa-solid fa-people-group"></i> <b>@Model.project.Participants volunteer has joined</b>
+                            </a>
+                        }
 
 
-                    @if (!Model.project.Joined)
-                    {
-                        <a type="button" class="badge badge-pill badge-success" asp-action="Join" asp-route-id="@Model.project.Id">Join</a>
-                    }
+                        @if (!Model.project.Joined)
+                        {
+                            <a type="button" class="badge badge-pill badge-success" asp-action="Join" asp-route-id="@Model.project.Id">Join</a>
+                        }
 
-                    @if (Model.project.Joined)
-                    {
-                        <a type="button" class="badge badge-pill badge-dark" style="color:white;">You are in!</a> <a type="button" class="badge badge-pill align-text-bottom" asp-action="Leave" asp-route-id="@Model.project.Id">Leave</a>
-                    }
+                        @if (Model.project.Joined)
+                        {
+                            <a type="button" class="badge badge-pill badge-dark" style="color:white;">You are in!</a> <a type="button" class="badge badge-pill align-text-bottom" asp-action="Leave" asp-route-id="@Model.project.Id">Leave</a>
+                        }
 
-</p>
-                <p><b>Category:</b> @Model.project.Category</p>
-                <p><b>Submitted by: </b><a asp-controller="Users" asp-action="Profile" asp-route-Id="@Model.project.OwnerName">@Model.project.OwnerName</a></p>
-            </div>
+                    </p>
+                    <p><b>Category:</b> @Model.project.Category</p>
+                    <p><b>Submitted by: </b><a asp-controller="Users" asp-action="Profile" asp-route-Id="@Model.project.OwnerName">@Model.project.OwnerName</a></p>
+</div>
 
             <div class="col-md-7">
                 <hr />
-                <img class="project-icons" src="/question-mark-line.png" />
+                <i class="fa-solid fa-bullseye"></i>
                 <span class="mb-0" style="word-break: break-word;">@Model.project.Description</span>
                 <br />
             </div>
