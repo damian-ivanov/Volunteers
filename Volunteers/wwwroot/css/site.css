@@ -356,3 +356,8 @@ body {
             -ms-transition: all 1s ease;
             transition: all 1s ease;
         }
+
+.participants-joined a {
+    text-decoration: none !important;
+    color: #212529;
+}
