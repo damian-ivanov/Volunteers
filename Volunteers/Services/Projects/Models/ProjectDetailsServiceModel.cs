@@ -19,6 +19,8 @@ namespace Volunteers.Services.Projects.Models
 
         public string StartDate { get; set; }
 
+        public string StartTime { get; set; }
+
         public string PublishedOn { get; set; }
 
         public bool IsPublic { get; set; }

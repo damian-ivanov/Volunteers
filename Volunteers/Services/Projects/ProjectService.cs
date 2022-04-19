@@ -137,6 +137,7 @@ namespace Volunteers.Services.Projects
                 Description = p.Description,
                 PublishedOn = p.PublishedOn.ToString("d"),
                 StartDate = p.StartDate.ToString("d"),
+                StartTime = p.StartDate.ToString("HH:mm"),
                 Title = p.Title,
                 Id = p.Id,
                 Participants = p.Users.Count(),

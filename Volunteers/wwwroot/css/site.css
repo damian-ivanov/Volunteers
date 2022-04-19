@@ -159,6 +159,10 @@ body {
     word-break: break-word;
 }
 
+.card-body {
+    padding-bottom: 0px;
+}
+
 .project-icons {
     margin-right: 5px;
 }
@@ -348,14 +352,14 @@ body {
         border-radius: 5px;
     }
 
-        .join a:hover {
-            -webkit-filter: brightness(120%);
-            -webkit-transition: all 1s ease;
-            -moz-transition: all 1s ease;
-            -o-transition: all 1s ease;
-            -ms-transition: all 1s ease;
-            transition: all 1s ease;
-        }
+.join a:hover {
+    border: 1px solid gray;
+    -webkit-filter: brightness(130%);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
 
 .participants-joined a {
     text-decoration: none !important;
