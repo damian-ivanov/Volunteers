@@ -365,3 +365,28 @@ body {
     text-decoration: none !important;
     color: #212529;
 }
+
+.participants-tiles {
+    color: white;
+    font-weight: 500;
+    margin: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    flex-direction: row-reverse;
+}
+
+.participants-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
+
+.participants-statitics {
+    color: gray;
+    font-weight: normal;
+}
