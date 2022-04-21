@@ -403,3 +403,11 @@ body {
     font-weight: normal;
     text-align:left;
 }
+
+.badges-awarded-to {
+    color: #fff;
+    background-color: #17a2b8;
+    font-size: small;
+    padding: 5px;
+    border-radius: 5px;
+}
