@@ -180,7 +180,7 @@
     <br />
     <hr />
     <div class="row ml-auto mr-auto mt-4 d-flex justify-content-center" style="width:100%">
-        <div class="col-md-1">
+        <div class="col-md-1" style="width:auto">
             <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
                asp-controller="Home"
                asp-action="Index"
@@ -190,7 +190,7 @@
                asp-route-SearchTerm="@Model.SearchTerm"
                asp-route-SortOrder="@Model.SortOrder"><i class="fa-solid fa-backward"></i> prev</a>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-1" style="width:auto">
             <a class="btn btn-primary @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)"
                asp-controller="Home"
                asp-action="Index"
