@@ -41,15 +41,15 @@
                     <h5 class="card-title">@project.Title</h5><h6 style="text-align: center;"><span class="badge badge-info"><i class="fa-solid fa-people-group"></i> @project.Participants</span><span style="margin-left:5px" class="badge badge-info"><i class="fa-solid fa-comments"></i> @project.Comments</span></h6>
                     <hr />
                     <p>
-                        <img class="project-icons-list" src="/question-mark-line.png" />
+                        <i class="fa-solid fa-bullseye"></i>
                         <span class="card-text">@project.Description.Substring(0, Math.Min(project.Description.Length, 200))...</span>
                     </p>
                     <p>
-                        <img class="project-icons-list" src="/location-info.png" />
+                        <i class="fa-solid fa-location-dot"></i>
                         <span class="card-text">@project.City</span>
                     </p>
                     <p>
-                        <img class="project-icons-list" src="/clock-timing.png" />
+                        <i class="fa-solid fa-calendar"></i>
                         <span class="card-text">@project.StartDate</span>
                     </p>
                     
