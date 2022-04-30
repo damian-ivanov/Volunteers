@@ -4,9 +4,14 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/NotificationHub").
 
 
 var notificationBubble = document.getElementById("badge");
-var count = notificationBubble.textContent;
+var count;
 
-notificationBubble.style.display = "block";
+if (notificationBubble != null) {
+    count = notificationBubble.textContent;
+    notificationBubble.style.display = "block";
+}
+
+
 
     connection.on("ReceiveMessage", function (user, message) {
         count += 1;
