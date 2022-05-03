@@ -51,7 +51,7 @@
         <br />
         @if (Model.BadgesEarned.Any())
         {
-            <h4 style="text-align:center">Badges earned by user @Model.Username</h4>
+            <h5 style="text-align:center">Badges earned by user @Model.Username</h5>
             <hr />
 
             <div class="card-deck" style="justify-content: center">
@@ -75,13 +75,13 @@
         <hr />
         @if (User.Identity.Name == Model.Username && Model.Upcoming.Any())
         {
-            <h4 style="text-align:center">Upcoming projects:</h4>
+            <h5 style="text-align:center">Upcoming projects:</h5>
             <br />
             <br />
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">Title</th>
+                        <th scope="col" >Title</th>
                         <th scope="col">Description</th>
                         <th scope="col">Starting on</th>
                         <th scope="col">Link</th>
@@ -108,7 +108,7 @@
         <hr />
         @if (Model.Projects.Any())
         {
-            <h4 style="text-align:center">Projects submitted by user @Model.Username</h4>
+            <h5 style="text-align:center">Projects submitted by user @Model.Username</h5>
             <br />
             <br />
             <div class="card-columns">
