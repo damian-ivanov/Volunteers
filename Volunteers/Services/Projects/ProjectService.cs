@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -119,10 +122,21 @@ namespace Volunteers.Services.Projects
 
             var folderPath = Path.Combine(webRootPath, "uploads", secureImageName);
 
-            using (var fileStream = new FileStream(folderPath, FileMode.Create))
+            using (Image images = Image.Load(image.OpenReadStream()))
             {
-                image.CopyTo(fileStream);
+                int width = 0;
+                int height = 400;
+                images.Mutate(x => x.Resize(width, height));
+
+                images.Save(folderPath);
             }
+
+
+            //using (var fileStream = new FileStream(folderPath, FileMode.Create))
+            //{
+
+            //    image.CopyTo(fileStream);
+            //}
 
             return secureImageName;
         }
