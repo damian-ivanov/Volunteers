@@ -214,6 +214,9 @@ body {
     .container {
         max-width: none;
     }
+    .image-container {
+        height: fit-content !important;
+    }
 }
 
 @media only screen and (max-width: 710px) {
@@ -410,4 +413,11 @@ body {
     font-size: small;
     padding: 5px;
     border-radius: 5px;
+}
+
+
+.image-container {
+    height: 400px;
+    background-color: #f7f7f782;
+    display: flex;
 }
