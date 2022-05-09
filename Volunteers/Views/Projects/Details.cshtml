@@ -29,7 +29,7 @@
     <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 mb-5px">
+                <div class="col-md-4 mb-5px" style="padding-right: 0px;">
                     <div id="mapid" style="height:fit-content"></div>
                     <div id="projectCoordinates">@Model.project.Coordinates</div>
                 </div>
@@ -124,14 +124,14 @@
                         @if (Model.project.Participants == 0 || Model.project.Participants > 1)
                         {
                             <a asp-action="ProjectParticipants" asp-route-id="@Model.project.Id">
-                                <i class="fa-solid fa-people-group"></i> <b>@Model.project.Participants volunteers have joined</b>
+                                <i class="fa-solid fa-people-group"></i> @Model.project.Participants volunteers have joined
                             </a>
                         }
 
                         @if (Model.project.Participants == 1)
                         {
                             <a asp-action="ProjectParticipants" asp-route-id="@Model.project.Id">
-                                <i class="fa-solid fa-people-group"></i> <b>@Model.project.Participants volunteer has joined</b>
+                                <i class="fa-solid fa-people-group"></i> @Model.project.Participants volunteer has joined
                             </a>
                         }
 
