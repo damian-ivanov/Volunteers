@@ -6,7 +6,8 @@
 
 
 <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
-    <div class="row ml-auto mr-auto mt-4">
+
+    <article class="row ml-auto mr-auto mt-4">
         <div class="col-md-4" style="background-color: #AAD9CD">
             <div class="tiles">
                 <h2 class="title">@ViewBag.UsersCount</h2>
@@ -25,11 +26,11 @@
                 <p>Towns improved</p>
             </div>
         </div>
-    </div>
+    </article>
 
     <br />
 
-    <div class="jumbotron jumbotron-fluid">
+    <article class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="display-4" style="text-align: center;">Find projects in your area:</h1>
             <p class="lead" style="text-align: center;">Volunteer in various projects to help make your community better!</p>
@@ -75,115 +76,119 @@
             </form>
             <div id="mapid"></div>
         </div>
-    </div>
+    </article>
+
     <br />
 
-
-
-    @if (Model.TotalProjects == 0)
-    {
-        <h2 style="text-align:center">Sorry, no projects found by selected criteria :(</h2>
-    }
-
-    @if (Model.TotalProjects > 0)
-    {
-        <h2 style="text-align:center">@Model.TotalProjects projects found:</h2>
-        <hr />
-        <br />
-        var count = 0;
-        @foreach (var project in Model.Projects)
+    <article>
+        @if (Model.TotalProjects == 0)
         {
+            <h2 style="text-align:center">Sorry, no projects found by selected criteria :(</h2>
+        }
 
-
-            @if (count == 0)
+        @if (Model.TotalProjects > 0)
+        {
+            <h2 style="text-align:center">@Model.TotalProjects projects found:</h2>
+            <hr />
+            <br />
+            var count = 0;
+            @foreach (var project in Model.Projects)
             {
-                @: <div class="card-deck">
-                }
 
-            <div class="card" onclick="document.getElementById('@project.Id').click()" style="cursor:pointer">
-                @if (!project.IsCompleted)
-                {
-                    <div class="project-status-active">
-                        Active
-                    </div>
-                }
-                @if (project.IsCompleted)
-                {
-                    <div class="project-status-completed">
-                        Completed
-                    </div>
-                }
 
-                <img class="card-img-top" src="@project.Image" alt="Card image cap">
-                <div class="card-body">
-                    <h6 class="card-title">@project.Title</h6>
-                    <hr />
-                    <div class="project-icons-home">
-                        <p style="height:70px"><i class="fa-solid fa-bullseye"></i> @project.Description.Substring(0, Math.Min(project.Description.Length, 200))...</p>
-                        <p><i class="fa-solid fa-location-dot"></i> @project.City</p>
-                        <div class="dateTime">
-                            <p><i class="fa-solid fa-calendar"></i> @project.StartDate</p>
-                            <p> - </p>
-                            <p><i class="fa-solid fa-clock"></i> @project.StartTime</p>
+                @if (count == 0)
+                {
+                    @: <div class="card-deck">
+                    }
+
+                <section class="card" onclick="document.getElementById('@project.Id').click()" style="cursor:pointer">
+                    @if (!project.IsCompleted)
+                    {
+                        <div class="project-status-active">
+                            Active
                         </div>
+                    }
+                    @if (project.IsCompleted)
+                    {
+                        <div class="project-status-completed">
+                            Completed
+                        </div>
+                    }
 
+                    <img class="card-img-top" src="@project.Image" alt="Card image cap">
+                    <div class="card-body">
+                        <h6 class="card-title">@project.Title</h6>
                         <hr />
-                        <p class="card-text" style="text-align: center; font-size: 12px;"><b>Published on:</b> @project.PublishedOn</p>
-                        <p class="join">
-                            <span style="margin-right: 20px;"><i class="fa-solid fa-people-group"></i> @project.Participants</span>
-                            @if (!project.Joined)
-                            {
-                                <a asp-controller="Projects" asp-action="Join" asp-route-id="@project.Id" onclick="event.stopPropagation();"><i class="fa-solid fa-plus"></i> Join</a>
+                        <div class="project-icons-home">
+                            <p style="height:70px"><i class="fa-solid fa-bullseye"></i> @project.Description.Substring(0, Math.Min(project.Description.Length, 200))...</p>
+                            <p><i class="fa-solid fa-location-dot"></i> @project.City</p>
+                            <div class="dateTime">
+                                <p><i class="fa-solid fa-calendar"></i> @project.StartDate</p>
+                                <p> - </p>
+                                <p><i class="fa-solid fa-clock"></i> @project.StartTime</p>
+                            </div>
+
+                            <hr />
+                            <p class="card-text" style="text-align: center; font-size: 12px;"><b>Published on:</b> @project.PublishedOn</p>
+                            <p class="join">
+                                <span style="margin-right: 20px;"><i class="fa-solid fa-people-group"></i> @project.Participants</span>
+                                @if (!project.Joined)
+                                {
+                                    <a asp-controller="Projects" asp-action="Join" asp-route-id="@project.Id" onclick="event.stopPropagation();"><i class="fa-solid fa-plus"></i> Join</a>
 
 
-                            }
-                            @if (project.Joined)
-                            {
-                                <span>You are in!</span>
-                            }
-                        </p>
+                                }
+                                @if (project.Joined)
+                                {
+                                    <span>You are in!</span>
+                                }
+                            </p>
                         </div>
-                    <div class="col text-center" style="margin-top: 1.25rem">
-                        <a class="btn btn-primary" style="display:none" id="@project.Id" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                        <div class="col text-center" style="margin-top: 1.25rem">
+                            <a class="btn btn-primary" style="display:none" id="@project.Id" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </section>
 
-            @if (count == 2)
-            {
-            @: </div><br />
-        }
 
-            @if (count == 2)
-            {
-                count = 0;
-            }
-            else
-            {
-                count++;
+                @if (count == 2)
+                {
+                @: </div><br />
             }
 
+                @if (count == 2)
+                {
+                    count = 0;
+                }
+                else
+                {
+                    count++;
+                }
+
+            }
+
+
         }
 
 
-    }
+        @*Pagination start*@
+        @{
+            var previousPage = Model.CurrentPage - 1;
+            var nextPage = Model.CurrentPage + 1;
+            if (previousPage < 1)
+            {
+                previousPage = 1;
+            }
 
-
-    @*Pagination start*@
-    @{
-        var previousPage = Model.CurrentPage - 1;
-        var nextPage = Model.CurrentPage + 1;
-        if (previousPage < 1)
-        {
-            previousPage = 1;
+            var maxPage = Math.Ceiling((double)Model.TotalProjects / AllProjectsQueryModel.ProjectsPerPage);
         }
+    </article>
 
-        var maxPage = Math.Ceiling((double)Model.TotalProjects / AllProjectsQueryModel.ProjectsPerPage);
-    }
     <br />
     <br />
     <hr />
-    <div class="row ml-auto mr-auto mt-4 d-flex justify-content-center" style="width:100%">
+
+    <section class="row ml-auto mr-auto mt-4 d-flex justify-content-center" style="width:100%">
         <div class="col-md-1" style="width:auto">
             <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
                asp-controller="Home"
@@ -204,7 +209,7 @@
                asp-route-SearchTerm="@Model.SearchTerm"
                asp-route-SortOrder="@Model.SortOrder"><i class="fa-solid fa-forward"></i> next</a>
         </div>
-    </div>
+    </section>
     @*Pagination end*@
 
 </div>
