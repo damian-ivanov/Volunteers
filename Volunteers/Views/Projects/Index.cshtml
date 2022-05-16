@@ -7,7 +7,7 @@
 <hr />
 <br />
 <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
-    <div class="dropdown" style="text-align:end">
+    <section class="dropdown" style="text-align:end">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Order by: @ViewBag.ViewType
         </button>
@@ -17,12 +17,12 @@
             <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Starting Soon">Starting Soon</a>
             <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="Most participants">Most participants</a>
         </div>
-    </div>
+    </section>
     <br />
-    <div class="card-columns">
+    <article class="card-columns">
         @foreach (var project in Model)
         {
-            <div class="card" onclick="document.getElementById('@project.Id').click()" style="cursor:pointer">
+            <section class="card" onclick="document.getElementById('@project.Id').click()" style="cursor:pointer">
                 @if (!project.IsCompleted)
                 {
                     <div class="project-status-active">
@@ -57,7 +57,7 @@
                         <a class="btn btn-primary" style="display:none" id="@project.Id" asp-action="Details" asp-route-id="@project.Id">Details</a>
                     </div>
                 </div>
-                </div>
+                </section>
         }
-    </div>
+    </article>
 </div>
