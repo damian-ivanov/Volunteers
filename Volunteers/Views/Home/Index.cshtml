@@ -229,7 +229,7 @@ for (var project of modelData) {
     let string1 = "<br><a href='Projects/Details/";
     let projectId = project.id.toString();
     let string2 = "'>See details</a>"
-    let titleAndDate = "<b>" + project.title + "</b><br>Happening on: " + project.startDate;
+    let titleAndDate = "<b><i class='fa-solid fa-bullseye'></i> " + project.title + "</b><br><i class='fa-solid fa-calendar'></i> " + project.startDate;
     string1.concat(projectId, string2);
 
     marker.bindPopup(titleAndDate.concat(string1, projectId, string2));
