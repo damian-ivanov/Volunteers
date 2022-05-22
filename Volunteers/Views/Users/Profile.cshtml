@@ -8,9 +8,9 @@
 <hr />
 <br />
 
-<div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
+<article class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
 
-    <div class="row">
+    <section class="row">
         <div class="col-sm-3" style="background-color: #A3D6D4">
             <div class="tiles">
                 <p>Projects submitted:</p>
@@ -36,7 +36,7 @@
                 <h2 class="title">@Model.CommentsCount</h2>
             </div>
         </div>
-    </div>
+    </section>
     <br />
     <br />
     <p style="text-align:center">
@@ -54,21 +54,21 @@
             <h5 style="text-align:center">Badges earned by user @Model.Username</h5>
             <hr />
 
-            <div class="card-deck" style="justify-content: center">
+            <section class="card-deck" style="justify-content: center">
                 @foreach (var badge in Model.BadgesEarned)
                 {
-                    <div class="card" style="text-align: center; max-width: 25%; padding-bottom: 15px">
-                        <div class="badge-image">
+                    <article class="card" style="text-align: center; max-width: 25%; padding-bottom: 15px">
+                        <figure class="badge-image">
                             <img class="card-img-top-badge" src="@badge.Image" alt="Card image cap">
-                        </div>
-                        <div class="card-body">
+                        </figure>
+                        <section class="card-body">
                             <h5 class="card-title">@badge.Title</h5><div class="badges-awarded-to">Awarded to: @badge.Users volunteers</div>
                             <hr />
                             <p class="card-text">@badge.Description</p>
-                        </div>
-                    </div>
+                        </section>
+                    </article>
                 }
-            </div>
+            </section>
         }
         <br />
         <br />
@@ -111,10 +111,10 @@
             <h5 style="text-align:center">Projects submitted by user @Model.Username</h5>
             <br />
             <br />
-            <div class="card-columns">
+            <section class="card-columns">
                 @foreach (var project in Model.Projects)
                 {
-                    <div class="card" onclick="document.getElementById('@project.Id').click()" style="cursor:pointer">
+                    <article class="card" onclick="document.getElementById('@project.Id').click()" style="cursor:pointer">
                         @if (!project.IsCompleted)
                         {
                             <div class="project-status-active">
@@ -129,14 +129,14 @@
                         }
 
                         <img class="card-img-top" src="@project.Image" alt="Card image cap">
-                        <div class="card-body">
+                        <section class="card-body">
                             <hr />
                             <div class="project-icons-home">
                                 <p style="height:70px"><i class="fa-solid fa-bullseye"></i> @project.Description.Substring(0, Math.Min(project.Description.Length, 200))...</p>
                                 <p><i class="fa-solid fa-location-dot"></i> @project.City</p>
-                                <div class="dateTime">
+                                <time class="dateTime">
                                     <p><i class="fa-solid fa-calendar"></i> @project.StartDate</p>
-                                </div>
+                                </time>
                                 <hr />
                                 <p class="card-text" style="text-align: center; font-size: 12px;"><b>Published on:</b> @project.PublishedOn</p>
                                 <p class="join">
@@ -145,10 +145,10 @@
                             </div>
 
                             <a class="btn btn-primary" style="display:none" id="@project.Id" asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id">Details</a>
-                        </div>
-                    </div>
+                        </section>
+                    </article>
                 }
-            </div>
+            </section>
         }
 
-</div>
+</article>
