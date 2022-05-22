@@ -9,14 +9,14 @@
 <br />
 
 <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
-    <div class="card-columns">
+    <section class="card-columns">
         @foreach (var user in Model)
         {
-            <div class="card text-center">
+            <article class="card text-center">
                 <div class="card-header">
                     @user.Username
                 </div>
-                <div class="card-body">
+                <section class="card-body">
                     <h5 class="card-title">Statistics:</h5>
 
                     <div class="participants-tiles">
@@ -37,12 +37,12 @@
 
                     <br />
                     <a asp-controller="Users" asp-action="Profile" asp-route-Id="@user.Username" class="btn btn-primary" style="font-size:14px">See @user.Username's profile</a>
-                </div>
-                <div class="card-footer text-muted" style="margin-top: 20px; font-size: 13px; ">
+                </section>
+                <section class="card-footer text-muted" style="margin-top: 20px; font-size: 13px; ">
                     Registered on: @user.DateJoined   |   Last seen: @user.LastLogin
-                </div>
-            </div>
+                </section>
+            </article>
             <br />
         }
-    </div>
+    </section>
 </div>
