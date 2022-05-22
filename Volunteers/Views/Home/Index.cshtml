@@ -122,11 +122,11 @@
                         <div class="project-icons-home">
                             <p style="height:70px"><i class="fa-solid fa-bullseye"></i> @project.Description.Substring(0, Math.Min(project.Description.Length, 200))...</p>
                             <p><i class="fa-solid fa-location-dot"></i> @project.City</p>
-                            <div class="dateTime">
+                            <time class="dateTime">
                                 <p><i class="fa-solid fa-calendar"></i> @project.StartDate</p>
                                 <p> - </p>
                                 <p><i class="fa-solid fa-clock"></i> @project.StartTime</p>
-                            </div>
+                            </time>
 
                             <hr />
                             <p class="card-text" style="text-align: center; font-size: 12px;"><b>Published on:</b> @project.PublishedOn</p>
