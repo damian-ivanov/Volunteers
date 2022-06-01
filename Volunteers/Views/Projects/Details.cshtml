@@ -26,16 +26,16 @@
     <h4 style="text-align:center">@Model.project.Title</h4>
     <hr />
     <br />
-    <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
+    <article class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 mb-5px" style="padding-right: 0px; padding-left: 0px;">
+                <section class="col-md-4 mb-5px" style="padding-right: 0px; padding-left: 0px;">
                     <div id="mapid" style="height:fit-content"></div>
                     <div id="projectCoordinates">@Model.project.Coordinates</div>
-                </div>
+                </section>
 
-                <div class="col-md-8">
-                    <div class="image-container">
+                <section class="col-md-8">
+                    <figure class="image-container">
                         @if (!Model.project.IsCompleted)
                         {
                             <div class="project-status-active">
@@ -49,9 +49,9 @@
                             </div>
                         }
                         <img style="object-fit: cover" src="@Model.project.Image" alt="project-image" class="img-fluid mx-auto d-block">
-                    </div>
+                    </figure>
                     <br />
-                    <div class="text-center">
+                    <section class="text-center">
                         <p>
                             @if (User.IsInRole("Administrator"))
                             {
@@ -107,10 +107,10 @@
                                 </div>
                             }
                         </p>
-                    </div>
-                </div>
+                    </section>
+                </section>
 
-                <div class="col-md-4" style="padding-right: 0px;">
+                <section class="col-md-4" style="padding-right: 0px;">
                     <hr />
                     <i class="fa-solid fa-location-dot"></i>
                     <span class="mb-0">@Model.project.City, @Model.project.Address</span>
@@ -150,14 +150,14 @@
                     </p>
                     <p><b>Category:</b> @Model.project.Category</p>
                     <p><b>Submitted by: </b><a asp-controller="Users" asp-action="Profile" asp-route-Id="@Model.project.OwnerName">@Model.project.OwnerName</a></p>
-                </div>
+                </section>
 
-                <div class="col-md-8">
+                <section class="col-md-8">
                     <hr />
                     <i class="fa-solid fa-bullseye"></i>
                     <span class="mb-0" style="word-break: break-word;">@Model.project.Description</span>
                     <br />
-                </div>
+                </section>
 
 
 
@@ -165,31 +165,31 @@
                 {
 
 
-                    <div id="completed" class="col-md-12 text-center">
+                    <section id="completed" class="col-md-12 text-center">
                         <br />
                         <hr />
                         <h5>This project is complete! Here is the result:</h5>
-                    </div>
+                    </section>
 
-                    <div class="col-md-6">
-                        <div style="height: fit-content; background-color: #f7f7f782; display: flex; margin-bottom:10px">
+                    <section class="col-md-6">
+                        <figure style="height: fit-content; background-color: #f7f7f782; display: flex; margin-bottom:10px">
                             <br />
                             <div class="project-status-active">
                                 Before:
                             </div>
                             <img style="max-height:100%; margin:auto;" src="@Model.project.Image" alt="project-image" class="img-fluid mx-auto d-block">
-                        </div>
-                    </div>
+                        </figure>
+                    </section>
 
-                    <div class="col-md-6">
-                        <div style="height: fit-content; background-color: #f7f7f782; display: flex;">
+                    <section class="col-md-6">
+                        <figure style="height: fit-content; background-color: #f7f7f782; display: flex;">
                             <br />
                             <div class="project-status-active">
                                 After:
                             </div>
                             <img style="max-height:100%; margin:auto;" src="@Model.project.CompletedImage" alt="project-image" class="img-fluid mx-auto d-block">
-                        </div>
-                    </div>
+                        </figure>
+                    </section>
 
 
                 }
@@ -198,7 +198,7 @@
 
 
 
-                <div class="col-md-12 text-center">
+                <section class="col-md-12 text-center">
                     <hr />
                     <br />
 
@@ -243,7 +243,7 @@
 
                     @if (Model.project.Comments.Count > 0)
                     {
-                        <div class="table-responsive text-left mt-4" style="word-break: break-word;">
+                        <section class="table-responsive text-left mt-4" style="word-break: break-word;">
                             <table class="table table-striped">
                                 <tbody>
 
@@ -256,10 +256,10 @@
                                     }
                                 </tbody>
                             </table>
-                        </div>
+                        </section>
                     }
 
-                </div>
+                </section>
             </div>
         </div>
-    </div>
+    </article>
