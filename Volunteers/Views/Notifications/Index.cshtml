@@ -13,19 +13,19 @@ else
     <h4 style="text-align:center">New projects:</h4>
     <hr />
     <br />
-    <div class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
+    <section class="col-sm-12 offset-lg-1 col-lg-10 col-xl-10">
 
         @foreach (var project in Model)
         {
-            <div class="card notification" onclick="document.getElementById('@project.Id').click()" style="cursor:pointer">
-                <div class="card-header">
+            <article class="card notification" onclick="document.getElementById('@project.Id').click()" style="cursor:pointer">
+                <section class="card-header">
                     <b><i class="fa-solid fa-certificate" style="color: #8DA47E; margin-right:10px;"></i>   @project.Title</b>
                     <b>- posted on @project.PublishedOn.ToShortDateString()</b>
                     <a class="btn btn-primary" style="display:none" id="@project.Id" asp-area="" asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId">Details</a>
-                </div>
-            </div>
+                </section>
+            </article>
         }
-    </div>
+    </section>
 }
 
 
