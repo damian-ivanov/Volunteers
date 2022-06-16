@@ -187,9 +187,10 @@
     <br />
     <br />
     <hr />
-
-    <section class="row ml-auto mr-auto mt-4 d-flex justify-content-center" style="width:100%">
-        <div class="col-md-1" style="width:auto">
+    @if (Model.TotalProjects > 0)
+    {
+        <section class="row ml-auto mr-auto mt-4 d-flex justify-content-center" style="width:100%">
+            <div class="col-md-1" style="width:auto">
             <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
                asp-controller="Home"
                asp-action="Index"
@@ -210,6 +211,7 @@
                asp-route-SortOrder="@Model.SortOrder"><i class="fa-solid fa-forward"></i> next</a>
         </div>
     </section>
+    }
     @*Pagination end*@
 
 </section>
