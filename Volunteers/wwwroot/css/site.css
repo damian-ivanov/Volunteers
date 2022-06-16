@@ -421,3 +421,7 @@ body {
     background-color: #f7f7f782;
     display: flex;
 }
+
+.card-columns .card {
+    margin-bottom: 1.25rem;
+}
