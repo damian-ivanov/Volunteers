@@ -30,16 +30,16 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item-add">
-                            <a class="nav-link" asp-area="" asp-controller="Projects" asp-action="Create">Add a project</a>
+                            <a class="nav-link" asp-area="" asp-controller="Projects" asp-action="Create">New project</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Projects" asp-action="Index">All projects</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Participants">Participants</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Participants" alt="all users"><i class="fa-solid fa-users"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Badges" asp-action="Index">Badges</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Badges" asp-action="Index"><i class="fa-solid fa-certificate"></i></a>
                         </li>
                         <li class="nav-item">
                             @if (User.IsInRole("Administrator"))

@@ -153,6 +153,11 @@ body {
     overflow-wrap: break-word;
 }
 
+.card-deck .card {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 .card-text {
     margin-bottom: 0px;
     font-size: 15px;
@@ -196,7 +201,7 @@ body {
 }
 
 .navbar {
-    padding: 8px;
+    padding: 6px;
     background-color: white;
     color: white;
     font-size: 15px;
@@ -216,6 +221,11 @@ body {
     }
     .image-container {
         height: fit-content !important;
+    }
+    .project-image {
+        padding-left: 0px;
+        padding-right: 0px;
+        margin-top: 10px;
     }
 }
 
@@ -343,6 +353,7 @@ body {
     font-size: 14px;
     padding: 9px;
     background-color: khaki;
+    display: none;
 }
 
 .dateTime {
@@ -425,3 +436,8 @@ body {
 .card-columns .card {
     margin-bottom: 1.25rem;
 }
+
+/*.project-image .section {
+    padding-left: 0px;
+    padding-right: 0px;
+}*/

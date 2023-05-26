@@ -34,7 +34,7 @@
                     <div id="projectCoordinates">@Model.project.Coordinates</div>
                 </section>
 
-                <section class="col-md-8">
+                <section class="project-image col-md-8">
                     <figure class="image-container">
                         @if (!Model.project.IsCompleted)
                         {
@@ -250,7 +250,7 @@
                                     @foreach (var comment in Model.project.Comments)
                                     {
                                         <tr>
-                                            <td scope="row"><p>by: <b>@comment.UserName</b></p><p>on @comment.PublishedOn</p> </td>
+                                            <td scope="row"><p>by: <b><a asp-controller="Users" asp-action="Profile" asp-route-Id="@comment.UserName">@comment.UserName</a></b></p><p>on @comment.PublishedOn</p> </td>
                                             <td style="width:70%;">@comment.Content</td>
                                         </tr>
                                     }
