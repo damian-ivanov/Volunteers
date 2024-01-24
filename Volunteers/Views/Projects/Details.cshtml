@@ -139,127 +139,127 @@
                         @if (!Model.project.Joined)
                         {
                             @*<a type="button" class="badge badge-pill badge-success" asp-action="Join" asp-route-id="@Model.project.Id"><i class="fa-solid fa-plus"></i> Join</a>*@
-                            <p class="join" style="text-align:start"><a style="color:white" asp-controller="Projects" asp-action="Join" asp-route-id="@Model.project.Id"><i class="fa-solid fa-plus"></i> Join</a></p>
-                        }
+                        <p class="join" style="text-align:start"><a style="color:white" asp-controller="Projects" asp-action="Join" asp-route-id="@Model.project.Id"><i class="fa-solid fa-plus"></i> Join</a></p>
+                    }
 
                         @if (Model.project.Joined)
                         {
                             <a type="button" class="badge badge-pill badge-dark" style="color:white;">You are in!</a> <a type="button" class="badge badge-pill align-text-bottom" asp-action="Leave" asp-route-id="@Model.project.Id">Leave</a>
                         }
 
-                    </p>
-                    <p><b>Category:</b> @Model.project.Category</p>
-                    <p><b>Submitted by: </b><a asp-controller="Users" asp-action="Profile" asp-route-Id="@Model.project.OwnerName">@Model.project.OwnerName</a></p>
-                </section>
+                        </p>
+                        <p><b>Category:</b> @Model.project.Category</p>
+                        <p><b>Submitted by: </b><a asp-controller="Users" asp-action="Profile" asp-route-Id="@Model.project.OwnerName">@Model.project.OwnerName</a></p>
+                    </section>
 
-                <section class="col-md-8">
-                    <hr />
-                    <i class="fa-solid fa-bullseye"></i>
-                    <span class="mb-0" style="word-break: break-word;">@Model.project.Description</span>
-                    <br />
-                </section>
-
-
-
-                @if (Model.project.IsCompleted)
-                {
-
-
-                    <section id="completed" class="col-md-12 text-center">
-                        <br />
+                    <section class="col-md-8">
                         <hr />
-                        <h5>This project is complete! Here is the result:</h5>
-                    </section>
-
-                    <section class="col-md-6">
-                        <figure style="height: fit-content; background-color: #f7f7f782; display: flex; margin-bottom:10px">
-                            <br />
-                            <div class="project-status-active">
-                                Before:
-                            </div>
-                            <img style="max-height:100%; margin:auto;" src="@Model.project.Image" alt="project-image" class="img-fluid mx-auto d-block">
-                        </figure>
-                    </section>
-
-                    <section class="col-md-6">
-                        <figure style="height: fit-content; background-color: #f7f7f782; display: flex;">
-                            <br />
-                            <div class="project-status-active">
-                                After:
-                            </div>
-                            <img style="max-height:100%; margin:auto;" src="@Model.project.CompletedImage" alt="project-image" class="img-fluid mx-auto d-block">
-                        </figure>
+                        <i class="fa-solid fa-bullseye"></i>
+                        <span class="mb-0" style="word-break: break-word;">@Model.project.Description</span>
+                        <br />
                     </section>
 
 
-                }
 
-
-
-
-
-                <section class="col-md-12 text-center">
-                    <hr />
-                    <br />
-
-                    @if (Model.project.Comments.Count == 0)
+                    @if (Model.project.IsCompleted)
                     {
-                        <i class="fa-solid fa-comments list"></i>
-                        <span class="mb-0">No comments added yet.</span>
-                    }
-                    @if (Model.project.Comments.Count > 0)
-                    {
-                        <i class="fa-solid fa-comments list"></i>
-                        <span class="mb-0">There are <b>@Model.project.Comments.Count</b> comments:</span>
-                    }
 
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#commentModal" style="margin-left: 20px;">
-                        Comment
-                    </button>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModal" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Your comment for "@Model.project.Title"</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                        <section id="completed" class="col-md-12 text-center">
+                            <br />
+                            <hr />
+                            <h5>This project is complete! Here is the result:</h5>
+                        </section>
+
+                        <section class="col-md-6">
+                            <figure style="height: fit-content; background-color: #f7f7f782; display: flex; margin-bottom:10px">
+                                <br />
+                                <div class="project-status-active">
+                                    Before:
                                 </div>
-                                <div class="modal-body">
-                                    <form class="needs-validation" required asp-controller="Comments" asp-action="Add" asp-route-id="@Model.project.Id">
-                                        <textarea required minlength="3" maxlength="1000" id="text" name="comment" class="form-control" rows="3"></textarea>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                            <input type="submit" value="Post comment" class="btn btn-success" />
-                                        </div>
-                                    </form>
+                                <img style="max-height:100%; margin:auto;" src="@Model.project.Image" alt="project-image" class="img-fluid mx-auto d-block">
+                            </figure>
+                        </section>
+
+                        <section class="col-md-6">
+                            <figure style="height: fit-content; background-color: #f7f7f782; display: flex;">
+                                <br />
+                                <div class="project-status-active">
+                                    After:
+                                </div>
+                                <img style="max-height:100%; margin:auto;" src="@Model.project.CompletedImage" alt="project-image" class="img-fluid mx-auto d-block">
+                            </figure>
+                        </section>
+
+
+                    }
+
+
+
+
+
+                    <section class="col-md-12 text-center">
+                        <hr />
+                        <br />
+
+                        @if (Model.project.Comments.Count == 0)
+                        {
+                            <i class="fa-solid fa-comments list"></i>
+                            <span class="mb-0">No comments added yet.</span>
+                        }
+                        @if (Model.project.Comments.Count > 0)
+                        {
+                            <i class="fa-solid fa-comments list"></i>
+                            <span class="mb-0">There are <b>@Model.project.Comments.Count</b> comments:</span>
+                        }
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#commentModal" style="margin-left: 20px;">
+                            Comment
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Your comment for "@Model.project.Title"</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="needs-validation" required asp-controller="Comments" asp-action="Add" asp-route-id="@Model.project.Id">
+                                            <textarea required minlength="3" maxlength="1000" id="text" name="comment" class="form-control" rows="3"></textarea>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                <input type="submit" value="Post comment" class="btn btn-success" />
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    @if (Model.project.Comments.Count > 0)
-                    {
-                        <section class="table-responsive text-left mt-4" style="word-break: break-word;">
-                            <table class="table table-striped">
-                                <tbody>
+                        @if (Model.project.Comments.Count > 0)
+                        {
+                            <section class="table-responsive text-left mt-4" style="word-break: break-word;">
+                                <table class="table table-striped">
+                                    <tbody>
 
-                                    @foreach (var comment in Model.project.Comments)
-                                    {
-                                        <tr>
-                                            <td scope="row"><p>by: <b><a asp-controller="Users" asp-action="Profile" asp-route-Id="@comment.UserName">@comment.UserName</a></b></p><p>on @comment.PublishedOn</p> </td>
-                                            <td style="width:70%;">@comment.Content</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </section>
-                    }
+                                        @foreach (var comment in Model.project.Comments)
+                                        {
+                                            <tr>
+                                                <td scope="row"><p>by: <b><a asp-controller="Users" asp-action="Profile" asp-route-Id="@comment.UserName">@comment.UserName</a></b></p><p>on @comment.PublishedOn</p> </td>
+                                                <td style="width:70%;">@comment.Content</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </section>
+                        }
 
-                </section>
+                    </section>
+                </div>
             </div>
-        </div>
     </article>
